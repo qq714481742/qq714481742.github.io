@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-非第三方实现下载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/06/07/非第三方实现下载/" class="article-date">
+  <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#文件的下载  </p>
+<blockquote>
+<p>##head请求</p>
+<ul>
+<li>不获取响应体，仅仅只获取响应头</li>
+<li>一般在下载之前先获取文件的大小  </li>
+</ul>
+</blockquote>
+<p>##NSURLResponse的属性</p>
+<ul>
+<li>MIMEType(Content-type)<ul>
+<li>返回文件的类型</li>
+</ul>
+</li>
+<li><p>expectContentLength</p>
+<ul>
+<li>文件的总大小</li>
+</ul>
+</li>
+<li><p>下载文件会出现</p>
+<ul>
+<li>下载进度条</li>
+<li>内存会暴涨（可能会导致闪退）    </li>
+</ul>
+</li>
+</ul>
+<p>#####解决内存暴涨的问题：(下面为错误的)</p>
+<ul>
+<li>之前直接用的NSURLConnection 直接发送请求，现在使用NSURLConnection代理方法（DownloadDelegate）注意：只有做报刊杂志类时候才能用<newsstandkit newsstandkit.h="">，否则下载的文件不会保存。</newsstandkit></li>
+</ul>
+<h5 id="正确的解决方式"><a href="#正确的解决方式" class="headerlink" title="正确的解决方式:"></a>正确的解决方式:</h5><hr>
+<h6 id="使用NSURLConnectionDataDelagate"><a href="#使用NSURLConnectionDataDelagate" class="headerlink" title="使用NSURLConnectionDataDelagate"></a>使用NSURLConnectionDataDelagate</h6><ul>
+<li>通过全局变量，存储文件总大小，实现下载的进度</li>
+<li>在使用MutableData 追加存储下载文件的时候，会出现内存暴涨的问题问题。解决方案：fileHandle 和outPutstream<ul>
+<li>使用    </li>
+<li>类似迅雷多线程下载，创建一个同要下载的文件的大小的空文件，内容全部填充为0，文件指针指向  </li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>NSFileHandle(读写二进制文件) 和NSOutputStream<ul>
+<li>FileHandle默认是指向文件的开头的，且默认是不创建文件的</li>
+<li>判断是否存在文件，不存在就创建，并让offset指向文件的末尾[fileHandle seekToEndFile]  [fileHandle writeData:data]</li>
+<li>关闭文件：[fileHandle closeFile]  </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>断点续传:</li>
+</ul>
+<ul>
+<li>1 .判断是否存在文件</li>
+</ul>
+<ul>
+<li>2 .如果文件存不存在就返回0 从开始位置下载</li>
+<li>3 .如果存在<ul>
+<li>与服务器文件大小相等 返回-1 已经下载完毕</li>
+<li>&lt; 服务器文件的大小，返回文件大小fileSize</li>
+<li>本地文件的大小 &gt;服务器文件大小 删除文件，返回0 从开始位置下载</li>
+</ul>
+</li>
+<li>开始判断文件是否存在：通过fileManager fileExiesAtpath:{}</li>
+<li>filemanager attributesOfItemAtPath 获取文件属性.</li>
+<li>断点续传的本质（底层）是：就是Range 头;Range:bytes=  </li>
+</ul>
+</blockquote>
+<p>#########NSURlConnection 默认是在线程的消息循环中执行的，所以如果要想在子线程中执行，就要在子线程中开启子线程的消息循环，因为子线程的消息循环是默认关闭的。在开启消息循环后，不用管理消息循环的结束，消息循环需要输入源和定时源，下载操作作为输入源，一旦下载完毕，runloop就会缺少输入源而自动关闭</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2015/06/07/非第三方实现下载/" data-id="cip5jrkao0000sufydxf5quk7" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 John Doe<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
