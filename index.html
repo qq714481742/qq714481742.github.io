@@ -271,6 +271,87 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-NSURLSession总结" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/07/NSURLSession总结/" class="article-date">
+      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/07/NSURLSession总结/">NSURLSession</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#NSURLSession  </p>
+<ul>
+<li>NSURLConnection和NSURLSession 区别 ：<ul>
+<li>connection 相对于接触底层，iOS 7.0后苹果推荐使用session  </li>
+<li>NSURLConnection :是面向内存的  ，运行在当前线程消息循环中的</li>
+<li>NSURLSession :面向内存dataTask 面向磁盘Download Upload</li>
+<li>con 只有自定义操作才能设置（最大并发数，一来，暂停等）</li>
+<li>而session 本身不需要自定义就自带</li>
+<li>session:自带后台下载和上传功能,可以用另一个进程下载的.  </li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>###NSURLSession  </p>
+<h4 id="DataTask-session-会话"><a href="#DataTask-session-会话" class="headerlink" title="DataTask(session 会话)"></a>DataTask(session 会话)</h4><pre><code>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)  
+dataTask默认是挂起的，没有开启需要resume  
+</code></pre><p>####下载DownloadTask<br>        默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>        //需要赋值到其他位置<br>        [[NSFileManager defaultManager]copyItemAtPath: toPath Error]  </p>
+<p>####跟踪下载进度（从代理方法)<br>        创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。  </p>
+<p>####断点续传<br>        暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>        bug:当多次点击暂停，再点击继续下载会崩溃。<br>        reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>        解决方案：sesson置为nil，多次点击就不会讲resumedata  </p>
+<pre><code>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。  
+bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作 
+解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil
+ 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了  
+</code></pre><p>####上传任务<br>        put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
+<pre><code>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱
+dataTask面向内存,默认是有缓存的，cache目录中
+</code></pre><h4 id="session使用的注意事项"><a href="#session使用的注意事项" class="headerlink" title="session使用的注意事项"></a>session使用的注意事项</h4><pre><code>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。
+</code></pre><p>####configuration 模式 ephemeralSession 一般用于无痕模式</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-非第三方实现下载" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
