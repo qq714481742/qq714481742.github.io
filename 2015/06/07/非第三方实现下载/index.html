@@ -15,15 +15,15 @@
 
 
 
-<meta name="description" content="#文件的下载  
+<meta name="description" content="文件的下载  
 
-##head请求
+head请求
 
 不获取响应体，仅仅只获取响应头
 一般在下载之前先获取文件的大小  
 
 
-##NSURLResponse的属性
+NSURLResponse的属性
 
 MIMEType(Content-type)
 返回文件的类型
@@ -41,20 +41,22 @@ expectContentLength
 
 
 
-#####解决内存暴涨的问题：(下面为错误的)">
+解决内存暴涨的问题：(下面为错误的)
+
+之前直接用的NSU">
 <meta property="og:type" content="article">
 <meta property="og:title" content="非第三方实现下载">
 <meta property="og:url" content="http://yoursite.com/2015/06/07/非第三方实现下载/index.html">
 <meta property="og:site_name" content="木子blog">
-<meta property="og:description" content="#文件的下载  
+<meta property="og:description" content="文件的下载  
 
-##head请求
+head请求
 
 不获取响应体，仅仅只获取响应头
 一般在下载之前先获取文件的大小  
 
 
-##NSURLResponse的属性
+NSURLResponse的属性
 
 MIMEType(Content-type)
 返回文件的类型
@@ -72,19 +74,21 @@ expectContentLength
 
 
 
-#####解决内存暴涨的问题：(下面为错误的)">
-<meta property="og:updated_time" content="2016-06-08T09:20:19.000Z">
+解决内存暴涨的问题：(下面为错误的)
+
+之前直接用的NSU">
+<meta property="og:updated_time" content="2016-06-23T10:50:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="非第三方实现下载">
-<meta name="twitter:description" content="#文件的下载  
+<meta name="twitter:description" content="文件的下载  
 
-##head请求
+head请求
 
 不获取响应体，仅仅只获取响应头
 一般在下载之前先获取文件的大小  
 
 
-##NSURLResponse的属性
+NSURLResponse的属性
 
 MIMEType(Content-type)
 返回文件的类型
@@ -102,7 +106,9 @@ expectContentLength
 
 
 
-#####解决内存暴涨的问题：(下面为错误的)">
+解决内存暴涨的问题：(下面为错误的)
+
+之前直接用的NSU">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -377,15 +383,15 @@ expectContentLength
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>#文件的下载  </p>
+        <p>文件的下载  </p>
 <blockquote>
-<p>##head请求</p>
+<p>head请求</p>
 <ul>
 <li>不获取响应体，仅仅只获取响应头</li>
 <li>一般在下载之前先获取文件的大小  </li>
 </ul>
 </blockquote>
-<p>##NSURLResponse的属性</p>
+<p>NSURLResponse的属性</p>
 <ul>
 <li>MIMEType(Content-type)<ul>
 <li>返回文件的类型</li>
@@ -403,12 +409,15 @@ expectContentLength
 </ul>
 </li>
 </ul>
-<p>#####解决内存暴涨的问题：(下面为错误的)</p>
+<p>解决内存暴涨的问题：(下面为错误的)</p>
 <ul>
-<li>之前直接用的NSURLConnection 直接发送请求，现在使用NSURLConnection代理方法（DownloadDelegate）注意：只有做报刊杂志类时候才能用<newsstandkit newsstandkit.h="">，否则下载的文件不会保存。</newsstandkit></li>
+<li><p>之前直接用的NSURLConnection 直接发送请求，现在使用NSURLConnection代理方法（DownloadDelegate）注意：只有做报刊杂志类时候才能用<newsstandkit newsstandkit.h="">，否则下载的文件不会保存。</newsstandkit></p>
+<p>正确的解决方式:</p>
+</li>
 </ul>
-<h5 id="正确的解决方式"><a href="#正确的解决方式" class="headerlink" title="正确的解决方式:"></a>正确的解决方式:</h5><hr>
-<h6 id="使用NSURLConnectionDataDelagate"><a href="#使用NSURLConnectionDataDelagate" class="headerlink" title="使用NSURLConnectionDataDelagate"></a>使用NSURLConnectionDataDelagate</h6><ul>
+<hr>
+<p> 使用NSURLConnectionDataDelagate</p>
+<ul>
 <li>通过全局变量，存储文件总大小，实现下载的进度</li>
 <li>在使用MutableData 追加存储下载文件的时候，会出现内存暴涨的问题问题。解决方案：fileHandle 和outPutstream<ul>
 <li>使用    </li>
@@ -446,9 +455,8 @@ expectContentLength
 </blockquote>
 </li>
 </ul>
-<p>#####NSURlConnection 默认是在线程的消息循环中执行<br>的，所以如果要想在子线程中执行，就要在子线程中开启子线程的消息循环，因为子线程的消息循环是默认关闭的。在开启消息循环后，不用管理消息循环的结束，消息循环需要输入源和定时源，下载操作作为输入源，一旦下载完毕，runloop就会缺少输入源而自动关闭</p>
-<p>###暂停下载<br>connection 调用cancle方法  </p>
-<p>##创建下载操作管理类</p>
+<p>NSURlConnection 默认是在线程的消息循环中执行<br>的，所以如果要想在子线程中执行，就要在子线程中开启子线程的消息循环，因为子线程的消息循环是默认关闭的。在开启消息循环后，不用管理消息循环的结束，消息循环需要输入源和定时源，下载操作作为输入源，一旦下载完毕，runloop就会缺少输入源而自动关闭</p>
+<p>暂停下载<br>connection 调用cancle方法<br>创建下载操作管理类</p>
 <ul>
 <li>创建下载操作的缓存池，在当前类中该缓存池，只需要一份就够了，所以懒加载创建缓存池</li>
 <li></li>
@@ -464,7 +472,7 @@ expectContentLength
         <p><span>本文标题:</span><a href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">木辰飞</a></p>
         <p><span>发布时间:</span>2015-06-07, 17:31:18</p>
-        <p><span>最后更新:</span>2016-06-08, 17:20:19</p>
+        <p><span>最后更新:</span>2016-06-23, 18:50:41</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2015/06/07/非第三方实现下载/" title="非第三方实现下载">http://yoursite.com/2015/06/07/非第三方实现下载/</a>
             <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2015/06/07/非第三方实现下载/　　作者: 木辰飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -493,7 +501,7 @@ expectContentLength
 
     <div id="toc" class="toc-article">
     <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#正确的解决方式"><span class="toc-number">1.</span> <span class="toc-text">正确的解决方式:</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#使用NSURLConnectionDataDelagate"><span class="toc-number">1.1.</span> <span class="toc-text">使用NSURLConnectionDataDelagate</span></a></li></ol></li></ol>
+    
 </div>
 <style>
     .left-col .switch-btn,
@@ -556,7 +564,7 @@ expectContentLength
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2015/06/22/二维码生成/">非第三方实现下载</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/NSURLSession总结/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2015/06/22/二维码生成/">二维码生成</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/NSURLSession总结/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a></li></ul>
 
 
 
