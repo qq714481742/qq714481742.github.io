@@ -213,7 +213,7 @@
                 
                 <section class="switch-part switch-part4">
                 
-                    <div id="js-aboutme">我我我</div>
+                    <div id="js-aboutme">Sdsadasdasdsadsadasda</div>
                 </section>
                 
             </div>
@@ -270,6 +270,110 @@
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-二维码生成" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/23/二维码生成/" class="article-date">
+      <time datetime="2016-06-23T10:44:49.000Z" itemprop="datePublished">2016-06-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>##二维码生成</p>
+<pre><code>- (void)viewDidLoad {
+[super viewDidLoad];
+
+// 准备滤镜
+CIFilter *filter = [CIFilter filterWithName:@&quot;CIQRCodeGenerator&quot;];
+
+//  设置默认值
+[filter setDefaults];
+
+//  生成要显示的字符串数据
+NSData *data = [@&quot;这个家伙很懒，什么都没有留下！&quot; dataUsingEncoding:NSUTF8StringEncoding];
+
+[filter setValue:data forKeyPath:@&quot;inputMessage&quot;];
+
+[filter setValue:@&quot;M&quot; forKeyPath:@&quot;inputCorrectionLevel&quot;];
+
+// 输出
+CIImage *coreImage = [filter outputImage];
+
+//  1. 要把图像无损放大
+UIImage *QRImage = [self imageWithCIImage:coreImage andSize:self.imgView.bounds.size];
+
+UIImage *headImage = [UIImage imageNamed:@&quot;head&quot;];
+
+//  2. 要合成头像
+CGSize headSize = CGSizeMake(self.imgView.bounds.size.width * 0.30, self.imgView.bounds.size.height * 0.30);
+
+UIImage *QRCardImage = [self imageWithBackgroundImage:QRImage centerImage:headImage centerImageSize:headSize];
+
+[self.imgView setImage:QRCardImage];
+</code></pre><p>}</p>
+<p>//  将CIImage转换成指定大小的UIImage</p>
+<ul>
+<li><p>(UIImage <em>)imageWithCIImage:(CIImage </em>)coreImage andSize:(CGSize)size {</p>
+<p>  //1. CIImage 转换成 CGImage(CGImageRef)<br>  CIContext *context = [CIContext contextWithOptions:nil];</p>
+<p>  CGImageRef originCGImage = [context createCGImage:coreImage fromRect:coreImage.extent];</p>
+<p>  //2. 创建一个图形上下文 Bitmap<br>  CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();</p>
+<p>  CGContextRef bitmapCtx = CGBitmapContextCreate(NULL, size.width, size.height, 8, 0, cs, kCGImageAlphaNone);</p>
+<p>  //3. 将CGImage图片渲染到新的图形上下文中<br>  CGContextSetInterpolationQuality(bitmapCtx, kCGInterpolationNone);</p>
+<p>  // 在图形上下文中把图片画出来<br>  CGRect newRect = CGRectMake(0, 0, size.width, size.height);</p>
+<p>  CGContextDrawImage(bitmapCtx, newRect, originCGImage);</p>
+<p>  //4. 取图像<br>  CGImageRef QRImage = CGBitmapContextCreateImage(bitmapCtx);</p>
+<p>  // 释放<br>  CGColorSpaceRelease(cs);</p>
+<p>  CGImageRelease(originCGImage);</p>
+<p>  CGContextRelease(bitmapCtx);</p>
+</li>
+</ul>
+<pre><code>return [UIImage imageWithCGImage:QRImage];
+</code></pre><p>}</p>
+<ul>
+<li><p>(UIImage <em>)imageWithBackgroundImage:(UIImage </em>)backgroundImage centerImage:(UIImage *)centerImage centerImageSize:(CGSize)centerSize{</p>
+<p>  // 开始图形上下文<br>  UIGraphicsBeginImageContext(backgroundImage.size);</p>
+<p>  // 先画背景<br>  [backgroundImage drawAtPoint:CGPointZero];</p>
+<p>  // 再画头像<br>  CGFloat headW = centerSize.width;<br>  CGFloat headH = centerSize.height;<br>  CGFloat headX = (backgroundImage.size.width - headW) <em> 0.5;<br>  CGFloat headY = (backgroundImage.size.height - headH) </em> 0.5;</p>
+<p>  [centerImage drawInRect:CGRectMake(headX, headY, headW, headH)];</p>
+<p>  // 取图像<br>  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();</p>
+<p>  UIGraphicsEndImageContext();</p>
+<p>  return newImage;</p>
+</li>
+</ul>
+<p>}</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
   
     <article id="post-NSURLSession总结" class="article article-type-post" itemscope itemprop="blogPost">
   

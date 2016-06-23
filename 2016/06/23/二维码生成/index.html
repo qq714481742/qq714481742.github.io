@@ -15,15 +15,49 @@
 
 
 
-<meta name="description">
-<meta property="og:type" content="website">
+<meta name="description" content="##二维码生成
+- (void)viewDidLoad {
+[super viewDidLoad];
+
+// 准备滤镜
+CIFilter *filter = [CIFilter filterWithName:@&amp;quot;CIQRCodeGenerator&amp;quot;];
+
+//  设置默认值
+[filter setDefaults];
+
+//  生成要显示的字符串数据
+NSData *data">
+<meta property="og:type" content="article">
 <meta property="og:title" content="木子blog">
-<meta property="og:url" content="http://yoursite.com/archives/2015/index.html">
+<meta property="og:url" content="http://yoursite.com/2016/06/23/二维码生成/index.html">
 <meta property="og:site_name" content="木子blog">
-<meta property="og:description">
+<meta property="og:description" content="##二维码生成
+- (void)viewDidLoad {
+[super viewDidLoad];
+
+// 准备滤镜
+CIFilter *filter = [CIFilter filterWithName:@&amp;quot;CIQRCodeGenerator&amp;quot;];
+
+//  设置默认值
+[filter setDefaults];
+
+//  生成要显示的字符串数据
+NSData *data">
+<meta property="og:updated_time" content="2016-06-23T10:44:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="木子blog">
-<meta name="twitter:description">
+<meta name="twitter:description" content="##二维码生成
+- (void)viewDidLoad {
+[super viewDidLoad];
+
+// 准备滤镜
+CIFilter *filter = [CIFilter filterWithName:@&amp;quot;CIQRCodeGenerator&amp;quot;];
+
+//  设置默认值
+[filter setDefaults];
+
+//  生成要显示的字符串数据
+NSData *data">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -55,7 +89,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Archives: 2015 | 木子blog</title>
+<title>木子blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -65,8 +99,8 @@
         fancybox: true,
         animate: true,
         isHome: false,
-        isPost: false,
-        isArchive: true,
+        isPost: true,
+        isArchive: false,
         isTag: false,
         isCategory: false,
         open_in_new: false,
@@ -264,77 +298,195 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap">
+      <div class="body-wrap"><article id="post-二维码生成" class="article article-type-post" itemscope itemprop="blogPost">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2015/06/07/NSURLSession总结/" class="archive-article-date">
-      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">06-07</time>
+    <div class="article-meta">
+      <a href="/2016/06/23/二维码生成/" class="article-date">
+      <time datetime="2016-06-23T10:44:49.000Z" itemprop="datePublished">2016-06-23</time>
 </a>
-        </div>
-         
+    </div>
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/07/NSURLSession总结/">NSURLSession</a>
-    </h1>
-  
-
-        <div class="article-info info-on-archive">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
           
+        <p>##二维码生成</p>
+<pre><code>- (void)viewDidLoad {
+[super viewDidLoad];
 
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
+// 准备滤镜
+CIFilter *filter = [CIFilter filterWithName:@&quot;CIQRCodeGenerator&quot;];
+
+//  设置默认值
+[filter setDefaults];
+
+//  生成要显示的字符串数据
+NSData *data = [@&quot;这个家伙很懒，什么都没有留下！&quot; dataUsingEncoding:NSUTF8StringEncoding];
+
+[filter setValue:data forKeyPath:@&quot;inputMessage&quot;];
+
+[filter setValue:@&quot;M&quot; forKeyPath:@&quot;inputCorrectionLevel&quot;];
+
+// 输出
+CIImage *coreImage = [filter outputImage];
+
+//  1. 要把图像无损放大
+UIImage *QRImage = [self imageWithCIImage:coreImage andSize:self.imgView.bounds.size];
+
+UIImage *headImage = [UIImage imageNamed:@&quot;head&quot;];
+
+//  2. 要合成头像
+CGSize headSize = CGSizeMake(self.imgView.bounds.size.width * 0.30, self.imgView.bounds.size.height * 0.30);
+
+UIImage *QRCardImage = [self imageWithBackgroundImage:QRImage centerImage:headImage centerImageSize:headSize];
+
+[self.imgView setImage:QRCardImage];
+</code></pre><p>}</p>
+<p>//  将CIImage转换成指定大小的UIImage</p>
+<ul>
+<li><p>(UIImage <em>)imageWithCIImage:(CIImage </em>)coreImage andSize:(CGSize)size {</p>
+<p>  //1. CIImage 转换成 CGImage(CGImageRef)<br>  CIContext *context = [CIContext contextWithOptions:nil];</p>
+<p>  CGImageRef originCGImage = [context createCGImage:coreImage fromRect:coreImage.extent];</p>
+<p>  //2. 创建一个图形上下文 Bitmap<br>  CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();</p>
+<p>  CGContextRef bitmapCtx = CGBitmapContextCreate(NULL, size.width, size.height, 8, 0, cs, kCGImageAlphaNone);</p>
+<p>  //3. 将CGImage图片渲染到新的图形上下文中<br>  CGContextSetInterpolationQuality(bitmapCtx, kCGInterpolationNone);</p>
+<p>  // 在图形上下文中把图片画出来<br>  CGRect newRect = CGRectMake(0, 0, size.width, size.height);</p>
+<p>  CGContextDrawImage(bitmapCtx, newRect, originCGImage);</p>
+<p>  //4. 取图像<br>  CGImageRef QRImage = CGBitmapContextCreateImage(bitmapCtx);</p>
+<p>  // 释放<br>  CGColorSpaceRelease(cs);</p>
+<p>  CGImageRelease(originCGImage);</p>
+<p>  CGContextRelease(bitmapCtx);</p>
+</li>
+</ul>
+<pre><code>return [UIImage imageWithCGImage:QRImage];
+</code></pre><p>}</p>
+<ul>
+<li><p>(UIImage <em>)imageWithBackgroundImage:(UIImage </em>)backgroundImage centerImage:(UIImage *)centerImage centerImageSize:(CGSize)centerSize{</p>
+<p>  // 开始图形上下文<br>  UIGraphicsBeginImageContext(backgroundImage.size);</p>
+<p>  // 先画背景<br>  [backgroundImage drawAtPoint:CGPointZero];</p>
+<p>  // 再画头像<br>  CGFloat headW = centerSize.width;<br>  CGFloat headH = centerSize.height;<br>  CGFloat headX = (backgroundImage.size.width - headW) <em> 0.5;<br>  CGFloat headY = (backgroundImage.size.height - headH) </em> 0.5;</p>
+<p>  [centerImage drawInRect:CGRectMake(headX, headY, headW, headH)];</p>
+<p>  // 取图像<br>  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();</p>
+<p>  UIGraphicsEndImageContext();</p>
+<p>  return newImage;</p>
+</li>
+</ul>
+<p>}</p>
+
+      
+    </div>
+    
   </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/06/23/二维码生成/"></a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">木辰飞</a></p>
+        <p><span>发布时间:</span>2016-06-23, 18:44:49</p>
+        <p><span>最后更新:</span>2016-06-23, 18:44:49</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/06/23/二维码生成/" title="">http://yoursite.com/2016/06/23/二维码生成/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/06/23/二维码生成/　　作者: 木辰飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2015/06/07/NSURLSession总结/">
+                    NSURLSession
+                </a>
+            </div>
+        
+    </nav>
+
+  
 </article>
-  
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
     
+</div>
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script>
+    yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+</script>
+
+
+
     
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-          <div class="article-meta">
-              <a href="/2015/06/07/非第三方实现下载/" class="archive-article-date">
-      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">06-07</time>
-</a>
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
         </div>
-         
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a>
-    </h1>
-  
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
 
-        <div class="article-info info-on-archive">
-          
+    
+</div>
 
-          
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+
+
+
+
+
 
     
 
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2015/06/07/NSURLSession总结/" title="下一篇: NSURLSession">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/06/23/二维码生成/">二维码生成</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/NSURLSession总结/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
 </div>
       <footer id="footer">
     <div class="outer">
