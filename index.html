@@ -141,13 +141,13 @@
                 <div class="tips-box hide">
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
+                        <li>Menu</li>
+                        <li>Tags</li>
                         
-                        <li>友情链接</li>
+                        <li>Friends</li>
                         
                         
-                        <li>关于我</li>
+                        <li>About Me</li>
                         
                     </ul>
                 </div>
@@ -267,15 +267,15 @@
             </nav>
         </header>                
     </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
       <div class="body-wrap">
   
     <article id="post-二维码生成" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/07/二维码生成/" class="article-date">
-      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
+      <a href="/2015/06/10/二维码生成/" class="article-date">
+      <time datetime="2015-06-10T12:01:33.000Z" itemprop="datePublished">2015-06-10</time>
 </a>
     </div>
   
@@ -288,7 +288,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/07/二维码生成/">二维码生成</a>
+      <a class="article-title" href="/2015/06/10/二维码生成/">非第三方实现下载</a>
     </h1>
   
 
@@ -299,66 +299,42 @@
       
           
         <p>二维码生成</p>
-<pre><code>- (void)viewDidLoad {
-[super viewDidLoad];
-
-// 准备滤镜
-CIFilter *filter = [CIFilter filterWithName:@&quot;CIQRCodeGenerator&quot;];
-
-//  设置默认值
-[filter setDefaults];
-
-//  生成要显示的字符串数据
-NSData *data = [@&quot;这个家伙很懒，什么都没有留下！&quot; dataUsingEncoding:NSUTF8StringEncoding];
-
-[filter setValue:data forKeyPath:@&quot;inputMessage&quot;];
-
-[filter setValue:@&quot;M&quot; forKeyPath:@&quot;inputCorrectionLevel&quot;];
-
-// 输出
-CIImage *coreImage = [filter outputImage];
-
-//  1. 要把图像无损放大
-UIImage *QRImage = [self imageWithCIImage:coreImage andSize:self.imgView.bounds.size];
-
-UIImage *headImage = [UIImage imageNamed:@&quot;head&quot;];
-
-//  2. 要合成头像
-CGSize headSize = CGSizeMake(self.imgView.bounds.size.width * 0.30, self.imgView.bounds.size.height * 0.30);
-
-UIImage *QRCardImage = [self imageWithBackgroundImage:QRImage centerImage:headImage centerImageSize:headSize];
-
-[self.imgView setImage:QRCardImage];
-</code></pre><p>}</p>
-<p>//  将CIImage转换成指定大小的UIImage</p>
 <ul>
-<li><p>(UIImage <em>)imageWithCIImage:(CIImage </em>)coreImage andSize:(CGSize)size {</p>
-<p>  //1. CIImage 转换成 CGImage(CGImageRef)<br>  CIContext *context = [CIContext contextWithOptions:nil];</p>
-<p>  CGImageRef originCGImage = [context createCGImage:coreImage fromRect:coreImage.extent];</p>
-<p>  //2. 创建一个图形上下文 Bitmap<br>  CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();</p>
-<p>  CGContextRef bitmapCtx = CGBitmapContextCreate(NULL, size.width, size.height, 8, 0, cs, kCGImageAlphaNone);</p>
-<p>  //3. 将CGImage图片渲染到新的图形上下文中<br>  CGContextSetInterpolationQuality(bitmapCtx, kCGInterpolationNone);</p>
-<p>  // 在图形上下文中把图片画出来<br>  CGRect newRect = CGRectMake(0, 0, size.width, size.height);</p>
-<p>  CGContextDrawImage(bitmapCtx, newRect, originCGImage);</p>
-<p>  //4. 取图像<br>  CGImageRef QRImage = CGBitmapContextCreateImage(bitmapCtx);</p>
-<p>  // 释放<br>  CGColorSpaceRelease(cs);</p>
-<p>  CGImageRelease(originCGImage);</p>
-<p>  CGContextRelease(bitmapCtx);</p>
-</li>
+<li>(void)viewDidLoad {<br>[super viewDidLoad];</li>
 </ul>
-<pre><code>return [UIImage imageWithCGImage:QRImage];
-</code></pre><p>}</p>
-<ul>
-<li><p>(UIImage <em>)imageWithBackgroundImage:(UIImage </em>)backgroundImage centerImage:(UIImage *)centerImage centerImageSize:(CGSize)centerSize{</p>
-<p>  // 开始图形上下文<br>  UIGraphicsBeginImageContext(backgroundImage.size);</p>
-<p>  // 先画背景<br>  [backgroundImage drawAtPoint:CGPointZero];</p>
-<p>  // 再画头像<br>  CGFloat headW = centerSize.width;<br>  CGFloat headH = centerSize.height;<br>  CGFloat headX = (backgroundImage.size.width - headW) <em> 0.5;<br>  CGFloat headY = (backgroundImage.size.height - headH) </em> 0.5;</p>
-<p>  [centerImage drawInRect:CGRectMake(headX, headY, headW, headH)];</p>
-<p>  // 取图像<br>  UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();</p>
-<p>  UIGraphicsEndImageContext();</p>
-<p>  return newImage;</p>
-</li>
-</ul>
+<p>// 准备滤镜<br>CIFilter *filter = [CIFilter filterWithName:@”CIQRCodeGenerator”];</p>
+<p>//  设置默认值<br>[filter setDefaults];</p>
+<p>//  生成要显示的字符串数据<br>NSData *data = [@”这个家伙很懒，什么都没有留下！” dataUsingEncoding:NSUTF8StringEncoding];</p>
+<p>[filter setValue:data forKeyPath:@”inputMessage”];</p>
+<p>[filter setValue:@”M” forKeyPath:@”inputCorrectionLevel”];</p>
+<p>// 输出<br>CIImage *coreImage = [filter outputImage];</p>
+<p>//  1. 要把图像无损放大<br>UIImage *QRImage = [self imageWithCIImage:coreImage andSize:self.imgView.bounds.size];</p>
+<p>UIImage *headImage = [UIImage imageNamed:@”head”];</p>
+<p>//  2. 要合成头像<br>CGSize headSize = CGSizeMake(self.imgView.bounds.size.width <em> 0.30, self.imgView.bounds.size.height </em> 0.30);</p>
+<p>UIImage *QRCardImage = [self imageWithBackgroundImage:QRImage centerImage:headImage centerImageSize:headSize];</p>
+<p>[self.imgView setImage:QRCardImage];<br>}</p>
+<p>// 将CIImage转换成指定大小的UIImage</p>
+<p>(UIImage )imageWithCIImage:(CIImage )coreImage andSize:(CGSize)size {</p>
+<p>//1. CIImage 转换成 CGImage(CGImageRef)<br>CIContext *context = [CIContext contextWithOptions:nil];</p>
+<p>CGImageRef originCGImage = [context createCGImage:coreImage fromRect:coreImage.extent];</p>
+<p>//2. 创建一个图形上下文 Bitmap<br>CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();</p>
+<p>CGContextRef bitmapCtx = CGBitmapContextCreate(NULL, size.width, size.height, 8, 0, cs, kCGImageAlphaNone);</p>
+<p>//3. 将CGImage图片渲染到新的图形上下文中<br>CGContextSetInterpolationQuality(bitmapCtx, kCGInterpolationNone);</p>
+<p>// 在图形上下文中把图片画出来<br>CGRect newRect = CGRectMake(0, 0, size.width, size.height);</p>
+<p>CGContextDrawImage(bitmapCtx, newRect, originCGImage);</p>
+<p>//4. 取图像<br>CGImageRef QRImage = CGBitmapContextCreateImage(bitmapCtx);</p>
+<p>// 释放<br>CGColorSpaceRelease(cs);</p>
+<p>CGImageRelease(originCGImage);</p>
+<p>CGContextRelease(bitmapCtx);</p>
+<p>return [UIImage imageWithCGImage:QRImage];<br>}</p>
+<p>(UIImage )imageWithBackgroundImage:(UIImage )backgroundImage centerImage:(UIImage *)centerImage centerImageSize:(CGSize)centerSize{</p>
+<p>// 开始图形上下文<br>UIGraphicsBeginImageContext(backgroundImage.size);</p>
+<p>// 先画背景<br>[backgroundImage drawAtPoint:CGPointZero];</p>
+<p>// 再画头像<br>CGFloat headW = centerSize.width;<br>CGFloat headH = centerSize.height;<br>CGFloat headX = (backgroundImage.size.width - headW) 0.5;<br>CGFloat headY = (backgroundImage.size.height - headH) 0.5;</p>
+<p>[centerImage drawInRect:CGRectMake(headX, headY, headW, headH)];</p>
+<p>// 取图像<br>UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();</p>
+<p>UIGraphicsEndImageContext();</p>
+<p>return newImage;</p>
 <p>}</p>
 
       
@@ -386,11 +362,11 @@ UIImage *QRCardImage = [self imageWithBackgroundImage:QRImage centerImage:headIm
 
 
   
-    <article id="post-NSURLSession总结" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-NSURLSession" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/07/NSURLSession总结/" class="article-date">
-      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
+      <a href="/2015/06/09/NSURLSession/" class="article-date">
+      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
 </a>
     </div>
   
@@ -403,7 +379,7 @@ UIImage *QRCardImage = [self imageWithBackgroundImage:QRImage centerImage:headIm
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/07/NSURLSession总结/">NSURLSession</a>
+      <a class="article-title" href="/2015/06/09/NSURLSession/">非第三方实现下载</a>
     </h1>
   
 
@@ -413,28 +389,10 @@ UIImage *QRCardImage = [self imageWithBackgroundImage:QRImage centerImage:headIm
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>NSURLSession  </p>
-<ul>
-<li>NSURLConnection和NSURLSession 区别 ：<ul>
-<li>connection 相对于接触底层，iOS 7.0后苹果推荐使用session  </li>
-<li>NSURLConnection :是面向内存的  ，运行在当前线程消息循环中的</li>
-<li>NSURLSession :面向内存dataTask 面向磁盘Download Upload</li>
-<li>con 只有自定义操作才能设置（最大并发数，一来，暂停等）</li>
-<li>而session 本身不需要自定义就自带</li>
-<li>session:自带后台下载和上传功能,可以用另一个进程下载的.  </li>
-</ul>
-</li>
-</ul>
-<hr>
-<p>NSURLSession<br> DataTask(session 会话)<br>        [NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>        dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>        默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>        //需要赋值到其他位置<br>        [[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>        创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>        暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>        bug:当多次点击暂停，再点击继续下载会崩溃。<br>        reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>        解决方案：sesson置为nil，多次点击就不会讲resumedata  </p>
-<pre><code>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。  
-bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作 
-解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil
- 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了  
-</code></pre><p>上传任务<br>        put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
-<pre><code>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱
-dataTask面向内存,默认是有缓存的，cache目录中
-</code></pre><p> session使用的注意事项<br>        session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
+        <p>NSURLSession</p>
+<p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
+<p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
+<p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
 
       
     </div>
@@ -602,7 +560,7 @@ dataTask面向内存,默认是有缓存的，cache目录中
                 2015-2016 木辰飞
             </div>
             <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.0">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+                <a href="http://hexo.io/" target="_blank" title="A fast, simple &amp; powerful blog framework">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="Another simple and elegant theme for Hexo  v3.0">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
             </div>
         </div>
         
@@ -632,9 +590,9 @@ dataTask面向内存,默认是有缓存的，cache目录中
 
 
 <div class="scroll" id="scroll">
-    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="Comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
 </div>
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
