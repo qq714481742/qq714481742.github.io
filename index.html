@@ -141,13 +141,13 @@
                 <div class="tips-box hide">
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
+                        <li>Menu</li>
+                        <li>Tags</li>
                         
-                        <li>友情链接</li>
+                        <li>Friends</li>
                         
                         
-                        <li>关于我</li>
+                        <li>About Me</li>
                         
                     </ul>
                 </div>
@@ -267,78 +267,9 @@
             </nav>
         </header>                
     </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
       <div class="body-wrap">
-  
-    <article id="post-YYModel简单解析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/YYModel简单解析/" class="article-date">
-      <time datetime="2016-08-03T03:48:26.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/03/YYModel简单解析/">YYModel简析</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#YYModel简析</p>
-<p>一、YYCLassInfo文件<br>     YYClassIVarInfo：存放变量的Model<br>     YYClassMethodInfo：存放方法的Model<br>     YYClassPropertyInfo：存放property的Model<br>     YYClassInfo：存放类信息的Model</p>
-<p>YYClassIvarInfo：通过Ivar来初始化，赋值相应的需要保存的字段，比较简单。<br>YYClassMethodInfo：通过Method来初始化，跟Ivar不同的是，typeEncoding有两个，一个是参数的，一个是返回值的。打印了一个例子，如下图：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/744505-20160726103449934-1188853599.png" alt=""></p>
-<p>分别是参数和返回值的typeEncoding、返回值的、参数的<br>YYClassPropertyInfo：通过objc_property_t来初始化，保存一些相关的信息。<br>YYClassInfo：可以通过Class，也可以使用NSString * className来初始化，保存相关类的信息。</p>
-<p>二、NSObject+YYModel文件<br> 这个文件是YYModel的核心，提供了一些，son转model、字典转model、model转NSData、model转Json等方法。<br>1、两个model，一个是_YYModelPropertyMeta、一个是_YYModelMeta。<br>_YYModelPropertyMeta:<br>     是对YYClassPropertyInfo的进一步封装，加入了一些操作性的或者说是功能性的封装。比如是否是C number type、是否支持KVC、是否可以被归档、是否有自定义的映射字典等等。还有一个比较特殊的是next，next是指向下一个_YYModelPropertyMeta的指针，他是用来处理多个属性映射到同一个key上时使用的。<br>_YYModelMeta：<br>     是对YYClassInfo一层解析，映射了每个property的key对应的_YYModelPropertyMeta——&gt;mapper、所有的_YYModelPropertyMeta——&gt;allPropertyMetas、所有的解析了keyPath的_YYModelPropertyMeta——&gt;keyPathPropertyMetas、多个key对应的_YYModelPropertyMeta——&gt;multiKeysPropertyMetas、映射了mapper.count——&gt;keyMappedCount、Model class type ——&gt; nsType、以及这个model是否实现了支持dic转model，转成dic和dic转class。</p>
-<p>2、内联函数<br>     1）YYClassGetNSType：获取Class的Foundation class type<br>     2）YYEncodingTypeIsCNumber：判断YYEncodingType是否是C number（常用数据类型）<br>     3）YYNSNumberCreateFromID：把一个id类型的值转换成NSNumber类型，这个函数主要是处理string类型的数据。其中使用到了几个c函数，分别如下：<br>     atop(const char <em>cstring)返回一个double类型，转换string为double<br>     isnan(double num) 确定是不是一个数，是否是无穷大或无穷小<br>     isinf(double num) num为正无穷返回1、num为负无穷返回-1<br>     atoll(const char </em>cstring)返回一个long long int<br>     4）YYNSDateFormString：格式化时间string<br>          这个函数适配了Google、Github、Apple、Facebook、Weibo、Twitter的几种时间的格式，通过一个block，使用不同的回调来实现不同的适配。<br>          其中学到了使用block数组来根据不同的场景，实现不同的回调。<br>     5）YYNSBlockClass：获得NSBlock类型，再确认属性类型时使用<br>     6）YYISODateFormatter：从命名可以知道作用<br>     7）YYValueForKeyPath和YYValueForMultiKeys：使用key或者keys从dic中取得value</p>
-<pre><code>8）ModelCreateNumberFromProperty：从_YYModelPropertyMeta中得到Number（使用在属性是number的情况）,通过runtime方法objc_msgSend向当前的model发送消息（getter），得到number。
-9）ModelSetNumberToProperty：通过_YYModelPropertyMeta设置property的number（使用在属性是number的情况），同上，给当前model设置数值。
-10）ModelSetValueForProperty：从命名可以看出这个是set property的方法，它根据meta中保存的当前property是什么类型来确定使用什么类型来初始化当前property的值
-11）ModelSetWithDictionaryFunction：对ModelSetValueForProperty的封装，更好的通过解析字典的数据到model中，使用CFDictionaryApplyFunction函数来调用，实现解析字典中的每一个key对应的值
-12）ModelSetWithPropertyMetaArrayFunction：解析多个key对应一个property meta的情况
-13）ModelToJSONObjectRecursive：model转换为json
-</code></pre><p>3、NSObject、NSArray、NSDictionary的分类<br>     定义接口通过上述的内联函数实现相应的功能，方便外部调用，通过这一层封装就可以简单明了的调用这些方法来实现功能了，具体的使用请看大神@ibireme的使用说明<a href="https://github.com/ibireme/YYModel。" target="_blank" rel="external">https://github.com/ibireme/YYModel。</a></p>
-<p>其中在YYClassIvarInfo、YYCLassMethodInfo、YYClassPropertyInfo中都有一个TypeEncoding的属性，相关的具体内容请查看Type Encoding:官方链接：<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5" target="_blank" rel="external">https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5</a></p>
-<p>最后说一下写在 最前面的宏定义，</p>
-<p>#define force_inline <strong>inline</strong> <strong>attribute</strong>((always_inline))<br>从字面意思就可以看出来，是强制内联的意思。<br>inline关键字仅仅是建议编译器做内联展开处理，不是强制的。在gcc编译器中，如果编译优化设置为O0，即使是inline函数也不会被内联展开，除非强制内联。<br>1、inline<br>     inline主要是用来替换C中的表达式形式的宏定义，因为这样的宏定义其实类似于一个函数，但是在宏定义中只是做了简单的符号替换，它不能进行参数有效性的检查，也不能享受编译器严格严查的好处，同时返回值也不能被强制类型转换等等，这样使用宏定义就存在一系列的隐患和局限性。所以出现了inline关键字。<br>     因此，inline函数也是直接使用的替换（像宏一样），没有了调用的开销，效率比较高。<br>     inline在文件内部调用时，会被内联展开，但是gcc还是会为inline函数生成一份独立的汇编码以供外部文件使用。gcc的inline函数是全局的，文件内是内联展开，文件外和普通的extern函数一样。<br>2、static inline<br>     也是和inline一样建议编译器内联展开，gcc一般不会为static inline函数生成一份独立的汇编码，但是当函数本身递归：函数的地址被使用（函数指针），也是会不展开的。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
   
     <article id="post-Cocoapods配置" class="article article-type-post" itemscope itemprop="blogPost">
   
@@ -397,65 +328,6 @@
 <p>pod ‘AFNetworking’</p>
 <p>pod ‘pop’</p>
 <p>end</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-集成支付宝" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/集成支付宝/" class="article-date">
-      <time datetime="2016-08-03T03:29:08.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#支付宝集成流程</p>
-<ul>
-<li>首先需要支付宝商家服务平台上进行我们的产品签约，并通过审核，然后根据步骤得到PID key等信息</li>
-<li>在项目中集成支付宝SDK</li>
-<li>商户客户端：构造订单数据并签名，然后向 《支付SDK客户端》发送请求数据</li>
-<li>支付SDK客户端：构造业务数据并发送给《支付SDK服务端》</li>
-<li>支付SDK服务端：完成支付并返回《支付SDK客户端》支付结果，然后异步发送支付通知给《商户服务端》，《商户服务端》给《支付SDK服务端》发送响应数据</li>
-<li>支付SDK客户端：同步并返回《商户客户端》支付结果</li>
-<li><p>商户客户端：对响应的数据进行处理<br>*支付的时候主要用到的方法是</p>
-<pre><code>-(void)payOrder:(NSString *)orderStr fromScheme:(NSString         *)schemeStr callback:(CompletionBlock)completionBlock;
-</code></pre><p>  这个方法的作用就是请求支付并通过回调返回结果，在用的时候我们需要传入    orderStr等参数，而orferStr需要我们自己去拼接成文档中要求的格式，我们可    以直接复制demo中的这部分即可<br>在桌面上创建一个空文件夹，把用到的文件全部拷贝到里面<br><img src="/Users/lizhenfei/Documents/微博用到的图片/zfb.png" alt=""><br>在这里，我们可以使用demo中的Order，这样我们能很方便的创建订单（需要的时候可以写一个Order的子类）<br>一定不要忘了libcrypto.a和libssl.a这两个.a文件<br>接下来找到TARGETS—&gt;build Settings—&gt;Search Paths—&gt;Header Search Parhs下：把我们刚才拖到项目中的文件夹选中，然后show in Finder把文件拖到Header Search Paths中，然后编译看看是否有错误，不过可能会遇到这个错误,这个错误是Header Search Path是设置的错误，按照上述方法重新设置<br>  <img src="/Users/lizhenfei/Documents/微博用到的图片/7B830A93-5DC5-452E-B3CB-F1A936C81679-300x14.png" alt=""><br>创建我们自己的订单，我们可以看到，deno中我们发松请求的时候，有很多参数需要我们设置:<br>  <img src="/Users/lizhenfei/Documents/微博用到的图片/C9069045-0DA7-4811-BE79-7CAD2401AFF8-768x878.png" alt=""><br>其中有三个参数需要我们先设置:partner、seller、privateKey。这三个参数分别代表了PID（16位数字）、收款方的PID、和合作伙伴密钥RSA加密后的密钥）当我们设置好这些参数，就剩下order的参数了，即订单信息。然后我们运行的时候发现控制台打印了以下信息:<br>  <img src="/Users/lizhenfei/Documents/微博用到的图片/7BE981F8-92D2-4E60-BB83-8E2BCAA847CB-672x44.png" alt=""><br>这个问题是设置的密钥的格式的问题，通过以下方法可以解决: </p>
-<ul>
-<li>在RSADataSigner.m文件中 搜索代码 [result appendString:@”—–BEGIN PRIVATE KEY—–\n”]; 将其改成 [result appendString:@”—–BEGIN RSA PRIVATE KEY—–\n”];2. 在RSADataSigner.m文件中 搜索代码 [result appendString:@”\n—–END PRIVATE KEY—–“]; 将其改成 [result appendString:@”\n—–END RSA PRIVATE KEY—–“];  </li>
-<li>  到此，我们基本上把官方demo集成到我们的项目当中了，剩下的要做的是就是我们这边生成订单的基本信息，比如价格等，还有一个参数：order.notifyURL这个参数是服务器异步通知页面路径，这个需要我们服务器给我们，当我们这边发送请求支付信息之后，支付宝服务器会返回支付结果到客户端，同时也会返回支付信息到我们的服务端，这时候通过这个路径，我们的服务端就可以记录我们前端的请求信息。完成了这些步骤，基本的集成也就结束了，我们就能正常的发送支付请求并且支付成功了</li>
-</ul>
-</li>
-</ul>
 
       
     </div>
@@ -801,6 +673,75 @@ dispatch_async(dispatch_get_main_queue(), ^{
 </code></pre><p>  });<br>}</p>
 </li>
 </ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-YYModel简单解析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/10/YYModel简单解析/" class="article-date">
+      <time datetime="2015-12-10T12:01:33.000Z" itemprop="datePublished">2015-12-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/10/YYModel简单解析/">二维码生成</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#YYModel简析</p>
+<p>一、YYCLassInfo文件<br>     YYClassIVarInfo：存放变量的Model<br>     YYClassMethodInfo：存放方法的Model<br>     YYClassPropertyInfo：存放property的Model<br>     YYClassInfo：存放类信息的Model</p>
+<p>YYClassIvarInfo：通过Ivar来初始化，赋值相应的需要保存的字段，比较简单。<br>YYClassMethodInfo：通过Method来初始化，跟Ivar不同的是，typeEncoding有两个，一个是参数的，一个是返回值的。打印了一个例子，如下图：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/744505-20160726103449934-1188853599.png" alt=""></p>
+<p>分别是参数和返回值的typeEncoding、返回值的、参数的<br>YYClassPropertyInfo：通过objc_property_t来初始化，保存一些相关的信息。<br>YYClassInfo：可以通过Class，也可以使用NSString * className来初始化，保存相关类的信息。</p>
+<p>二、NSObject+YYModel文件<br> 这个文件是YYModel的核心，提供了一些，son转model、字典转model、model转NSData、model转Json等方法。<br>1、两个model，一个是_YYModelPropertyMeta、一个是_YYModelMeta。<br>_YYModelPropertyMeta:<br>     是对YYClassPropertyInfo的进一步封装，加入了一些操作性的或者说是功能性的封装。比如是否是C number type、是否支持KVC、是否可以被归档、是否有自定义的映射字典等等。还有一个比较特殊的是next，next是指向下一个_YYModelPropertyMeta的指针，他是用来处理多个属性映射到同一个key上时使用的。<br>_YYModelMeta：<br>     是对YYClassInfo一层解析，映射了每个property的key对应的_YYModelPropertyMeta——&gt;mapper、所有的_YYModelPropertyMeta——&gt;allPropertyMetas、所有的解析了keyPath的_YYModelPropertyMeta——&gt;keyPathPropertyMetas、多个key对应的_YYModelPropertyMeta——&gt;multiKeysPropertyMetas、映射了mapper.count——&gt;keyMappedCount、Model class type ——&gt; nsType、以及这个model是否实现了支持dic转model，转成dic和dic转class。</p>
+<p>2、内联函数<br>     1）YYClassGetNSType：获取Class的Foundation class type<br>     2）YYEncodingTypeIsCNumber：判断YYEncodingType是否是C number（常用数据类型）<br>     3）YYNSNumberCreateFromID：把一个id类型的值转换成NSNumber类型，这个函数主要是处理string类型的数据。其中使用到了几个c函数，分别如下：<br>     atop(const char <em>cstring)返回一个double类型，转换string为double<br>     isnan(double num) 确定是不是一个数，是否是无穷大或无穷小<br>     isinf(double num) num为正无穷返回1、num为负无穷返回-1<br>     atoll(const char </em>cstring)返回一个long long int<br>     4）YYNSDateFormString：格式化时间string<br>          这个函数适配了Google、Github、Apple、Facebook、Weibo、Twitter的几种时间的格式，通过一个block，使用不同的回调来实现不同的适配。<br>          其中学到了使用block数组来根据不同的场景，实现不同的回调。<br>     5）YYNSBlockClass：获得NSBlock类型，再确认属性类型时使用<br>     6）YYISODateFormatter：从命名可以知道作用<br>     7）YYValueForKeyPath和YYValueForMultiKeys：使用key或者keys从dic中取得value</p>
+<pre><code>8）ModelCreateNumberFromProperty：从_YYModelPropertyMeta中得到Number（使用在属性是number的情况）,通过runtime方法objc_msgSend向当前的model发送消息（getter），得到number。
+9）ModelSetNumberToProperty：通过_YYModelPropertyMeta设置property的number（使用在属性是number的情况），同上，给当前model设置数值。
+10）ModelSetValueForProperty：从命名可以看出这个是set property的方法，它根据meta中保存的当前property是什么类型来确定使用什么类型来初始化当前property的值
+11）ModelSetWithDictionaryFunction：对ModelSetValueForProperty的封装，更好的通过解析字典的数据到model中，使用CFDictionaryApplyFunction函数来调用，实现解析字典中的每一个key对应的值
+12）ModelSetWithPropertyMetaArrayFunction：解析多个key对应一个property meta的情况
+13）ModelToJSONObjectRecursive：model转换为json
+</code></pre><p>3、NSObject、NSArray、NSDictionary的分类<br>     定义接口通过上述的内联函数实现相应的功能，方便外部调用，通过这一层封装就可以简单明了的调用这些方法来实现功能了，具体的使用请看大神@ibireme的使用说明<a href="https://github.com/ibireme/YYModel。" target="_blank" rel="external">https://github.com/ibireme/YYModel。</a></p>
+<p>其中在YYClassIvarInfo、YYCLassMethodInfo、YYClassPropertyInfo中都有一个TypeEncoding的属性，相关的具体内容请查看Type Encoding:官方链接：<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5" target="_blank" rel="external">https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5</a></p>
+<p>最后说一下写在 最前面的宏定义，</p>
+<p>#define force_inline <strong>inline</strong> <strong>attribute</strong>((always_inline))<br>从字面意思就可以看出来，是强制内联的意思。<br>inline关键字仅仅是建议编译器做内联展开处理，不是强制的。在gcc编译器中，如果编译优化设置为O0，即使是inline函数也不会被内联展开，除非强制内联。<br>1、inline<br>     inline主要是用来替换C中的表达式形式的宏定义，因为这样的宏定义其实类似于一个函数，但是在宏定义中只是做了简单的符号替换，它不能进行参数有效性的检查，也不能享受编译器严格严查的好处，同时返回值也不能被强制类型转换等等，这样使用宏定义就存在一系列的隐患和局限性。所以出现了inline关键字。<br>     因此，inline函数也是直接使用的替换（像宏一样），没有了调用的开销，效率比较高。<br>     inline在文件内部调用时，会被内联展开，但是gcc还是会为inline函数生成一份独立的汇编码以供外部文件使用。gcc的inline函数是全局的，文件内是内联展开，文件外和普通的extern函数一样。<br>2、static inline<br>     也是和inline一样建议编译器内联展开，gcc一般不会为static inline函数生成一份独立的汇编码，但是当函数本身递归：函数的地址被使用（函数指针），也是会不展开的。</p>
 
       
     </div>
@@ -1210,11 +1151,11 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
 
 
   
-    <article id="post-BUG收集之malformed" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-集成支付宝" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/09/BUG收集之malformed/" class="article-date">
-      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+      <a href="/2015/06/10/集成支付宝/" class="article-date">
+      <time datetime="2015-06-10T12:01:33.000Z" itemprop="datePublished">2015-06-10</time>
 </a>
     </div>
   
@@ -1227,7 +1168,7 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/09/BUG收集之malformed/">NSURLSession</a>
+      <a class="article-title" href="/2015/06/10/集成支付宝/">支付宝集成流程</a>
     </h1>
   
 
@@ -1237,13 +1178,23 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>#BUG收集之关于报malformed or corrupted AST file: ‘Unable to load module 的错  </p>
-<p>今天早上 一运行程序 居然报错，我都惊呆了，昨天明明好好的～但是百度是强大的～</p>
-<p>报错内容： malformed or corrupted AST file: ‘Unable to load module “/Users/Chenglijuan/Library/Developer/Xcode/DerivedData/ModuleCache/3SB6LTSGGAIAR/UIKit-14AN6JOCHQYY4.pcm”: module file out of date’</p>
-<p>解决办法：</p>
-<p>只需要清除继承数据文件夹即可。</p>
-<p>具体操作为：进入XCode的Window，选择Projects，然后选择出现问题的 project ，点击delete button删除Derived data.</p>
-<p>重新编译项目，即可。</p>
+        <p>#支付宝集成流程</p>
+<ul>
+<li>首先需要支付宝商家服务平台上进行我们的产品签约，并通过审核，然后根据步骤得到PID key等信息</li>
+<li>在项目中集成支付宝SDK</li>
+<li>商户客户端：构造订单数据并签名，然后向 《支付SDK客户端》发送请求数据</li>
+<li>支付SDK客户端：构造业务数据并发送给《支付SDK服务端》</li>
+<li>支付SDK服务端：完成支付并返回《支付SDK客户端》支付结果，然后异步发送支付通知给《商户服务端》，《商户服务端》给《支付SDK服务端》发送响应数据</li>
+<li>支付SDK客户端：同步并返回《商户客户端》支付结果</li>
+<li><p>商户客户端：对响应的数据进行处理<br>*支付的时候主要用到的方法是</p>
+<pre><code>-(void)payOrder:(NSString *)orderStr fromScheme:(NSString         *)schemeStr callback:(CompletionBlock)completionBlock;
+</code></pre><p>  这个方法的作用就是请求支付并通过回调返回结果，在用的时候我们需要传入    orderStr等参数，而orferStr需要我们自己去拼接成文档中要求的格式，我们可    以直接复制demo中的这部分即可<br>在桌面上创建一个空文件夹，把用到的文件全部拷贝到里面<br><img src="/Users/lizhenfei/Documents/微博用到的图片/zfb.png" alt=""><br>在这里，我们可以使用demo中的Order，这样我们能很方便的创建订单（需要的时候可以写一个Order的子类）<br>一定不要忘了libcrypto.a和libssl.a这两个.a文件<br>接下来找到TARGETS—&gt;build Settings—&gt;Search Paths—&gt;Header Search Parhs下：把我们刚才拖到项目中的文件夹选中，然后show in Finder把文件拖到Header Search Paths中，然后编译看看是否有错误，不过可能会遇到这个错误,这个错误是Header Search Path是设置的错误，按照上述方法重新设置<br>  <img src="/Users/lizhenfei/Documents/微博用到的图片/7B830A93-5DC5-452E-B3CB-F1A936C81679-300x14.png" alt=""><br>创建我们自己的订单，我们可以看到，deno中我们发松请求的时候，有很多参数需要我们设置:<br>  <img src="/Users/lizhenfei/Documents/微博用到的图片/C9069045-0DA7-4811-BE79-7CAD2401AFF8-768x878.png" alt=""><br>其中有三个参数需要我们先设置:partner、seller、privateKey。这三个参数分别代表了PID（16位数字）、收款方的PID、和合作伙伴密钥RSA加密后的密钥）当我们设置好这些参数，就剩下order的参数了，即订单信息。然后我们运行的时候发现控制台打印了以下信息:<br>  <img src="/Users/lizhenfei/Documents/微博用到的图片/7BE981F8-92D2-4E60-BB83-8E2BCAA847CB-672x44.png" alt=""><br>这个问题是设置的密钥的格式的问题，通过以下方法可以解决: </p>
+<ul>
+<li>在RSADataSigner.m文件中 搜索代码 [result appendString:@”—–BEGIN PRIVATE KEY—–\n”]; 将其改成 [result appendString:@”—–BEGIN RSA PRIVATE KEY—–\n”];2. 在RSADataSigner.m文件中 搜索代码 [result appendString:@”\n—–END PRIVATE KEY—–“]; 将其改成 [result appendString:@”\n—–END RSA PRIVATE KEY—–“];  </li>
+<li>  到此，我们基本上把官方demo集成到我们的项目当中了，剩下的要做的是就是我们这边生成订单的基本信息，比如价格等，还有一个参数：order.notifyURL这个参数是服务器异步通知页面路径，这个需要我们服务器给我们，当我们这边发送请求支付信息之后，支付宝服务器会返回支付结果到客户端，同时也会返回支付信息到我们的服务端，这时候通过这个路径，我们的服务端就可以记录我们前端的请求信息。完成了这些步骤，基本的集成也就结束了，我们就能正常的发送支付请求并且支付成功了</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -1301,6 +1252,66 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
 <p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
 <p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
 <p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-BUG收集之malformed" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/09/BUG收集之malformed/" class="article-date">
+      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/09/BUG收集之malformed/">NSURLSession</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#BUG收集之关于报malformed or corrupted AST file: ‘Unable to load module 的错  </p>
+<p>今天早上 一运行程序 居然报错，我都惊呆了，昨天明明好好的～但是百度是强大的～</p>
+<p>报错内容： malformed or corrupted AST file: ‘Unable to load module “/Users/Chenglijuan/Library/Developer/Xcode/DerivedData/ModuleCache/3SB6LTSGGAIAR/UIKit-14AN6JOCHQYY4.pcm”: module file out of date’</p>
+<p>解决办法：</p>
+<p>只需要清除继承数据文件夹即可。</p>
+<p>具体操作为：进入XCode的Window，选择Projects，然后选择出现问题的 project ，点击delete button删除Derived data.</p>
+<p>重新编译项目，即可。</p>
 
       
     </div>
@@ -1413,7 +1424,7 @@ return [ndf stringFromDate:date]
                 2015-2016 木辰飞
             </div>
             <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.0">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+                <a href="http://hexo.io/" target="_blank" title="A fast, simple &amp; powerful blog framework">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="Another simple and elegant theme for Hexo  v3.0">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
             </div>
         </div>
         
@@ -1443,9 +1454,9 @@ return [ndf stringFromDate:date]
 
 
 <div class="scroll" id="scroll">
-    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="Comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
 </div>
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
