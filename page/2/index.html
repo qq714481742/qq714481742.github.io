@@ -271,10 +271,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-CocoaPods安装" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-GCD" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/07/CocoaPods安装/" class="article-date">
+      <a href="/2015/06/07/GCD/" class="article-date">
       <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
 </a>
     </div>
@@ -288,7 +288,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/07/CocoaPods安装/">CocoaPods安装</a>
+      <a class="article-title" href="/2015/06/07/GCD/">GCD会</a>
     </h1>
   
 
@@ -298,73 +298,309 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>CocoaPods的下载及安装</p>
-<p>　　mac系统已经默认安装好Ruby环境，如果你不确定自己系统中是否有Ruby的，可以在终端中输入命令行：ruby -v查看当前ruby版本。如图： </p>
-<p>确定以后，接下来就可以下载和安装CocoaPods，只需要一行命令。在Terminator（也就是终端）中输入以下命令：</p>
-<pre><code>sudo gem install cocoapods
-</code></pre><p>但是，在终端中敲入这个命令之后，会发现半天没有任何反应。原因是那堵墙阻挡了cocoapods.org。</p>
-<p>解决办法是，我们可以用阿里云的Ruby镜像来访问cocoapods。按照下面的顺序在终端中敲入依次敲入命令：</p>
-<p>首先，检查你的ruby源：<br>$gem sources -l<br>　　默认情况下，终端应该返回如下信息：</p>
-<p><strong><em> CURRENT SOURCES </em></strong></p>
-<p><a href="https://rubygems.org/" target="_blank" rel="external">https://rubygems.org/</a><br>　　当然这个源在墙内是访问不到的。因此我们需要寻找一个可以在国内访问到的镜像。目前笔者找到的是<a href="http://rubygems-china.oss.aliyuncs.com这个阿里云的镜像，当然随着时间的推移，未来这个镜像也有可能无法访问了，到时候就只能重新寻找了。" target="_blank" rel="external">http://rubygems-china.oss.aliyuncs.com这个阿里云的镜像，当然随着时间的推移，未来这个镜像也有可能无法访问了，到时候就只能重新寻找了。</a></p>
-<p>　　确认镜像可用后，现在就要开始修改ruby源了。首先执行以下命令删除原来的ruby源：</p>
-<pre><code>$gem sources --remove https://rubygems.org/
-</code></pre><p>　　执行命令后可在终端看见以下信息：</p>
-<pre><code>https://rubygems.org/ removed from sources
-</code></pre><p>　　然后下一步添加你找到的可用的镜像源：</p>
-<pre><code>$gem sources -a http://rubygems-china.oss.aliyuncs.com
-</code></pre><p>　　此时如果你再执行gem sources -l命令，就能看到当前镜像源里只有阿里云这一个了。此时你就可以重新执行这一段开头的那句命令了：</p>
-<pre><code>$sudo gem install cocoapods
-</code></pre><p>　　如果一切正常，你应该能看到一段安装进度，以及最后有一条信息：</p>
-<pre><code>3 gems installed
-</code></pre><p>　　确认看见这条信息，后先判断的CocoaPods是否可以使用，可以用CocoaPods的搜索功能验证一下。在终端中输入：</p>
-<pre><code>pod search AFNetworking；
-</code></pre><p>执行后可能会一直停在</p>
-<p>Setting up CocoaPods master repo然后(很久)会出现如下错误：</p>
-<p>解决办法是：</p>
-<p>这说明CocoaPods还不能正常使用，需要更新pod，下载它的一些依赖包；在终端中输入：</p>
-<pre><code>$ pod setup
-</code></pre><p>过一段时间之后，你会在终端中看到跟上面同样的红色的错误信息。</p>
-<p>这说明某些环境原因导致pod更新不了，可能原因有，1）gem版本太低；2）github无法链接；3）.cocoapods目录下的配置信息错误。我们可以一个一个来排除，</p>
-<p>首先更新gem到最新版本，在终端中输入：</p>
-<pre><code>$ sudo gem update --system 
-</code></pre><p>然后检查是否可以ping通github，在终端中输入：</p>
-<p>$ ping github.com<br>然后查看pob repo list：</p>
-<pre><code>$ pod repo list
-</code></pre><p>说明Cocoapods在将它的信息下载到 ~/.cocoapods里；</p>
-<p>cd  到该目录里，用du -sh *命令来查看文件大小，结果显示0 repos，说明没有安装成功；</p>
-<p>在终端输入：</p>
-<pre><code>cd ~/.cocoapods
+        <p>一、简介<br>1、什么是GCD？  </p>
+<p>全称是Grand CentralDispatch，可译为“伟大的中枢调度器”<br>纯C语言，提供了非常多强大的函数  </p>
+<p>2、GCD的优势  </p>
+<p>GCD是苹果公司为多核的并行运算提出的解决方案<br>GCD会自动利用更多的CPU内核（比如双核、四核）<br>GCD会自动管理线程的生命周期（创建线程、调度任务、销毁线程），相比NSThread需要手动管理线程声明周期<br>只需要告诉GCD想要执行什么任务，不需要编写任何线程管理代码<br>3、GCD中有2个核心概念：任务、队列  </p>
+<ul>
+<li>任务：执行什么操作</li>
+<li>队列：用来存放任务<br>队列的类型：并发队列 与 串行队列<br>将任务添加到队列中，GCD会自动将队列中的任务取出，放到对应的线程中执行，任务的取出遵循队列的  FIFO原则：先进先出，后进后出</li>
+</ul>
+<p>二、执行任务：同步、异步、栅栏<br>同步 dispatch_sync : 只能在当前线程中执行任务，不具备开启新线程的能力<br>dispatch_sync(dispatch_queue_tqueue, dispatch_block_tblock);<br>注意：<br>使用sync函数往当前串行队列中添加任务，会卡住当前的串行队列<br>异步 dispatch<em>async：可以在新的线程中执行任务，具备开启新线程的能力<br>dispatch</em><code>async</code>(dispatch_queue_tqueue, dispatch_block_tblock);<br>另外一个执行任务的方法：dispatch_barrier_async 栅栏<br>场景：在前面的任务执行结束后它才执行，而且它后面的任务等它执行完成之后才会执行<br>注意：这个queue不能是全局的并发队列</p>
+<p>dispatch_barrier_async(dispatch_queue_tqueue, dispatch_block_tblock);<br>下面有详细说明<br>三、队列：串行 与 并行<br>使用dispatch_queue_create函数创建队列<br>dispatch_queue_t dispatch_queue_create(<br>   const char *label, //队列名称<br>   dispatch_queue_attr_t  attr //队列的类型<br>);<br>1、并发队列：（ConcurrentDispatch Queue）<br>可以让多个任务并发（同时）执行（自动开启多个线程同时执行任务）<br>注意：并发功能只有在异步（dispatch_async）函数下才有效，因为异步函数才具备开启新线程的能力，而同步函数只能在当前线程中执行不具备开启线程的能力。<br>并发队列获取</p>
+<p>手动创建并发队列  dispatch_queue_create</p>
+<p>dispatch_queue_t queue = dispatch_queue_create(“队列名称”, DISPATCH_QUEUE_CONCURRENT);<br>GCD默认已经提供了全局的并发队列，供整个应用使用，可以无需手动创建，使用dispatch_get_global_queue函数获得全局的并发队列</p>
+<p>// 获得全局并发队列<br>dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);<br>2、串行队列：（SerialDispatch Queue）<br>让任务一个接着一个地执行（一个任务执行完毕后，再执行下一个任务）<br>注意：<br>使用sync函数往当前串行队列中添加任务，会卡住当前的串行队列<br>GCD中获得串行有2种途径</p>
+<p>串行队列创建</p>
+<p>使用dispatch_queue_create函数</p>
+<p>//创建串行队列（队列类型传递NULL或者DISPATCH_QUEUE_SERIAL）<br>dispatch_queue_tqueue = dispatch_queue_create(“队列名称”,NULL);<br>主队列（是GCD自带的一种特殊的串行队列）</p>
+<p>放在主队列中的任务，都会放到主线程中执行<br>dispatch_queue_tqueue = dispatch_get_main_queue();<br>3、同步 / 异步 与 并发 / 串行 如何区分<br>同步和异步主要影响：能不能开启新的线程</p>
+<p>同步：只是在当前线程中执行任务，不具备开启新线程的能力<br>异步：可以在新的线程中执行任务，具备开启新线程的能力<br>并发和串行主要影响：任务的执行方式</p>
+<p>并发：允许多个任务并发（同时）执行<br>串行：一个任务执行完毕后，再执行下一个任务<br>四、GCD基本使用</p>
+<p>#import “ViewController.h”</p>
+<p>@implementation ViewController</p>
+<p>/<em><br> 如果是在子线程中调用 同步函数 + 主队列, 那么没有任何问题
+ </em>/</p>
+<ul>
+<li><p>(void)syncMain2<br>{<br>  dispatch_queue_t queue = dispatch_get_global_queue(0, 0);<br>  dispatch_async(queue, ^{</p>
+<pre><code>// block会在子线程中执行
+//        NSLog(@&quot;%@&quot;, [NSThread currentThread]);
 
-进入cocoapods文件后在终端输入：du -sh *
-</code></pre><p>重新执行pod setup，过一段时间后提示setup completed,在终端中输入 pod list，展示出安装列表；</p>
-<p>这样总算安装好了。接下来再一次输入：</p>
-<p>pod search AFNetworking</p>
-<p>输入过后它可能会报：</p>
-<p>[!] Unable to find a pod with name, author, summary, or descriptionmatching <code>AFNetworking</code></p>
-<p>解决方案是：</p>
-<p>输入：</p>
-<pre><code>rm ~/Library/Caches/CocoaPods/search_index.json
-</code></pre><p>后在一次输入：pod search AFNetworking</p>
-<p>就可以咯。</p>
-<p>三,cocoapods的使用</p>
-<p>　　首先来到你的项目文件：</p>
-<p>　　cd 项目文件的位置</p>
-<p>　　然后，添加一个Podfile文件： vim Podfile</p>
-<p>然后按i进入插入模式，进行编辑，在文件中输入以下内容：</p>
-<p>注意百度上很多旧版本输入的类容：</p>
-<pre><code>platform :ios, &apos;8.1&apos;
-pod &apos;AFNetworking&apos;, &apos;~&gt; 2.0&apos;
-</code></pre><p>它会报：[!] The dependency <code>AFNetworking (~&gt; 3.0)</code> is not used in any concrete target.<br>现在版本升级官方给的文档是：<br>platform :ios, ‘8.0’</p>
-<pre><code>target &apos;你的项目名称&apos; do
+dispatch_queue_t queue = dispatch_get_main_queue();
+dispatch_sync(queue, ^{
+    // block一定会在主线程执行
+    NSLog(@&quot;%@&quot;, [NSThread currentThread]);
+});
+</code></pre><p>  });<br>  NSLog(@”————“);<br>}<br>/<em><br>如果是在主线程中调用同步函数 + 主队列, 那么会导致死锁<br>导致死锁的原因:<br>sync函数是在主线程中执行的, 并且会等待block执行完毕. 先调用<br>block是添加到主队列的, 也需要在主线程中执行. 后调用
+</em>/</p>
+</li>
+<li><p>(void)syncMain<br>{<br>  NSLog(@”%@”, [NSThread currentThread]);<br>  // 主队列:<br>  dispatch_queue_t queue = dispatch_get_main_queue();</p>
+<p>  //  如果是调用 同步函数, 那么会等同步函数中的任务执行完毕, 才会执行后面的代码<br>  // 注意: 如果dispatch_sync方法是在主线程中调用的, 并且传入的队列是主队列, 那么会导致死锁<br>  dispatch_sync(queue, ^{</p>
+<pre><code>NSLog(@&quot;----------&quot;);
+NSLog(@&quot;%@&quot;, [NSThread currentThread]);
+</code></pre><p>  });<br>  NSLog(@”———-“);<br>}<br>/<em><br>异步 + 主队列 : 不会创建新的线程, 并且任务是在主线程中执行
+</em>/</p>
+</li>
+<li><p>(void)asyncMain<br>{<br>  // 主队列:<br>  // 特点: 只要将任务添加到主队列中, 那么任务”一定”会在主线程中执行 \<br>  无论你是调用同步函数还是异步函数<br>  dispatch_queue_t queue = dispatch_get_main_queue();</p>
+<p>  dispatch_async(queue, ^{</p>
+<pre><code>NSLog(@&quot;%@&quot;, [NSThread currentThread]);
+</code></pre><p>  });<br>}<br>/<em><br>同步 + 并发 : 不会开启新的线程<br>妻管严
+</em>/</p>
+</li>
+<li><p>(void)syncConCurrent<br>{<br>  // 1.创建一个并发队列<br>  dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</p>
+<p>  // 2.将任务添加到队列中<br>  dispatch_sync(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务1  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });<br>  dispatch_sync(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务2  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });<br>  dispatch_sync(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务3  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });</p>
+<p>   NSLog(@”———“);<br>}<br>/<em><br>同步 + 串行: 不会开启新的线程<br>注意点: 如果是调用 同步函数, 那么会等同步函数中的任务执行完毕, 才会执行后面的代码
+</em>/</p>
+</li>
+<li><p>(void)syncSerial<br>{<br>  // 1.创建一个串行队列<br>  // #define DISPATCH_QUEUE_SERIAL NULL<br>  // 所以可以直接传NULL<br>  dispatch_queue_t queue = dispatch_queue_create(“com.520it.lnj”, NULL);</p>
+<p>  // 2.将任务添加到队列中<br>  dispatch_sync(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务1  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });<br>  dispatch_sync(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务2  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });<br>  dispatch_sync(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务3  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });</p>
+<p>  NSLog(@”———“);<br>}<br>/<em><br>异步 +　串行：会开启新的线程<br>但是只会开启一个新的线程<br>注意: 如果调用 异步函数, 那么不用等到函数中的任务执行完毕, 就会执行后面的代码
+</em>/</p>
+</li>
+<li><p>(void)asynSerial<br>{<br>  // 1.创建串行队列<br>  dispatch_queue_t queue = dispatch_queue_create(“com.520it.lnj”, DISPATCH_QUEUE_SERIAL);<br>  /<em><br>   能够创建新线程的原因:<br>   我们是使用”异步”函数调用<br>   只创建1个子线程的原因:<br>   我们的队列是串行队列
+   </em>/<br>  // 2.将任务添加到队列中<br>  dispatch_async(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务1  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });<br>  dispatch_async(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务2  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });<br>  dispatch_async(queue, ^{</p>
+<pre><code>NSLog(@&quot;任务3  == %@&quot;, [NSThread currentThread]);
+</code></pre><p>  });</p>
+<p>  NSLog(@”——–”);<br>}</p>
+</li>
+</ul>
+<p>/<em><br> 异步 + 并发 : 会开启新的线程<br> 如果任务比较多, 那么就会开启多个线程
+ </em>/</p>
+<ul>
+<li><p>(void)asynConcurrent<br>{<br>  /<em><br>   执行任务<br>   dispatch_async<br>   dispatch_sync
+   </em>/</p>
+<p>  /<em><br>   第一个参数: 队列的名称<br>   第二个参数: 告诉系统需要创建一个并发队列还是串行队列<br>   DISPATCH_QUEUE_SERIAL :串行<br>   DISPATCH_QUEUE_CONCURRENT　并发
+   </em>/<br>  //    dispatch_queue_t queue = dispatch_queue_create(“com.520it.lnj”, DISPATCH_QUEUE_CONCURRENT);</p>
+<p>  // 系统内部已经给我们提供好了一个现成的并发队列<br>  /*<br>   第一个参数: iOS8以前是优先级, iOS8以后是服务质量<br>   iOS8以前</p>
+<ul>
+<li><ul>
+<li>DISPATCH_QUEUE_PRIORITY_HIGH          高优先级 2</li>
+</ul>
+</li>
+<li><ul>
+<li>DISPATCH_QUEUE_PRIORITY_DEFAULT:      默认的优先级 0</li>
+</ul>
+</li>
+<li><ul>
+<li>DISPATCH_QUEUE_PRIORITY_LOW:          低优先级 -2</li>
+</ul>
+</li>
+<li><ul>
+<li>DISPATCH_QUEUE_PRIORITY_BACKGROUND:</li>
+</ul>
+<p>iOS8以后</p>
+</li>
+<li><ul>
+<li>QOS_CLASS_USER_INTERACTIVE  0x21 用户交互(用户迫切想执行任务)</li>
+</ul>
+</li>
+<li><ul>
+<li>QOS_CLASS_USER_INITIATED    0x19 用户需要</li>
+</ul>
+</li>
+<li><ul>
+<li>QOS_CLASS_DEFAULT           0x15 默认</li>
+</ul>
+</li>
+<li><ul>
+<li>QOS_CLASS_UTILITY           0x11 工具(低优先级, 苹果推荐将耗时操作放到这种类型的队列中)</li>
+</ul>
+</li>
+<li><ul>
+<li>QOS_CLASS_BACKGROUND        0x09 后台</li>
+</ul>
+</li>
+<li><ul>
+<li>QOS_CLASS_UNSPECIFIED       0x00 没有设置</li>
+</ul>
+<p>第二个参数: 废物<br>*/<br>dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</p>
+<p>/*<br>第一个参数: 用于存放任务的队列<br>第二个参数: 任务(block)</p>
+<p>GCD从队列中取出任务, 遵循FIFO原则 , 先进先出<br>输出的结果和苹果所说的原则不符合的原因: CPU可能会先调度其它的线程</p>
+<p>能够创建新线程的原因:<br>我们是使用”异步”函数调用<br>能够创建多个子线程的原因:<br>我们的队列是并发队列<br>*/<br>dispatch_async(queue, ^{<br>NSLog(@”任务1  == %@”, [NSThread currentThread]);<br>});<br>dispatch_async(queue, ^{<br>NSLog(@”任务2  == %@”, [NSThread currentThread]);<br>});<br>dispatch_async(queue, ^{<br>NSLog(@”任务3  == %@”, [NSThread currentThread]);<br>});<br>}<br>@end<br>线程间通信<br>#import “ViewController.h”</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>@interface ViewController ()<br>@property (weak, nonatomic) IBOutlet UIImageView *imageView;</p>
+<p>@end</p>
+<p>@implementation ViewController</p>
+<ul>
+<li><p>(void)touchesBegan:(NSSet <em>)touches withEvent:(UIEvent </em>)event<br>{<br>  NSLog(@”——–”);<br>  // 1.除主队列以外, 随便搞一个队列<br>  dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</p>
+<p>  // 2.调用异步函数<br>  dispatch_async(queue, ^{</p>
+<pre><code>// 1.下载图片
+NSURL *url = [NSURL URLWithString:@&quot;http://pic.4j4j.cn/upload/pic/20130531/07ed5ea485.jpg&quot;];
+NSData *data = [NSData dataWithContentsOfURL:url];
+// 2.将二进制转换为图片
+UIImage *image = [UIImage imageWithData:data];
 
-pod &apos;AFNetworking&apos;, &apos;~&gt; 3.0&apos;
+// 3.回到主线程更新UI
+</code></pre><p>//        self.imageView.image = image;</p>
+<pre><code>/*
+ 技巧:
+ 如果想等UI更新完毕再执行后面的代码, 那么使用同步函数
+ 如果不想等UI更新完毕就需要执行后面的代码, 那么使用异步函数
+ */
+dispatch_sync(dispatch_get_main_queue(), ^{ // 会等block代码执行完毕后，执行后面最后一句的打印代码
+    self.imageView.image = image;
+});
+NSLog(@&quot;设置图片完毕 %@&quot;, image);
+</code></pre><p>  });<br>}<br>@end<br>五、线程间通信<br>从子线程回到主线程<br>dispatch_async(<br>dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0),^{</p>
+<p>// 1. 执行耗时的异步操作<br>  …….</p>
+<p>//2. 回到主线程，执行UI刷新操作<br>dispatch_async(dispatch_get_main_queue(),^{</p>
+<p>//这里使用的是dispatch_async:不用等block执行完，就会调用下面的打印代码，如果替换为使用dispatch_sync同步函数：那么会等block执行更新UI完毕，才会执行最后一句打印代码</p>
+<pre><code>.......
+</code></pre><p>});<br>});</p>
+</li>
+</ul>
+<p>NSLog(@”更新UI界面结束”);<br>实例程序：子线程下载图片，回到主线程刷新UI界面</p>
+<p>#import “ViewController.h”</p>
+<p>@interface ViewController ()<br>@property (weak, nonatomic) IBOutlet UIImageView *imageView;</p>
+<p>@end</p>
+<p>@implementation ViewController</p>
+<ul>
+<li><p>(void)touchesBegan:(NSSet <em>)touches withEvent:(UIEvent </em>)event<br>{<br>  NSLog(@”——–”);<br>  // 1.除主队列以外, 随便搞一个队列<br>  dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</p>
+<p>  // 2.调用异步函数<br>  dispatch_async(queue, ^{</p>
+<pre><code>// 1.下载图片
+NSURL *url = [NSURL URLWithString:@&quot;https://www.baidu.com/img/bd_logo1.png&quot;];
+NSData *data = [NSData dataWithContentsOfURL:url];
+// 2.将二进制转换为图片
+UIImage *image = [UIImage imageWithData:data];
 
-end
-</code></pre><p>输入完成后按ESC退出编辑模式，最后输入:wq保存并退出文件。此时可以发现在项目目录下多了一个Podfile的文件，请注意这个文件必须与.xcodeproj在同一目录下。</p>
-<p>最后：</p>
-<p>pod install</p>
-<p>没报错就可以了。</p>
+// 3.回到主线程更新UI
+</code></pre><p>//        self.imageView.image = image;</p>
+<pre><code>/*
+ 技巧:
+ 如果想等UI更新完毕再执行后面的代码, 那么使用同步函数
+ 如果不想等UI更新完毕就需要执行后面的代码, 那么使用异步函数
+ */
+dispatch_sync(dispatch_get_main_queue(), ^{ // 会等block代码执行完毕后，执行后面最后一句的打印代码
+    self.imageView.image = image;
+});
+NSLog(@&quot;设置图片完毕 %@&quot;, image);
+</code></pre><p>  });<br>}<br>@end<br>六、延时执行<br>1、iOS常见的延时执行，调用NSObject的方法<br>performSelector 一旦定制好延时任务，不会卡住当前线程<br>//2秒后再调用self的run方法<br>[self performSelector:@selector(run) withObject:nil afterDelay:2.0];<br>2、使用GCD函数</p>
+<p>// 该方法中, 会根据传入的队列来决定回掉block在哪个线程中执行<br>// 如果传入的是主队列, 那么block会在主线程调用<br>// 如果传入的是全局队列, 那么block会在子线程中调用<br>dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{ // 这里传入全局队列会在子线程中执行block，如果传入主队列就会在主线程中执行block</p>
+<pre><code>NSLog(@&quot;3秒之后执行  %@&quot;, [NSThread currentThread]);
+</code></pre><p>});<br>3、使用NSTimer</p>
+</li>
+</ul>
+<p>[NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(test) userInfo:nil repeats:NO];</p>
+<ul>
+<li>(void)test{<br>  NSLog(@”—- begin—–”);<br>  [NSThread sleepForTimeInterval:3]; // 它会卡住线程<br>  NSLog(@”—- end—–”);<br>}<br>4 [NSThread sleepForTimeInterval:3];</li>
+</ul>
+<p>延时执行不要用 sleepForTimeInterval（它会卡住线程） ( 不使用 )</p>
+<ul>
+<li><p>(void)dely1{<br>// 1、延时执行不要用 sleepForTimeInterval（它会卡住线程）<br>NSLog(@”—- begin—–”);<br>[NSThread sleepForTimeInterval:3];<br>NSLog(@”—- end—–”);<br>}<br>7、一次性代码<br>使用dispatch_once函数能保证某段代码在程序运行过程中只被执行1次，只执行1次的代码(这里面默认是线程安全的)<br>注意： 千万不能把一次性代码当作懒加载来使用</p>
+<p> // 注意: 千万不能把一次性代码当作懒加载来使用<br> static dispatch_once_t onceToken;<br> dispatch_once(&amp;onceToken, ^{</p>
+<pre><code>NSLog(@&quot; 一次性代码&quot;);
+</code></pre><p> });<br>8、快速迭代<br>使用dispatch_apply函数能进行快速迭代遍历，但是它和for循环又有些不同</p>
+</li>
+</ul>
+<p>第一个参数: 需要遍历几次<br>第二个参数: 决定第三个参数的block在哪个线程中执行<br>第三个参数: 回掉<br>dispatch_apply(10, 队列queue, ^(size_tindex){<br>  //执行10次代码，index顺序不确定<br>});<br>实例：拷贝文件到目标目录中 ： 快速迭代实现<br>// 1.定义变量记录原始文件夹和目标文件夹的路径<br>    NSString <em>sourcePath = @”/Users/cjp/Desktop/原始文件”;<br>    NSString </em>destPath = @”/Users/cjp/Desktop/目标文件”;<br>    // 2.取出原始文件夹中所有的文件<br>    NSFileManager <em>manager = [NSFileManager defaultManager];<br>    NSArray </em>files = [manager subpathsAtPath:sourcePath];<br>    //    NSLog(@”%@”, files);<br>    // 3.开始拷贝文件<br>    /<em><br>     for (NSString </em>fileName in files) {<br>     // 3.1生产原始文件的绝对路径<br>     NSString <em>sourceFilePath = [sourcePath stringByAppendingPathComponent:fileName];<br>     // 3.2生产目标文件的绝对路径<br>     NSString </em>destFilePath = [destPath stringByAppendingPathComponent:fileName];<br>     //        NSLog(@”%@”, sourceFilePath);<br>     //        NSLog(@”%@”, destFilePath);<br>     // 3.3利用NSFileManager拷贝文件<br>     [manager moveItemAtPath:sourceFilePath toPath:destFilePath error:nil];<br>     }<br>     <em>/<br>    dispatch_apply(files.count, dispatch_get_global_queue(0, 0), ^(size_t index) {<br>        NSString </em>fileName = files[index];<br>        // 3.1生产原始文件的绝对路径<br>        NSString <em>sourceFilePath = [sourcePath stringByAppendingPathComponent:fileName];<br>        // 3.2生产目标文件的绝对路径<br>        NSString </em>destFilePath = [destPath stringByAppendingPathComponent:fileName];<br>        //        NSLog(@”%@”, sourceFilePath);<br>        //        NSLog(@”%@”, destFilePath);<br>        // 3.3利用NSFileManager拷贝文件<br>        [manager moveItemAtPath:sourceFilePath toPath:destFilePath error:nil];<br>    });<br>9、栅栏 dispatch_barrier_async<br>1、功能:<br>1.拦截前面的任务, 只有先添加到队列中的任务=执行完毕, 才会执行栅栏添加的任务<br>2.如果栅栏后面还有其它的任务, 那么必须等栅栏执行完毕才会执行后面的其它任务<br>2、注意点：<br>1.如果想要使用栅栏, 那么就不能使用全局的并发队列<br>2.如果想使用栅栏, 那么所有的任务都必须添加到同一个队列中<br>3、实例：合并两种图片，异步函数并发队列多线程下载图片，多个线程同时下载图片，当两种图片下载完毕 -&gt; 开启栅栏功能子线程中进行合并图片，合成图片结束后，再会到主线程更新UI，<br>使用，栅栏可以实现该需求，使用下面介绍的队列组也可以实现该功能</p>
+<ul>
+<li><p>(void)barrier<br>{<br>  dispatch_queue_t queue = dispatch_queue_create(“cjp”, DISPATCH_QUEUE_CONCURRENT);<br>  //    dispatch_queue_t queue2 = dispatch_queue_create(“cjp”, DISPATCH_QUEUE_CONCURRENT);<br>  //    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);</p>
+<p>  <strong>block UIImage *image1 = nil;
+  </strong>block UIImage *image2 = nil;<br>  // 1.开启一个新的线程下载第一张图片<br>  dispatch_async(queue, ^{</p>
+<pre><code>NSURL *url = [NSURL URLWithString:@&quot;https://img.alicdn.com/tps/i1/TB1AE.sFVXXXXaCXFXXwu0bFXXX.png&quot;];
+NSData *data = [NSData dataWithContentsOfURL:url];
+UIImage *image = [UIImage imageWithData:data];
+image1 = image;
+NSLog(@&quot;图片1下载完毕&quot;);
+</code></pre><p>  });<br>  // 2.开启一个新的线程下载第二张图片<br>  dispatch_async(queue, ^{</p>
+<pre><code>NSURL *url = [NSURL URLWithString:@&quot;https://www.baidu.com/img/bd_logo1.png&quot;];
+NSData *data = [NSData dataWithContentsOfURL:url];
+UIImage *image = [UIImage imageWithData:data];
+image2 = image;
+NSLog(@&quot;图片2下载完毕&quot;);
+</code></pre><p>  });</p>
+<p>  // 3.开启一个新的线程, 合成图片<br>  // 栅栏<br>  dispatch_barrier_async(queue, ^{</p>
+<pre><code>// 图片下载完毕
+ NSLog(@&quot;%@ %@&quot;, image1, image2);
+
+ // 1.开启图片上下文
+ UIGraphicsBeginImageContext(CGSizeMake(200, 200));
+ // 2.将第一张图片画上去
+ [image1 drawInRect:CGRectMake(0, 0, 100, 200)];
+ // 3.将第二张图片画上去
+ [image2 drawInRect:CGRectMake(100, 0, 100, 200)];
+ // 4.从上下文中获取绘制好的图片
+ UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+ // 5.关闭上下文
+ UIGraphicsEndImageContext();
+
+ // 4.回到主线程更新UI
+ dispatch_async(dispatch_get_main_queue(), ^{
+     self.imageView.image = newImage;
+</code></pre><p>// 将合并后的图片写到本地桌面：</p>
+<pre><code>    [UIImagePNGRepresentation(newImage) writeToFile:@&quot;/Users/cjp/Desktop/123.png&quot; atomically:YES];
+});
+
+NSLog(@&quot;栅栏执行完毕了&quot;);
+</code></pre><p>  });</p>
+<p>  dispatch_async(queue, ^{</p>
+<pre><code>NSLog(@&quot;---------&quot;);
+</code></pre><p>  });<br>  dispatch_async(queue, ^{</p>
+<pre><code>NSLog(@&quot;---------&quot;);
+</code></pre><p>  });<br>  dispatch_async(queue, ^{</p>
+<pre><code>NSLog(@&quot;---------&quot;);
+</code></pre><p>  });<br>}<br>10、队列组 dispatch_group_t<br>应用场景：分别异步执行2个耗时的操作，要等2个异步操作都执行完毕后，再回到主线程执行操作<br>注意：该场景，使用上面的栅栏也可解决<br>dispatch_group_tgroup =  dispatch_group_create();<br>dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0),^{<br>  //执行1个耗时的异步操作<br>});<br>dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0),^{<br>  //执行1个耗时的异步操作<br>});<br>dispatch_group_notify(group, dispatch_get_main_queue(),^{<br>  //等前面的异步操作都执行完毕后，回到主线程…<br>});<br>实例：异步线程中，下载两种图片，在dispatch_group_notify通知中说明图片下载完-&gt; 合并图片，合并图片结束后 -&gt;再回到主线程中更新UI</p>
+</li>
+<li><p>(void)touchesBegan:(NSSet <em>)touches withEvent:(UIEvent </em>)event<br>{<br>   NSLog(@”%s”, <strong>func</strong>);</p>
+<p>  dispatch_queue_t queue = dispatch_queue_create(“cjp”, DISPATCH_QUEUE_CONCURRENT);</p>
+<p>  <strong>block UIImage *image1 = nil;
+  </strong>block UIImage *image2 = nil;</p>
+<p>  dispatch_group_t group = dispatch_group_create();</p>
+<p>  // 1.开启一个新的线程下载第一张图片<br>  dispatch_group_async(group, queue, ^{</p>
+<pre><code>NSURL *url = [NSURL URLWithString:@&quot;https://img.alicdn.com/tps/i1/TB1AE.sFVXXXXaCXFXXwu0bFXXX.png&quot;];
+NSData *data = [NSData dataWithContentsOfURL:url];
+UIImage *image = [UIImage imageWithData:data];
+image1 = image;
+NSLog(@&quot;图片1下载完毕&quot;);
+</code></pre><p>  });</p>
+<p>  // 2.开启一个新的线程下载第二张图片<br>  dispatch_group_async(group, queue, ^{</p>
+<pre><code>NSURL *url = [NSURL URLWithString:@&quot;https://www.baidu.com/img/bd_logo1.png&quot;];
+NSData *data = [NSData dataWithContentsOfURL:url];
+UIImage *image = [UIImage imageWithData:data];
+image2 = image;
+NSLog(@&quot;图片2下载完毕&quot;);
+</code></pre><p>  });</p>
+<p>  // 3.开启一个新的线程, 合成图片<br>  // 只要将队列放到group中, 队列中的任务执行完毕, group就会发出一个通知</p>
+<p>  dispatch_group_notify(group, queue, ^{</p>
+<pre><code>NSLog(@&quot;%@ %@&quot;, image1, image2);
+// 1.开启图片上下文
+UIGraphicsBeginImageContext(CGSizeMake(200, 200));
+// 2.将第一张图片画上去
+[image1 drawInRect:CGRectMake(0, 0, 100, 200)];
+// 3.将第二张图片画上去
+[image2 drawInRect:CGRectMake(100, 0, 100, 200)];
+// 4.从上下文中获取绘制好的图片
+UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+// 5.关闭上下文
+UIGraphicsEndImageContext();
+
+// 4.回到主线程更新UI
+dispatch_async(dispatch_get_main_queue(), ^{
+    self.imageView.image = newImage;
+    [UIImagePNGRepresentation(newImage) writeToFile:@&quot;/Users/cjp/Desktop/123.png&quot; atomically:YES];
+});
+</code></pre><p>  });<br>}</p>
+</li>
+</ul>
 
       
     </div>
