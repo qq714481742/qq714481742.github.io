@@ -15,23 +15,24 @@
 
 
 
-<meta name="description" content="#支付宝集成中获取私钥与公钥  
-项目需要在客户端中集成支付宝接口，就研究了一下。需要到支付宝官网注册账号并申请商户服务登录成功后，商户在《我的商家服务—&amp;gt;在页面的下方找到—&amp;gt;签约管理—&amp;gt;找到移动支付—&amp;gt;点击下载集成文档—&amp;gt;跳到新的页面，在页面下方—&amp;gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件这时候要打开《支付宝钱包支付接口开发包2.0标准">
+<meta name="description" content="#YYModel简析
+一、YYCLassInfo文件     YYClassIVarInfo：存放变量的Model     YYClassMethodInfo：存放方法的Model     YYClassPropertyInfo：存放property的Model     YYClassInfo：存放类信息的Model
+YYClassIvarInfo：通过Ivar来初始化，赋值相应的需要保存的字段，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="木子blog">
-<meta property="og:url" content="http://yoursite.com/2016/08/03/支付宝集成中的公钥和私钥/index.html">
+<meta property="og:title" content="NSURLSession">
+<meta property="og:url" content="http://yoursite.com/2015/06/09/YYModel简单解析/index.html">
 <meta property="og:site_name" content="木子blog">
-<meta property="og:description" content="#支付宝集成中获取私钥与公钥  
-项目需要在客户端中集成支付宝接口，就研究了一下。需要到支付宝官网注册账号并申请商户服务登录成功后，商户在《我的商家服务—&amp;gt;在页面的下方找到—&amp;gt;签约管理—&amp;gt;找到移动支付—&amp;gt;点击下载集成文档—&amp;gt;跳到新的页面，在页面下方—&amp;gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件这时候要打开《支付宝钱包支付接口开发包2.0标准">
-<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/DB2DA2CA-FE1D-46F9-A44D-B95F963FD7BF.png">
-<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29AC-4C2B-A34A-0911AD77FD30.png">
-<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29A1111C-4C2B-A34A-0911AD77FD30.png">
-<meta property="og:updated_time" content="2016-08-03T03:34:56.000Z">
+<meta property="og:description" content="#YYModel简析
+一、YYCLassInfo文件     YYClassIVarInfo：存放变量的Model     YYClassMethodInfo：存放方法的Model     YYClassPropertyInfo：存放property的Model     YYClassInfo：存放类信息的Model
+YYClassIvarInfo：通过Ivar来初始化，赋值相应的需要保存的字段，">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/744505-20160726103449934-1188853599.png">
+<meta property="og:updated_time" content="2016-08-03T04:08:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="木子blog">
-<meta name="twitter:description" content="#支付宝集成中获取私钥与公钥  
-项目需要在客户端中集成支付宝接口，就研究了一下。需要到支付宝官网注册账号并申请商户服务登录成功后，商户在《我的商家服务—&amp;gt;在页面的下方找到—&amp;gt;签约管理—&amp;gt;找到移动支付—&amp;gt;点击下载集成文档—&amp;gt;跳到新的页面，在页面下方—&amp;gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件这时候要打开《支付宝钱包支付接口开发包2.0标准">
-<meta name="twitter:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/DB2DA2CA-FE1D-46F9-A44D-B95F963FD7BF.png">
+<meta name="twitter:title" content="NSURLSession">
+<meta name="twitter:description" content="#YYModel简析
+一、YYCLassInfo文件     YYClassIVarInfo：存放变量的Model     YYClassMethodInfo：存放方法的Model     YYClassPropertyInfo：存放property的Model     YYClassInfo：存放类信息的Model
+YYClassIvarInfo：通过Ivar来初始化，赋值相应的需要保存的字段，">
+<meta name="twitter:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/744505-20160726103449934-1188853599.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -63,7 +64,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>木子blog</title>
+<title>NSURLSession | 木子blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -272,11 +273,11 @@
     </div>
     <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
-      <div class="body-wrap"><article id="post-支付宝集成中的公钥和私钥" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-YYModel简单解析" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/03/支付宝集成中的公钥和私钥/" class="article-date">
-      <time datetime="2016-08-03T03:34:56.000Z" itemprop="datePublished">2016-08-03</time>
+      <a href="/2015/06/09/YYModel简单解析/" class="article-date">
+      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
 </a>
     </div>
   
@@ -285,19 +286,43 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NSURLSession
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>#支付宝集成中获取私钥与公钥  </p>
-<p>项目需要在客户端中集成支付宝接口，就研究了一下。<br>需要到支付宝官网注册账号并申请商户服务<br>登录成功后，商户在《我的商家服务—&gt;在页面的下方找到—&gt;签约管理—&gt;找到移动支付—&gt;点击下载集成文档—&gt;跳到新的页面，在页面下方—&gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件<br>这时候要打开《支付宝钱包支付接口开发包2.0标准版》，打开之后有一个Demo文件，里面有三个文件夹：openssl、服务端Demo，客户端Demo，这个时候，我们需要关心得是openssl文件与客户端Demo的文件<br>第三个Demo文件中有iOS版与Android版的Demo。但是你要部署运行的时候，发现不能运行成功，因为项目主文件中需要填写 partner、seller、rsa_private、rsa_public四个参数<br>因为这些都是需要根据商户注册的信息来填写的，所以就算是下载了Demo也没有用，下面就讲一下如何获取公钥与私钥<br>首先找到openssl文件，点击终端打开<br>打开命令框后:输入第一行命令 ，生成私钥，如下：</p>
-<pre><code>genrsa -out rsa_private_key.pem 1024
-</code></pre><p>按回车键，接着输入第二行命令，生成公钥：</p>
-<pre><code>rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-</code></pre><p>按回车键，接着输入第三行命令，将RSA私钥转换成PKCS8格式</p>
-<pre><code>pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
-</code></pre><p>执行完这三个命令后，就生成了两个以.pem结尾的文件，这就是我们生成为公钥与私钥。<br>复制到桌面上用文本编辑打开即可，因为我们需要的只是里面的字符串。记住当我们引用这两个长的字符串的时候，需要注意的是：不能包括、换行、空格以及误加其他字符，所以复制的时候要小心<br>当然私钥就是我们需要的私钥了，如何获得支付宝公钥呢：  </p>
-<p>回到支付宝首先，首先登录,<br> 点击“查看PID|KEY”，在新打开的页面（<a href="https://b.alipay.com/rder/pidAndKey.htm" target="_blank" rel="external">https://b.alipay.com/rder/pidAndKey.htm</a> ），可查看到签约支付宝账号、合作者身份        ID（PID.<br>：输入支付密码，查询key、支付宝公钥。<br>三：上传RSA公钥，在“合作伙伴密钥管理”下，点击“RSA加密”后的“添加密钥”，把自己的公钥复制进去。注意不能有空格，换行之类的。<br>如图：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/DB2DA2CA-FE1D-46F9-A44D-B95F963FD7BF.png" alt=""><br><img src="/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29AC-4C2B-A34A-0911AD77FD30.png" alt=""><br>四：点击确认上传，若是提示上传成功。则就是成功。<br>这个时候就可查看支付宝公钥了。如图：</p>
-<p><img src="/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29A1111C-4C2B-A34A-0911AD77FD30.png" alt=""></p>
+        <p>#YYModel简析</p>
+<p>一、YYCLassInfo文件<br>     YYClassIVarInfo：存放变量的Model<br>     YYClassMethodInfo：存放方法的Model<br>     YYClassPropertyInfo：存放property的Model<br>     YYClassInfo：存放类信息的Model</p>
+<p>YYClassIvarInfo：通过Ivar来初始化，赋值相应的需要保存的字段，比较简单。<br>YYClassMethodInfo：通过Method来初始化，跟Ivar不同的是，typeEncoding有两个，一个是参数的，一个是返回值的。打印了一个例子，如下图：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/744505-20160726103449934-1188853599.png" alt=""></p>
+<p>分别是参数和返回值的typeEncoding、返回值的、参数的<br>YYClassPropertyInfo：通过objc_property_t来初始化，保存一些相关的信息。<br>YYClassInfo：可以通过Class，也可以使用NSString * className来初始化，保存相关类的信息。</p>
+<p>二、NSObject+YYModel文件<br> 这个文件是YYModel的核心，提供了一些，son转model、字典转model、model转NSData、model转Json等方法。<br>1、两个model，一个是_YYModelPropertyMeta、一个是_YYModelMeta。<br>_YYModelPropertyMeta:<br>     是对YYClassPropertyInfo的进一步封装，加入了一些操作性的或者说是功能性的封装。比如是否是C number type、是否支持KVC、是否可以被归档、是否有自定义的映射字典等等。还有一个比较特殊的是next，next是指向下一个_YYModelPropertyMeta的指针，他是用来处理多个属性映射到同一个key上时使用的。<br>_YYModelMeta：<br>     是对YYClassInfo一层解析，映射了每个property的key对应的_YYModelPropertyMeta——&gt;mapper、所有的_YYModelPropertyMeta——&gt;allPropertyMetas、所有的解析了keyPath的_YYModelPropertyMeta——&gt;keyPathPropertyMetas、多个key对应的_YYModelPropertyMeta——&gt;multiKeysPropertyMetas、映射了mapper.count——&gt;keyMappedCount、Model class type ——&gt; nsType、以及这个model是否实现了支持dic转model，转成dic和dic转class。</p>
+<p>2、内联函数<br>     1）YYClassGetNSType：获取Class的Foundation class type<br>     2）YYEncodingTypeIsCNumber：判断YYEncodingType是否是C number（常用数据类型）<br>     3）YYNSNumberCreateFromID：把一个id类型的值转换成NSNumber类型，这个函数主要是处理string类型的数据。其中使用到了几个c函数，分别如下：<br>     atop(const char <em>cstring)返回一个double类型，转换string为double<br>     isnan(double num) 确定是不是一个数，是否是无穷大或无穷小<br>     isinf(double num) num为正无穷返回1、num为负无穷返回-1<br>     atoll(const char </em>cstring)返回一个long long int<br>     4）YYNSDateFormString：格式化时间string<br>          这个函数适配了Google、Github、Apple、Facebook、Weibo、Twitter的几种时间的格式，通过一个block，使用不同的回调来实现不同的适配。<br>          其中学到了使用block数组来根据不同的场景，实现不同的回调。<br>     5）YYNSBlockClass：获得NSBlock类型，再确认属性类型时使用<br>     6）YYISODateFormatter：从命名可以知道作用<br>     7）YYValueForKeyPath和YYValueForMultiKeys：使用key或者keys从dic中取得value</p>
+<pre><code>8）ModelCreateNumberFromProperty：从_YYModelPropertyMeta中得到Number（使用在属性是number的情况）,通过runtime方法objc_msgSend向当前的model发送消息（getter），得到number。
+9）ModelSetNumberToProperty：通过_YYModelPropertyMeta设置property的number（使用在属性是number的情况），同上，给当前model设置数值。
+10）ModelSetValueForProperty：从命名可以看出这个是set property的方法，它根据meta中保存的当前property是什么类型来确定使用什么类型来初始化当前property的值
+11）ModelSetWithDictionaryFunction：对ModelSetValueForProperty的封装，更好的通过解析字典的数据到model中，使用CFDictionaryApplyFunction函数来调用，实现解析字典中的每一个key对应的值
+12）ModelSetWithPropertyMetaArrayFunction：解析多个key对应一个property meta的情况
+13）ModelToJSONObjectRecursive：model转换为json
+</code></pre><p>3、NSObject、NSArray、NSDictionary的分类<br>     定义接口通过上述的内联函数实现相应的功能，方便外部调用，通过这一层封装就可以简单明了的调用这些方法来实现功能了，具体的使用请看大神@ibireme的使用说明<a href="https://github.com/ibireme/YYModel。" target="_blank" rel="external">https://github.com/ibireme/YYModel。</a></p>
+<p>其中在YYClassIvarInfo、YYCLassMethodInfo、YYClassPropertyInfo中都有一个TypeEncoding的属性，相关的具体内容请查看Type Encoding:官方链接：<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5" target="_blank" rel="external">https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5</a></p>
+<p>最后说一下写在 最前面的宏定义，</p>
+<p>#define force_inline <strong>inline</strong> <strong>attribute</strong>((always_inline))<br>从字面意思就可以看出来，是强制内联的意思。<br>inline关键字仅仅是建议编译器做内联展开处理，不是强制的。在gcc编译器中，如果编译优化设置为O0，即使是inline函数也不会被内联展开，除非强制内联。<br>1、inline<br>     inline主要是用来替换C中的表达式形式的宏定义，因为这样的宏定义其实类似于一个函数，但是在宏定义中只是做了简单的符号替换，它不能进行参数有效性的检查，也不能享受编译器严格严查的好处，同时返回值也不能被强制类型转换等等，这样使用宏定义就存在一系列的隐患和局限性。所以出现了inline关键字。<br>     因此，inline函数也是直接使用的替换（像宏一样），没有了调用的开销，效率比较高。<br>     inline在文件内部调用时，会被内联展开，但是gcc还是会为inline函数生成一份独立的汇编码以供外部文件使用。gcc的inline函数是全局的，文件内是内联展开，文件外和普通的extern函数一样。<br>2、static inline<br>     也是和inline一样建议编译器内联展开，gcc一般不会为static inline函数生成一份独立的汇编码，但是当函数本身递归：函数的地址被使用（函数指针），也是会不展开的。</p>
 
       
     </div>
@@ -306,13 +331,13 @@
   
     
     <div class="copyright">
-        <p><span>Title:</span><a href="/2016/08/03/支付宝集成中的公钥和私钥/"></a></p>
+        <p><span>Title:</span><a href="/2015/06/09/YYModel简单解析/">NSURLSession</a></p>
         <p><span>Author:</span><a href="/" title="Back to Homepage">木辰飞</a></p>
-        <p><span>Created:</span>2016-08-03, 11:34:56</p>
-        <p><span>Updated:</span>2016-08-03, 11:34:56</p>
+        <p><span>Created:</span>2015-06-09, 11:21:18</p>
+        <p><span>Updated:</span>2016-08-03, 12:08:09</p>
         <p>
-            <span>Full URL:</span><a class="post-url" href="/2016/08/03/支付宝集成中的公钥和私钥/" title="">http://yoursite.com/2016/08/03/支付宝集成中的公钥和私钥/</a>
-            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2016/08/03/支付宝集成中的公钥和私钥/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <span>Full URL:</span><a class="post-url" href="/2015/06/09/YYModel简单解析/" title="NSURLSession">http://yoursite.com/2015/06/09/YYModel简单解析/</a>
+            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2015/06/09/YYModel简单解析/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -325,15 +350,15 @@
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/08/03/Cocoapods配置/">
-                    
+                <a href="/2015/06/10/二维码生成/">
+                    二维码生成
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/08/03/集成支付宝/">
-                    
+                <a href="/2015/06/09/NSURLSession/">
+                    NSURLSession
                 </a>
             </div>
         
@@ -375,7 +400,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"NSURLSession　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -395,7 +420,7 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/08/03/Cocoapods配置/" title="Pre: ">
+            <a href="/2015/06/10/二维码生成/" title="Pre: 二维码生成">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -403,13 +428,13 @@
         <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/08/03/集成支付宝/" title="Next: ">
+            <a href="/2015/06/09/NSURLSession/" title="Next: NSURLSession">
                 <i class="fa fa-angle-right"></i>
             </a>
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/SDK制作流程/">SDK制作流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/BUG收集之malformed/">BUG收集之malformed</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/YYModel简单解析/">YYModel简单解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/利用KVC对UITabBar上的UITabBarButton的修改/">利用KVC对UITabBar上的UITabBarButton的修改</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/简单的图片和视频播放的框架　/">简单的图片和视频播放的框架　</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/Cocoapods配置/">Cocoapods配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/支付宝集成中的公钥和私钥/">支付宝集成中的公钥和私钥</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/集成支付宝/">集成支付宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/将秒数转化为日期/">将秒数转化为日期</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/GCD/">GCD</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/10/二维码生成/">二维码生成</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/NSURLSession/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/CocoaPods安装/">CocoaPods安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/Cocoapods配置/">Cocoapods配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/集成支付宝/">集成支付宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/GCD/">GCD</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/10/二维码生成/">二维码生成</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/YYModel简单解析/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/NSURLSession/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/BUG收集之malformed/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/简单的图片和视频播放的框架　/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/将秒数转化为日期/">将秒数转化为日期</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/CocoaPods安装/">CocoaPods安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a></li></ul>
 
 
 

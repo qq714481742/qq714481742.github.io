@@ -271,532 +271,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-SDK制作流程" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/SDK制作流程/" class="article-date">
-      <time datetime="2016-08-03T04:02:07.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>SDK制作<br>一个简单的SDK制作是很容易的，复杂的sdk其实就和复杂化的应用一样，都是从简单开始的，这里介绍一下sdk的简单制作</p>
-<p>步骤:</p>
-<p>1.创建sdk,公开文件</p>
-<p>2.编译、获取sdk文件</p>
-<p>3.导入工程，配置文件</p>
-<p>4.解决错误,完成</p>
-<p>1.创建sdk,公开文件<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714135219123-1393837785.png" alt=""><br>然后起个需要的名字<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714135700061-1853831370.png" alt="">  </p>
-<p>创建出这样的sdk,自动生成的文件和普通工程的viewController一样都是可以删的，不喜欢的可以尽管删</p>
-<p>介绍使用sdk里面的类和带xib的控制器</p>
-<p>先说类，用这个自动生成的，在类里面添加一个打印的方法<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714141002826-706931075.png" alt="">  </p>
-<p>.h文件</p>
-<p>复制代码</p>
-<p>#import <foundation foundation.h=""></foundation></p>
-<p>@interface SDK : NSObject</p>
-<p>-(void)sdkLog;</p>
-<p>@end<br>复制代码<br>.m文件</p>
-<p>复制代码</p>
-<p>#import “SDK.h”</p>
-<p>@implementation SDK</p>
-<p>-(void)sdkLog<br>{<br>    NSLog(@”sdkAction”);<br>}</p>
-<p>@end<br>复制代码<br>就是这样普通，然后说下控制器</p>
-<p>先创建一个控制器，名为：</p>
-<p>SDKViewController　　记得勾选添加xib,等下要说明一下暴露文件的<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714140920764-1100504872.png" alt=""><br>然后在xib上随便添加点什么东西,等下跳转</p>
-<p><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714141407607-1000538216.png" alt=""></p>
-<p>自己能确定跳转来的是我们sdk里的这个控制器就行了</p>
-<p>接下来的比较重要，我们做一个sdk静态库就是为了保护和不让人看见里面的实现内容，但如果是需要被人调用的部分，还是需要暴露出来的，那怎么做呢？<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714142830529-213766920.png" alt=""><br>按图操作就能把文件暴露出来，暴露需要被调用的头文件，注意，如果暴露的头文件里包括控制器，而且控制器是有xib文件的，那么xib一定也得暴露出来，否则等下在其他工程里调用的时候，找不到xib的</p>
-<p>到这里sdk制作就告一段落，sdk包分三种：真机sdk包，虚拟机sdk包，两种包的合并，合并的就不说了，有兴趣的百度下，一般真正在使用时是不用合并包的，用微博，qq什么sdk的时候就知道，都是把两种包分开的，因为合并的包比较大这样会导致打包后的ipa包变大，引起用户的不满，浪费用户流量。</p>
-<p>2.编译、获取sdk文件</p>
-<p>接下去－&gt; 编译，选择真机或者Geneic iOS Device编译出来的就是真机sdk，选择虚拟机编译出来的就是虚拟机sdk</p>
-<p>真机sdk：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152517170-1095490693.png" alt=""><br>选择真机或者Geneic iOS Device编译，原本红色的libSDK.a就变成灰色，表示文件存在<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152542248-533919536.png" alt=""><br>选中libSDK.a点击右键选择show in finder就能看到内容了:<br>    <img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152555482-1994964224.png" alt=""><br>    注意这里文件夹的名字，Debug-iphoneos文件夹是真机sdk文件夹，等下看看虚拟机sdk文件夹的名字</p>
-<p>这里include文件夹里面的文件就是暴露的文件，在把libsdk.a加进工程时也要把里面的文件一起加进去的，真机和虚拟机sdk使用是一样的,先看虚拟机的问题</p>
-<p>虚拟机sdk:</p>
-<p>这里先clear一下，把刚才编程的真机sdk包清理掉才能看到xcode7虚拟机带来的问题，清理完后libSDK.a就是红色的了，不存在</p>
-<p>然后选择虚拟机编译，如果你用的是xcode7，你会发现怎么编译，libSDK.a都是红色的，这个是xcode7的bug，之前有人说xcode7没法编译虚拟机的sdk，这是错的，不用着急，照样可以生成，如果编译提示success其实虚拟机sdk还是成功生成的，只是在xcode上看不到，这时不用clear，把真机sdk包也一起编译了，生成了真机的sdk，这里点击libsdk.a文件show in finder，这里就看到的是上面那种情况</p>
-<p>注意 </p>
-<p>之前提过文件夹的名字，现在看到的文件夹还是真机sdk的文件夹，就是你再点虚拟机的编译多一次进来，也会发现是真机的文件夹，这时候按  command+⬆️，返回上层文件夹:<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714154409857-533156572.png" alt=""></p>
-<p>  现在就看到两个文件夹了，左边的是真机sdk文件夹，右边的是虚拟机sdk文件夹，点击虚拟机文件夹进去就能看到和真机sdk一样的内容，xcode7可以通过这种方式来找虚拟机sdk文件夹的</p>
-<p>3.导入工程，配置文件</p>
-<p>用虚拟机示范下</p>
-<p>创建一个新工程，例如命名test:<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714160028451-2033442364.png" alt=""><br>把include里面的文件夹还有.a文件拉到工程里面如果没勾选要记得勾选add to targets:<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714155913982-1814916964.png" alt=""><br>然后配置一下，选择在配置里搜索search，如果里面的library search paths为空，那么双击空处箭头的地方给它添加一个库的寻找路径，给.a文件路径如 $(PROJECT_DIR)/text/libSDK.a</p>
-<p>或者自己加可以找到.a文件的其他路径也可以</p>
-<p>不然会找不到.a文件<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714164810701-1967178863.png" alt=""><br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714173917889-7684701.png" alt=""><br>再搜索other linker,给other linker flags加上　　-Objc　　和 　　-all_load,-all_load视情况加，可不加下面有说明<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714164913295-1339079621.png" alt=""><br>Other Linker Flags：其他链接标签</p>
-<p>设为”-ObjC”</p>
-<p>当导入的静态库使用了类别，需要设为-ObjC，就算没有使用也给配上，预防以后使用其他的sdk里面有</p>
-<p>补充：Other Linker Flags设置的值介绍</p>
-<p>－ObjC：加了这个参数后，链接器就会把静态库中所有的Objective-C类和分类都加载到最后的可执行文件中</p>
-<p>－all_load：会让链接器把所有找到的目标文件都加载到可执行文件中，但是千万不要随便使用这个参数！假如你使用了不止一个静态库文件，然后又使用了这个参数，那么你很有可能会遇到ld: duplicate symbol错误，因为不同的库文件里面可能会有相同的目标文件，所以建议在遇到-ObjC失效的情况下使用-force_load参数。<br>-force_load：所做的事情跟-all_load其实是一样的，但是-force_load需要指定要进行全部加载的库文件的路径，这样的话，你就只是完全加载了一个库文件，不影响其余库文件的按需加载</p>
-<p>这样就配置完了</p>
-<p>最后是校验是否能使用sdk了</p>
-<p>可以在appdelegate里面这样写</p>
-<p>AppDelegate.m文件里先导入工程使用的控制器</p>
-<p>#import “ViewController.h”</p>
-<p>在下面这个方法里添加导航控制器，因为要跳转到sdk里面的控制器需要</p>
-<p>复制代码</p>
-<ul>
-<li><p>(BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions {<br>  // Override point for customization after application launch.</p>
-<p>  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];</p>
-<p>  ViewController <em>rootViewController = [[ViewController alloc] init];<br>  UINavigationController </em>nav = [[UINavigationController alloc]initWithRootViewController:rootViewController];<br>  self.window.rootViewController = nav;<br>  [self.window makeKeyAndVisible];<br>  return YES;<br>}<br>复制代码</p>
-</li>
-</ul>
-<p>然后在viewController.m里面</p>
-<p>或者你如果想看得更明显一点自己加button，加跳转事件才去跳转到sdk里，这里我就偷懒一下了</p>
-<p>复制代码<br> 1 #import “ViewController.h”<br> 2 #import “SDK.h”<br> 3 #import “SDKViewController.h”<br> 4<br> 5 @interface ViewController ()<br> 6<br> 7 @end<br> 8<br> 9 @implementation ViewController<br>10<br>11 - (void)viewDidLoad {<br>12     [super viewDidLoad];<br>13<br>14<br>15     SDK <em>sdk = [[SDK alloc]init];<br>16     [sdk sdkLog];<br>17<br>18     SDKViewController </em>sdkCtl = [[SDKViewController alloc]init];<br>19     [self.navigationController pushViewController:sdkCtl animated:YES];<br>20 }<br>21<br>22 @end<br>复制代码<br> 完成编译运行</p>
-<p>4.解决错误,完成</p>
-<p> 写完编译工程，如果出现类似这样的情况:<br> <img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714173948529-312070211.png" alt=""><br> 那是因为虚拟机sdk的编译包也有不同的像i386，x86_64，arm，arm64等，这是我们所需要包的Charts.framework不对，这里不细说了，想了解的可以百度i386，x86_64，arm，arm64的区别，这里最简单直接的解决办法是在编译sdk时选择什么虚拟机，那运行时也用什么虚拟机，但如果sdk编译时用5s、6、6 plus、6s、6s plus编译，那么这些的sdk在这些虚拟机上都能通用，这样也不用考虑那么多了。</p>
-<p>framework制作静态库可以和.a是一样的</p>
-<p>想制作全部通用的虚拟机sdk包可以参考<a href="http://blog.csdn.net/lizhongfu2013/article/details/12648633" target="_blank" rel="external">http://blog.csdn.net/lizhongfu2013/article/details/12648633</a></p>
-<p>最后运行打印出了</p>
-<p>sdkAction</p>
-<p>界面上显示了sdk里控制器里的界面，恭喜你完成了。</p>
-<p>看上面似乎很多内容，其实做多几次了解之后就知道是很简单的,frameword制作静态库时也是这样，动态库就不一样了，也不推荐工程里用自己做的动态库，app store会审核不通过的，然后是debug和release模式，制作真正的sdk时应该在product-&gt;scheme-&gt;edit scheme的Build Configuration里面把Debug切换为release然后再编译使用，和工程里面是一样的道理，如果都完成了应该换。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-BUG收集之malformed" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/BUG收集之malformed/" class="article-date">
-      <time datetime="2016-08-03T03:51:08.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#BUG收集之关于报malformed or corrupted AST file: ‘Unable to load module 的错  </p>
-<p>今天早上 一运行程序 居然报错，我都惊呆了，昨天明明好好的～但是百度是强大的～</p>
-<p>报错内容： malformed or corrupted AST file: ‘Unable to load module “/Users/Chenglijuan/Library/Developer/Xcode/DerivedData/ModuleCache/3SB6LTSGGAIAR/UIKit-14AN6JOCHQYY4.pcm”: module file out of date’</p>
-<p>解决办法：</p>
-<p>只需要清除继承数据文件夹即可。</p>
-<p>具体操作为：进入XCode的Window，选择Projects，然后选择出现问题的 project ，点击delete button删除Derived data.</p>
-<p>重新编译项目，即可。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-YYModel简单解析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/YYModel简单解析/" class="article-date">
-      <time datetime="2016-08-03T03:48:26.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#YYModel简析</p>
-<p>一、YYCLassInfo文件<br>     YYClassIVarInfo：存放变量的Model<br>     YYClassMethodInfo：存放方法的Model<br>     YYClassPropertyInfo：存放property的Model<br>     YYClassInfo：存放类信息的Model</p>
-<p>YYClassIvarInfo：通过Ivar来初始化，赋值相应的需要保存的字段，比较简单。<br>YYClassMethodInfo：通过Method来初始化，跟Ivar不同的是，typeEncoding有两个，一个是参数的，一个是返回值的。打印了一个例子，如下图：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/744505-20160726103449934-1188853599.png" alt=""></p>
-<p>分别是参数和返回值的typeEncoding、返回值的、参数的<br>YYClassPropertyInfo：通过objc_property_t来初始化，保存一些相关的信息。<br>YYClassInfo：可以通过Class，也可以使用NSString * className来初始化，保存相关类的信息。</p>
-<p>二、NSObject+YYModel文件<br> 这个文件是YYModel的核心，提供了一些，son转model、字典转model、model转NSData、model转Json等方法。<br>1、两个model，一个是_YYModelPropertyMeta、一个是_YYModelMeta。<br>_YYModelPropertyMeta:<br>     是对YYClassPropertyInfo的进一步封装，加入了一些操作性的或者说是功能性的封装。比如是否是C number type、是否支持KVC、是否可以被归档、是否有自定义的映射字典等等。还有一个比较特殊的是next，next是指向下一个_YYModelPropertyMeta的指针，他是用来处理多个属性映射到同一个key上时使用的。<br>_YYModelMeta：<br>     是对YYClassInfo一层解析，映射了每个property的key对应的_YYModelPropertyMeta——&gt;mapper、所有的_YYModelPropertyMeta——&gt;allPropertyMetas、所有的解析了keyPath的_YYModelPropertyMeta——&gt;keyPathPropertyMetas、多个key对应的_YYModelPropertyMeta——&gt;multiKeysPropertyMetas、映射了mapper.count——&gt;keyMappedCount、Model class type ——&gt; nsType、以及这个model是否实现了支持dic转model，转成dic和dic转class。</p>
-<p>2、内联函数<br>     1）YYClassGetNSType：获取Class的Foundation class type<br>     2）YYEncodingTypeIsCNumber：判断YYEncodingType是否是C number（常用数据类型）<br>     3）YYNSNumberCreateFromID：把一个id类型的值转换成NSNumber类型，这个函数主要是处理string类型的数据。其中使用到了几个c函数，分别如下：<br>     atop(const char <em>cstring)返回一个double类型，转换string为double<br>     isnan(double num) 确定是不是一个数，是否是无穷大或无穷小<br>     isinf(double num) num为正无穷返回1、num为负无穷返回-1<br>     atoll(const char </em>cstring)返回一个long long int<br>     4）YYNSDateFormString：格式化时间string<br>          这个函数适配了Google、Github、Apple、Facebook、Weibo、Twitter的几种时间的格式，通过一个block，使用不同的回调来实现不同的适配。<br>          其中学到了使用block数组来根据不同的场景，实现不同的回调。<br>     5）YYNSBlockClass：获得NSBlock类型，再确认属性类型时使用<br>     6）YYISODateFormatter：从命名可以知道作用<br>     7）YYValueForKeyPath和YYValueForMultiKeys：使用key或者keys从dic中取得value</p>
-<pre><code>8）ModelCreateNumberFromProperty：从_YYModelPropertyMeta中得到Number（使用在属性是number的情况）,通过runtime方法objc_msgSend向当前的model发送消息（getter），得到number。
-9）ModelSetNumberToProperty：通过_YYModelPropertyMeta设置property的number（使用在属性是number的情况），同上，给当前model设置数值。
-10）ModelSetValueForProperty：从命名可以看出这个是set property的方法，它根据meta中保存的当前property是什么类型来确定使用什么类型来初始化当前property的值
-11）ModelSetWithDictionaryFunction：对ModelSetValueForProperty的封装，更好的通过解析字典的数据到model中，使用CFDictionaryApplyFunction函数来调用，实现解析字典中的每一个key对应的值
-12）ModelSetWithPropertyMetaArrayFunction：解析多个key对应一个property meta的情况
-13）ModelToJSONObjectRecursive：model转换为json
-</code></pre><p>3、NSObject、NSArray、NSDictionary的分类<br>     定义接口通过上述的内联函数实现相应的功能，方便外部调用，通过这一层封装就可以简单明了的调用这些方法来实现功能了，具体的使用请看大神@ibireme的使用说明<a href="https://github.com/ibireme/YYModel。" target="_blank" rel="external">https://github.com/ibireme/YYModel。</a></p>
-<p>其中在YYClassIvarInfo、YYCLassMethodInfo、YYClassPropertyInfo中都有一个TypeEncoding的属性，相关的具体内容请查看Type Encoding:官方链接：<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5" target="_blank" rel="external">https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5</a></p>
-<p>最后说一下写在 最前面的宏定义，</p>
-<p>#define force_inline <strong>inline</strong> <strong>attribute</strong>((always_inline))<br>从字面意思就可以看出来，是强制内联的意思。<br>inline关键字仅仅是建议编译器做内联展开处理，不是强制的。在gcc编译器中，如果编译优化设置为O0，即使是inline函数也不会被内联展开，除非强制内联。<br>1、inline<br>     inline主要是用来替换C中的表达式形式的宏定义，因为这样的宏定义其实类似于一个函数，但是在宏定义中只是做了简单的符号替换，它不能进行参数有效性的检查，也不能享受编译器严格严查的好处，同时返回值也不能被强制类型转换等等，这样使用宏定义就存在一系列的隐患和局限性。所以出现了inline关键字。<br>     因此，inline函数也是直接使用的替换（像宏一样），没有了调用的开销，效率比较高。<br>     inline在文件内部调用时，会被内联展开，但是gcc还是会为inline函数生成一份独立的汇编码以供外部文件使用。gcc的inline函数是全局的，文件内是内联展开，文件外和普通的extern函数一样。<br>2、static inline<br>     也是和inline一样建议编译器内联展开，gcc一般不会为static inline函数生成一份独立的汇编码，但是当函数本身递归：函数的地址被使用（函数指针），也是会不展开的。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-利用KVC对UITabBar上的UITabBarButton的修改" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/利用KVC对UITabBar上的UITabBarButton的修改/" class="article-date">
-      <time datetime="2016-08-03T03:45:40.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#利用KVC对UITabBar上的UITabBarButton的修改<br>一、前言<br>一次比较懒的想法，不想自定义UITabBar，也不想用第三方框架，于是想尝试修改苹果私有类来达到部分效果</p>
-<p>效果如下<br>点击tabBar 上的按钮，图片有变大再变小的动画<br>tabBar 上某个按钮（购物车按钮），点击弹出控制器是modal出来的，并不属于UITabBarController管理的<br>上述购物车按钮，是后面加到tabBar 上的自定义的按钮UIButton，本身没有右上角的badge的提示，懒得话，就用<br>系统UITabBarButton 的badge<br>点击商品的加号按钮，实现tabBar上购物车按钮 显示的badge的数字的改变，并实现变大变小的动画<br><img src="/Users/lizhenfei/Documents/微博用到的图片/922647-20160726175818294-211214355.gif" alt=""></p>
-<p>二、相关说明<br>在swift3及xcode8 beta2 环境下</p>
-<p>运行时遍历出成员变量</p>
-<p>  var count:UInt32 = 0<br>        let ivarlist = class_copyIvarList(NSClassFromString(“UITabBarButton”)!, &amp;count)</p>
-<pre><code>for index in 0..&lt;numericCast(count) {
-    let ivar = ivarlist![index]
-    let ivarStr = String.init(utf8String: ivar_getName(ivar!))
-    print(&quot;\(ivarStr)&quot;)
-}
-</code></pre><p>1、UITabBarButton</p>
-<p>Optional(“_hitRect”)<br>Optional(“_info”)<br>Optional(“_vibrancyEffectView”)<br>Optional(“_label”)<br>Optional(“_badge”)<br>Optional(“_selectedIndicator”)<br>Optional(“_selected”)<br>Optional(“_infoInsets”)<br>Optional(“_selectedInfoOffset”)<br>Optional(“_infoOffset”)<br>Optional(“_customSelectedIndicatorImage”)<br>Optional(“_labelOffset”)<br>Optional(“_buttonTintColorsForState”)<br>Optional(“_contentTintColorsForState”)<br>Optional(“_badgeColor”)<br>Optional(“_badgeTextAttributesForState”)<br>Optional(“_showsHighlightedState”)<br>Optional(“_centerAllContents”)<br>Optional(“_appearanceGuideClass”)<br>Optional(“_tabBar”)<br>其中 “_info” ,”_label” ,”_badge” 这三个是我们需要的</p>
-<p>“_info”是 UIImageView 就是显示的图片，”_label”是UILabel 显示的文字</p>
-<p>2、”_badge”是什么呢？它真实类型是什么,子控件及属性名是什么</p>
-<p>let tab = window?.rootViewController as! TabBarViewController<br>        for view in tab.tabBar.subviews {<br>            if view.isKind(of: NSClassFromString(“UITabBarButton”)! ) {<br>                let badgeView = view.value(forKeyPath: “_badge”)<br>                    print(“1(badgeView!.self)”)<br>                let badge = badgeView as! UIView<br>                    print(“2(badge.subviews)”)<br>                }<br>            }<br>        }</p>
-<p>1 <_uibadgeview: 18="" 0x7fd671c336c0;="" frame="(33" 2;="" 18);="" text="1" ;="" userinteractionenabled="NO;" layer="<CALayer:" 0x608000031240="">&gt;<br>2 [<uiimageview: 1="" 18="" 0x7fd671c09570;="" frame="(0" 0;="" 18);="" opaque="NO;" userinteractionenabled="NO;" tintcolor="UIExtendedSRGBColorSpace" 0.231373="" 0.188235="" 1;="" layer="<CALayer:" 0x60800002e9a0="">&gt;, <uilabel: 6="" 0x7fd671c33ba0;="" frame="(6" 1;="" 16);="" text="1" ;="" opaque="NO;" userinteractionenabled="NO;" layer="<_UILabelLayer:" 0x60800009c890="">&gt;]</uilabel:></uiimageview:></_uibadgeview:></p>
-<p>var count:UInt32 = 0<br>let ivarlist = class_copyIvarList(NSClassFromString(“_UIBadgeView”)!, &amp;count)<br>for index in 0..&lt;numericCast(count) {<br>   let ivar = ivarlist![index]<br>   let ivarStr = String.init(utf8String: ivar_getName(ivar!))<br>   print(“badge= (ivarStr)”)<br>}</p>
-<p>badge= Optional(“_label”)<br>badge= Optional(“_background”)<br>badge= Optional(“_mergedTextAttributes”)<br>badge= Optional(“_text”)<br>badge= Optional(“_textAttributes”)<br>badge= Optional(“_backgroundColor”)<br>三、做法及代码<br>自定义TabBarController里，添加4个子控制器，其中第三个添加一个空的UIViewController，图片为UIImage(), 空的TabBarItem，只是让这个系统生成的UITabBarButton占好位置</p>
-<p>自定义UIButton，添加到TabBar上，盖住上述 空的UITabBarButton上</p>
-<p>appDelegate成为TabBarController的代理，监控tabBar的点击</p>
-<p>extension AppDelegate: UITabBarControllerDelegate {</p>
-<pre><code>func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-    for view  in tabBarController.tabBar.subviews {
-        if view.isKind(of: NSClassFromString(&quot;UITabBarButton&quot;)! ) {
-            // UITabBarButton是继承UIControl的， 通过 按钮的状态 才判别是否是现在点击的按钮
-            let state = view.value(forKeyPath: &quot;highlighted&quot;)
-            let stateValue = state as! Int
-            if stateValue == 1 {
-                // 拿到当前点击的 按钮的imageView
-                let imageView = view.value(forKeyPath: &quot;_info&quot;)
-                guard let temp  = imageView else {
-                    return
-                }
-
-                let tabButtonImgView = temp as! UIImageView
-                // 添加动画
-                UIView.animate(withDuration: 0.2, animations: {
-                    tabButtonImgView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
-                    }, completion: { (Bool) in
-                        tabButtonImgView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                })
-            }
-        }
-    }
-
-}
-</code></pre><p>}</p>
-<p>由于UITabBarButton的子控件都是懒加载的，需要用控制器的tabBarItem 模型对UITabBarButton进行设置</p>
-<p>点击商品加号按钮，拿到 控制器tabBarItem，设置badgeValue ，然而购物车按钮（自己添加的） 盖住了部分 系统生成的badgeView，需要调整badgeView的位置</p>
-<p>for button in tabBar.subviews {</p>
-<pre><code>    if button.isKind(of: NSClassFromString(&quot;UITabBarButton&quot;)! ) {
-        let label = button.value(forKeyPath: &quot;_label&quot;) as! UILabel
-        //  print(&quot;\(label.text)&quot;)
-        if label.text == &quot;&quot; { // 通过label.text 确定是购物车按钮 那位置的 UITabBarButton
-
-            let badgeButton = button.value(forKeyPath: &quot;_badge&quot;)
-            //   print(&quot;\(badgeButton!.self)&quot;)
-            guard let badgeView = badgeButton else {
-                return
-            }
-
-            let badge = badgeView as! UIView
-            //  print(&quot;\(badge.subviews)&quot;)
-            badge.frame.origin.x = 52  // 可根据需要计算
-        }
-    }
-}
-</code></pre><p>点击商品加号按钮实现系统 badgeView的动画</p>
-<p>let tab = window?.rootViewController as! TabBarViewController</p>
-<pre><code>for button in tab.tabBar.subviews {
-
-    if button.isKind(of: NSClassFromString(&quot;UITabBarButton&quot;)! ) {
-        let label = button.value(forKeyPath: &quot;_label&quot;) as! UILabel
-        // 外界通过 lable.text 区别出是我们需要的 第三个UITabBarButton
-        if label.text == &quot;&quot; {
-            let badgeButton = button.value(forKeyPath: &quot;_badge&quot;)
-            guard let badgeView = badgeButton else {
-                return
-            }
-            // 拿到 badge 控件
-            let badge = badgeView as! UIView
-            //  num变量为 点击加号按钮， 商品个数 计量
-            let str:NSString = NSString.init(format: &quot;%d&quot;, num)
-
-            // kvc 设置属性
-            badgeView.setValue(UIFont.systemFont(ofSize: 9), forKeyPath: &quot;_label.font&quot;)
-            badgeView.setValue(str, forKeyPath: &quot;_label.text&quot;)
-
-            let tabLabal = badgeView.value(forKeyPath: &quot;_label&quot;)
-            let label = tabLabal as! UILabel
-            // 拿到lebel 计算label 的大小、尺寸
-            let size = str.size(attributes: [NSFontAttributeName : UIFont.systemFont(ofSize: 9)])
-            label.frame = CGRect(x: (badge.frame.size.width - size.width) * 0.5, y: (badge.frame.size.height - size.height) * 0.5, width: size.width, height: size.height)
-            // 添加核心动画
-            let scaleAni =  CABasicAnimation()
-            scaleAni.keyPath = &quot;transform.scale&quot;
-            scaleAni.fromValue = 1.0
-            scaleAni.toValue = 1.2
-            scaleAni.autoreverses = true
-            scaleAni.duration = 0.25
-            badge.layer.add(scaleAni, forKey: nil)
-
-        }
-    }
-}
-</code></pre><p>四、 问题<br>刚学习swift 3.0， 各种不熟，各种不顺，加上xcode8 beta版各种不稳定及bug，这次仅仅是尝试swift3的改变而练习的</p>
-<p>系统UITabBarButton 里面的子控件都是懒加载的，没有先设置tabBarItem模型 ，用kvc 是赋不上值得，这点得注意</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-简单的图片和视频播放的框架　" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/简单的图片和视频播放的框架　/" class="article-date">
-      <time datetime="2016-08-03T03:40:14.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#简单的图片和视频播放的框架　<br>　最近在恶补自己不足的基础知识,偶然在一个QQ群里看到作为同行业的大神们在开源自己的代码。并且在炫耀说让我们找Bug,于是出于好奇就看了下，点开了一个关于图片和视频播放的Demo。也就是接下来我要说的这个Demo。</p>
-<p>　　至于为什么要写说一下这个Demo,是因为最近做的项目有涉及这方面的知识。反正不管出于何种原因，多学点知识总没有错的。下面简单介绍下此Demo的功能。</p>
-<p>　　功能:</p>
-<p>支持哪些状态：</p>
-<p>　　1.图片已发布（网络图片浏览、流水布局)</p>
-<p>　　2.图片未发布（本地图片上传\发布\预览）</p>
-<p>　　3.视频播放</p>
-<p>支持哪些布局：</p>
-<p>　　流水布局 、 线性布局</p>
-<p>支持哪些手势：</p>
-<p>　　单击 、双击 、捏合 、旋转、拖拽、侧滑</p>
-<p>什么地方可以用到这个框架：</p>
-<p>　　主要用于社交app,用于呈现一组图片或播放一些标准的MP4文件。</p>
-<p>依赖哪些第三方框架：</p>
-<p>图片浏览依赖框架<br>MBProgressHUD<br>SDWebImage<br>视频播放依赖框架<br>HttpServer<br>PYPhotosView框架的主要类</p>
-<p>PYPhotosView</p>
-<p>@interface PYPhotosView : UIScrollView</p>
-<p>/<em>* 代理 </em>/<br>@property (nonatomic, weak) id<pyphotosviewdelegate> delegate;</pyphotosviewdelegate></p>
-<p>/<strong> 网络图片相册 <em>/<br>@property (nonatomic, strong) NSArray </em>photos;<br>/</strong> 本地相册图片数组(默认最多为九张,当传入图片数组长度超过九张时，取前九张) <em>/<br>@property (nonatomic, strong) NSMutableArray </em>images;<br>/<strong> 视频链接(视频来自网络) </strong>/<br>@property (nonatomic, copy) NSString <em>movieNetworkUrl;<br>/** 本地视频地址(带有文件类型后缀) </em>/<br>@property (nonatomic, copy) NSString *movieLocalUrl;</p>
-<p>/<strong> 所有图片的状态（默认为已发布状态） */<br>@property (nonatomic, assign) PYPhotosViewState photosState;<br>/</strong> 图片布局（默认为流水布局） <em>/<br>@property (nonatomic, assign) PYPhotosViewLayoutType layoutType;<br>/** 图片分页指示类型(默认为pageControll。当图片超过九张，改为label显示) </em>/<br>@property (nonatomic, assign) PYPhotosViewPageType pageType;</p>
-<p>/<strong> 图片间距（默认为5） */<br>@property (nonatomic, assign) CGFloat photoMargin;<br>/</strong> 图片的宽 (默认为70) <em>/<br>@property (nonatomic, assign) CGFloat photoWidth;<br>/** 图片的高 (默认为70) </em>/<br>@property (nonatomic, assign) CGFloat photoHeight;</p>
-<p>/<strong> 每行最多个数（默认为3）, 当图片布局为线性布局时，此设置失效 */<br>@property (nonatomic, assign) NSInteger photosMaxCol;<br>/</strong> 当图片上传前，最多上传的张数，默认为9 */<br>@property (nonatomic, assign) NSInteger imagesMaxCountWhenWillCompose;</p>
-<p>/<em>* 快速创建photosView对象 </em>/</p>
-<ul>
-<li>(instancetype)photosView;<br>/<em>* photos : 保存图片链接的数组 </em>/</li>
-<li>(instancetype)photosViewWithPhotos:(NSArray <em>)photos;<br>/** images : 存储本地图片的数组 </em>/</li>
-<li>(instancetype)photosViewWithImages:(NSMutableArray *)images;</li>
-</ul>
-<p>/**</p>
-<ul>
-<li>photos : 保存图片链接的数组</li>
-<li>type : 布局类型（默认为流水布局）<br>*/<ul>
-<li>(instancetype)photosView:(NSArray *)photos layoutType:(PYPhotosViewLayoutType)type;</li>
-</ul>
-</li>
-</ul>
-<p>/** </p>
-<ul>
-<li>photos : 保存图片链接的数组</li>
-<li>maxCol : 每行最多显示图片的个数<br>*/<ul>
-<li>(instancetype)photosView:(NSArray *)photos photosMaxCol:(NSInteger)maxCol;</li>
-</ul>
-</li>
-</ul>
-<p>/<em>* 根据图片个数和图片状态自动计算出PYPhontosView的size </em>/</p>
-<ul>
-<li>(CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state;</li>
-</ul>
-<p>/**</p>
-<ul>
-<li>刷新图片(未发布)</li>
-<li>images : 新的图片数组<br>*/<ul>
-<li>(void)reloadDataWithImages:(NSMutableArray *)images;</li>
-</ul>
-</li>
-</ul>
-<p>@end<br>如何使用PYPhotosView</p>
-<p>使用Cocoapods:<br>pod “PYPhotosView”<br>导入主头文件#import <pyphotosview.h><br>手动导入：</pyphotosview.h></p>
-<p>将PYPhotosView文件夹中的所有文件拽入项目中<br>导入主头文件#import “PYPhotosView.h”<br>使用注意:如果项目本来就有依赖的第三方框架：MBProgressHUD（用于图片浏览、发布）、SDWebImage（用于图片浏览、发布）、HttpServer（用于视频播放、缓存），就不必重复导入, 如果没有，选择Dependency文件夹中，项目不存在的框架拽入项目。<br>视频播放使用注意：</p>
-<p>需要在AppDelegate.m导入 HTTPServer.h、DDLog.h、DDTTYLogger.h头文件并实现以下这些方法（具体参考PYPhotosViewExample中的AppDelegate.m）文件</p>
-<ul>
-<li>(void)startServer<br>{<br>// Start the server (and check for problems)<br>NSError *error;<br>if([httpServer start:&amp;error])<br>{<br>  NSLog(@”Started HTTP Server on port %hu”, [httpServer listeningPort]);<br>}<br>else<br>{<br>  NSLog(@”Error starting HTTP Server: %@”, error);<br>}<br>}</li>
-</ul>
-<p>// 程序启动完毕调用</p>
-<ul>
-<li>(BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions {</li>
-</ul>
-<p>[DDLog addLogger:[DDTTYLogger sharedInstance]];</p>
-<p>// 创建本地服务器<br>httpServer = [[HTTPServer alloc] init];<br>// 设置通讯类型为tcp<br>[httpServer setType:@”_http._tcp.”];<br>// 设置端口<br>[httpServer setPort:12345];</p>
-<p>// Serve files from our embedded Web folder<br>NSString <em>webPath = [NSHomeDirectory() stringByAppendingPathComponent:@”Library/Caches/PYPhotosView/Temp”];<br>NSFileManager </em>fileManager=[NSFileManager defaultManager];<br>if(![fileManager fileExistsAtPath:webPath])<br>{<br>    [fileManager createDirectoryAtPath:webPath withIntermediateDirectories:YES attributes:nil error:nil];<br>}<br>[httpServer setDocumentRoot:webPath];</p>
-<p>[self startServer];</p>
-<p>return YES;<br>}</p>
-<p>// 程序进入后台运行时调用</p>
-<ul>
-<li>(void)applicationDidEnterBackground:(UIApplication *)application<br>{<br>[httpServer stop];<br>}</li>
-</ul>
-<p>// 程序回到前台运行时调用</p>
-<ul>
-<li>(void)applicationWillEnterForeground:(UIApplication *)application<br>{<br>[self startServer];<br>}</li>
-</ul>
-<p>具体使用（详情见示例程序PYPhotosViewExample）</p>
-<p>已发布（网络图片浏览）</p>
-<p>示例代码：</p>
-<p>// 1.1 创建图片链接数组<br>NSMutableArray *imageUrls = [NSMutableArray array];</p>
-<p>  for (int i = 0; i &lt; 9; i++) {<br>      // 1.2 图片链接<br>      NSString *imageUrl = [NSString stringWithFormat:@”<a href="https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg" target="_blank" rel="external">https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg</a>“, i + 1];<br>      // 1.3 添加图片链接<br>      [imageUrls addObject:imageUrl];<br>  }</p>
-<p>  // 2. 创建一个photosView<br>  PYPhotosView *photosView = [PYPhotosView photosViewWithPhotos:imageUrls];</p>
-<p>  // 3. 添加photosView<br>  [self.view addSubview:photosView];<br>未发布（本地图片上传\发布\预览）</p>
-<p>示例代码：</p>
-<pre><code>// 1. 创建本地图片数组
-NSMutableArray *imagesM = [NSMutableArray array];
-for (int i = 0; i &lt; arc4random_uniform(4) + 1; i++) {
-    [imagesM addObject:[UIImage imageNamed:[NSString stringWithFormat:@&quot;%02d&quot;, i + 1]]];
-}
-
-// 2.1 设置本地图片
-PYPhotosView *photosView = [PYPhotosView photosViewWithImages:imagesM];
-
-// 3. 设置代理
-photosView.delegate = self;
-
-// 4. 添加photosView
-[self.view addSubview:photosView];
-</code></pre><p>视频播放</p>
-<p>示例代码</p>
-<pre><code>// 1. 创建视频播放的photosView
-PYPhotosView *moviePhotosView = [PYPhotosView photosView];
-
-// 2. 设置视频的网络链接
-moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4&quot;;
-
-// 3. 添加photosView
-[self.view addSubview:moviePhotosView];
-</code></pre><p>自定义photosView</p>
-<p>通过设置photosView的对象属性值即可修改</p>
-<p>设置布局类型（默认为流水布局）<br>// 设置布局为线性布局<br>photosView.layoutType = PYPhotosViewLayoutTypeLine;<br>设置分页指示类型（默认为pageControll指示器）<br>// 设置指示类型为文本指示<br>photosView.pageType = PYPhotosViewPageTypeLabel;<br>设置图片间距（默认为5）<br>// 设置图片间距为10<br>photosView.photoMargin = 10;<br>设置图片大小（默认70*70）<br>// 设置图片的宽（width）<br>photosView.photoWidth = 100;<br>// 设置图片的高（height）<br>photosView.photoHeight = 60;<br>设置每行图片最多个数（默认为3个）<br>// 设置图片最多列数<br>photosView.photosMaxCol = 6;<br>设置图片上传前，最多上传的张数（默认为9）<br>photosView.imagesMaxCountWhenWillCompose = 15</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-Cocoapods配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -813,7 +287,9 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>#Cocoapods配置  </p>
+        <hr>
+<p>title: NSURLSession<br>date: 2015-06-09 11:21:18</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p> #Cocoapods配置  </p>
 <p>这真是蛋疼的东西，配置了几次，每次都不同，每次都折腾半天。这一段时间应该不会变了，记录下来。</p>
 <p>一 换源<br>看了教程都说官方源<a href="https://rubygems.org/不能访问，我特意点了一下，发现能访问。于是就没换。但是在使用的时候还是出了问题，所以以后干脆换源。" target="_blank" rel="external">https://rubygems.org/不能访问，我特意点了一下，发现能访问。于是就没换。但是在使用的时候还是出了问题，所以以后干脆换源。</a></p>
 <p>除掉官方源 gem sources –remove <a href="https://rubygems.org/" target="_blank" rel="external">https://rubygems.org/</a></p>
@@ -878,58 +354,6 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
 
 
   
-    <article id="post-支付宝集成中的公钥和私钥" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/支付宝集成中的公钥和私钥/" class="article-date">
-      <time datetime="2016-08-03T03:34:56.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#支付宝集成中获取私钥与公钥  </p>
-<p>项目需要在客户端中集成支付宝接口，就研究了一下。<br>需要到支付宝官网注册账号并申请商户服务<br>登录成功后，商户在《我的商家服务—&gt;在页面的下方找到—&gt;签约管理—&gt;找到移动支付—&gt;点击下载集成文档—&gt;跳到新的页面，在页面下方—&gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件<br>这时候要打开《支付宝钱包支付接口开发包2.0标准版》，打开之后有一个Demo文件，里面有三个文件夹：openssl、服务端Demo，客户端Demo，这个时候，我们需要关心得是openssl文件与客户端Demo的文件<br>第三个Demo文件中有iOS版与Android版的Demo。但是你要部署运行的时候，发现不能运行成功，因为项目主文件中需要填写 partner、seller、rsa_private、rsa_public四个参数<br>因为这些都是需要根据商户注册的信息来填写的，所以就算是下载了Demo也没有用，下面就讲一下如何获取公钥与私钥<br>首先找到openssl文件，点击终端打开<br>打开命令框后:输入第一行命令 ，生成私钥，如下：</p>
-<pre><code>genrsa -out rsa_private_key.pem 1024
-</code></pre><p>按回车键，接着输入第二行命令，生成公钥：</p>
-<pre><code>rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-</code></pre><p>按回车键，接着输入第三行命令，将RSA私钥转换成PKCS8格式</p>
-<pre><code>pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
-</code></pre><p>执行完这三个命令后，就生成了两个以.pem结尾的文件，这就是我们生成为公钥与私钥。<br>复制到桌面上用文本编辑打开即可，因为我们需要的只是里面的字符串。记住当我们引用这两个长的字符串的时候，需要注意的是：不能包括、换行、空格以及误加其他字符，所以复制的时候要小心<br>当然私钥就是我们需要的私钥了，如何获得支付宝公钥呢：  </p>
-<p>回到支付宝首先，首先登录,<br> 点击“查看PID|KEY”，在新打开的页面（<a href="https://b.alipay.com/rder/pidAndKey.htm" target="_blank" rel="external">https://b.alipay.com/rder/pidAndKey.htm</a> ），可查看到签约支付宝账号、合作者身份        ID（PID.<br>：输入支付密码，查询key、支付宝公钥。<br>三：上传RSA公钥，在“合作伙伴密钥管理”下，点击“RSA加密”后的“添加密钥”，把自己的公钥复制进去。注意不能有空格，换行之类的。<br>如图：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/DB2DA2CA-FE1D-46F9-A44D-B95F963FD7BF.png" alt=""><br><img src="/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29AC-4C2B-A34A-0911AD77FD30.png" alt=""><br>四：点击确认上传，若是提示上传成功。则就是成功。<br>这个时候就可查看支付宝公钥了。如图：</p>
-<p><img src="/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29A1111C-4C2B-A34A-0911AD77FD30.png" alt=""></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-集成支付宝" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -964,67 +388,6 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
 </li>
 </ul>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-将秒数转化为日期" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/03/将秒数转化为日期/" class="article-date">
-      <time datetime="2016-08-03T03:14:07.000Z" itemprop="datePublished">2016-08-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>将秒数转化为日期<br>    //把数字的日期，转换成日期对象 </p>
-<pre><code>NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.addtime.intValue];
-NSCalendar *calendar = [NSCalendar currentCalendar]; 
-//两个日期相减，获取指定的日期部分  
-//获取分钟  
-
-NSDateComponents *compoment = [calendar components:NSCalendarUnitMinute fromDate:date toDate:[NSDate date] options:0];
-if (compoment.minute &lt; 60) {
-    return [NSString stringWithFormat:@”%zd分钟以前”, compoment.minute];
-}
-//获取小时
-compoment = [calendar components:NSCalendarUnitHour fromDate:date toDate:[NSDate date] options:0];
-if (compoment.hour &lt; 24) {
-    return [NSString stringWithFormat:@”%zd小时之前”, compoment.hour];
-}
-//获取日期
-NSDateFormatter *ndf = [[NSDateFormatter alloc] init];
-ndf.dateFormat = @”MM-dd HH:mm”;
-return [ndf stringFromDate:date]
-</code></pre>
       
     </div>
     
@@ -1370,6 +733,643 @@ dispatch_async(dispatch_get_main_queue(), ^{
 </li>
 </ul>
 <p>文／iOS_成才录（简书作者）<br>原文链接：<a href="http://www.jianshu.com/p/bc45569adee2" target="_blank" rel="external">http://www.jianshu.com/p/bc45569adee2</a><br>著作权归作者所有，转载请联系作者获得授权，并标注“简书作者”。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-二维码生成" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/10/二维码生成/" class="article-date">
+      <time datetime="2015-06-10T12:01:33.000Z" itemprop="datePublished">2015-06-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/10/二维码生成/">二维码生成</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>二维码生成</p>
+<ul>
+<li>(void)viewDidLoad {<br>[super viewDidLoad];</li>
+</ul>
+<p>// 准备滤镜<br>CIFilter *filter = [CIFilter filterWithName:@”CIQRCodeGenerator”];</p>
+<p>//  设置默认值<br>[filter setDefaults];</p>
+<p>//  生成要显示的字符串数据<br>NSData *data = [@”这个家伙很懒，什么都没有留下！” dataUsingEncoding:NSUTF8StringEncoding];</p>
+<p>[filter setValue:data forKeyPath:@”inputMessage”];</p>
+<p>[filter setValue:@”M” forKeyPath:@”inputCorrectionLevel”];</p>
+<p>// 输出<br>CIImage *coreImage = [filter outputImage];</p>
+<p>//  1. 要把图像无损放大<br>UIImage *QRImage = [self imageWithCIImage:coreImage andSize:self.imgView.bounds.size];</p>
+<p>UIImage *headImage = [UIImage imageNamed:@”head”];</p>
+<p>//  2. 要合成头像<br>CGSize headSize = CGSizeMake(self.imgView.bounds.size.width <em> 0.30, self.imgView.bounds.size.height </em> 0.30);</p>
+<p>UIImage *QRCardImage = [self imageWithBackgroundImage:QRImage centerImage:headImage centerImageSize:headSize];</p>
+<p>[self.imgView setImage:QRCardImage];<br>}</p>
+<p>// 将CIImage转换成指定大小的UIImage</p>
+<p>(UIImage )imageWithCIImage:(CIImage )coreImage andSize:(CGSize)size {</p>
+<p>//1. CIImage 转换成 CGImage(CGImageRef)<br>CIContext *context = [CIContext contextWithOptions:nil];</p>
+<p>CGImageRef originCGImage = [context createCGImage:coreImage fromRect:coreImage.extent];</p>
+<p>//2. 创建一个图形上下文 Bitmap<br>CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();</p>
+<p>CGContextRef bitmapCtx = CGBitmapContextCreate(NULL, size.width, size.height, 8, 0, cs, kCGImageAlphaNone);</p>
+<p>//3. 将CGImage图片渲染到新的图形上下文中<br>CGContextSetInterpolationQuality(bitmapCtx, kCGInterpolationNone);</p>
+<p>// 在图形上下文中把图片画出来<br>CGRect newRect = CGRectMake(0, 0, size.width, size.height);</p>
+<p>CGContextDrawImage(bitmapCtx, newRect, originCGImage);</p>
+<p>//4. 取图像<br>CGImageRef QRImage = CGBitmapContextCreateImage(bitmapCtx);</p>
+<p>// 释放<br>CGColorSpaceRelease(cs);</p>
+<p>CGImageRelease(originCGImage);</p>
+<p>CGContextRelease(bitmapCtx);</p>
+<p>return [UIImage imageWithCGImage:QRImage];<br>}</p>
+<p>(UIImage )imageWithBackgroundImage:(UIImage )backgroundImage centerImage:(UIImage *)centerImage centerImageSize:(CGSize)centerSize{</p>
+<p>// 开始图形上下文<br>UIGraphicsBeginImageContext(backgroundImage.size);</p>
+<p>// 先画背景<br>[backgroundImage drawAtPoint:CGPointZero];</p>
+<p>// 再画头像<br>CGFloat headW = centerSize.width;<br>CGFloat headH = centerSize.height;<br>CGFloat headX = (backgroundImage.size.width - headW) 0.5;<br>CGFloat headY = (backgroundImage.size.height - headH) 0.5;</p>
+<p>[centerImage drawInRect:CGRectMake(headX, headY, headW, headH)];</p>
+<p>// 取图像<br>UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();</p>
+<p>UIGraphicsEndImageContext();</p>
+<p>return newImage;</p>
+<p>}</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-YYModel简单解析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/09/YYModel简单解析/" class="article-date">
+      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/09/YYModel简单解析/">NSURLSession</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#YYModel简析</p>
+<p>一、YYCLassInfo文件<br>     YYClassIVarInfo：存放变量的Model<br>     YYClassMethodInfo：存放方法的Model<br>     YYClassPropertyInfo：存放property的Model<br>     YYClassInfo：存放类信息的Model</p>
+<p>YYClassIvarInfo：通过Ivar来初始化，赋值相应的需要保存的字段，比较简单。<br>YYClassMethodInfo：通过Method来初始化，跟Ivar不同的是，typeEncoding有两个，一个是参数的，一个是返回值的。打印了一个例子，如下图：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/744505-20160726103449934-1188853599.png" alt=""></p>
+<p>分别是参数和返回值的typeEncoding、返回值的、参数的<br>YYClassPropertyInfo：通过objc_property_t来初始化，保存一些相关的信息。<br>YYClassInfo：可以通过Class，也可以使用NSString * className来初始化，保存相关类的信息。</p>
+<p>二、NSObject+YYModel文件<br> 这个文件是YYModel的核心，提供了一些，son转model、字典转model、model转NSData、model转Json等方法。<br>1、两个model，一个是_YYModelPropertyMeta、一个是_YYModelMeta。<br>_YYModelPropertyMeta:<br>     是对YYClassPropertyInfo的进一步封装，加入了一些操作性的或者说是功能性的封装。比如是否是C number type、是否支持KVC、是否可以被归档、是否有自定义的映射字典等等。还有一个比较特殊的是next，next是指向下一个_YYModelPropertyMeta的指针，他是用来处理多个属性映射到同一个key上时使用的。<br>_YYModelMeta：<br>     是对YYClassInfo一层解析，映射了每个property的key对应的_YYModelPropertyMeta——&gt;mapper、所有的_YYModelPropertyMeta——&gt;allPropertyMetas、所有的解析了keyPath的_YYModelPropertyMeta——&gt;keyPathPropertyMetas、多个key对应的_YYModelPropertyMeta——&gt;multiKeysPropertyMetas、映射了mapper.count——&gt;keyMappedCount、Model class type ——&gt; nsType、以及这个model是否实现了支持dic转model，转成dic和dic转class。</p>
+<p>2、内联函数<br>     1）YYClassGetNSType：获取Class的Foundation class type<br>     2）YYEncodingTypeIsCNumber：判断YYEncodingType是否是C number（常用数据类型）<br>     3）YYNSNumberCreateFromID：把一个id类型的值转换成NSNumber类型，这个函数主要是处理string类型的数据。其中使用到了几个c函数，分别如下：<br>     atop(const char <em>cstring)返回一个double类型，转换string为double<br>     isnan(double num) 确定是不是一个数，是否是无穷大或无穷小<br>     isinf(double num) num为正无穷返回1、num为负无穷返回-1<br>     atoll(const char </em>cstring)返回一个long long int<br>     4）YYNSDateFormString：格式化时间string<br>          这个函数适配了Google、Github、Apple、Facebook、Weibo、Twitter的几种时间的格式，通过一个block，使用不同的回调来实现不同的适配。<br>          其中学到了使用block数组来根据不同的场景，实现不同的回调。<br>     5）YYNSBlockClass：获得NSBlock类型，再确认属性类型时使用<br>     6）YYISODateFormatter：从命名可以知道作用<br>     7）YYValueForKeyPath和YYValueForMultiKeys：使用key或者keys从dic中取得value</p>
+<pre><code>8）ModelCreateNumberFromProperty：从_YYModelPropertyMeta中得到Number（使用在属性是number的情况）,通过runtime方法objc_msgSend向当前的model发送消息（getter），得到number。
+9）ModelSetNumberToProperty：通过_YYModelPropertyMeta设置property的number（使用在属性是number的情况），同上，给当前model设置数值。
+10）ModelSetValueForProperty：从命名可以看出这个是set property的方法，它根据meta中保存的当前property是什么类型来确定使用什么类型来初始化当前property的值
+11）ModelSetWithDictionaryFunction：对ModelSetValueForProperty的封装，更好的通过解析字典的数据到model中，使用CFDictionaryApplyFunction函数来调用，实现解析字典中的每一个key对应的值
+12）ModelSetWithPropertyMetaArrayFunction：解析多个key对应一个property meta的情况
+13）ModelToJSONObjectRecursive：model转换为json
+</code></pre><p>3、NSObject、NSArray、NSDictionary的分类<br>     定义接口通过上述的内联函数实现相应的功能，方便外部调用，通过这一层封装就可以简单明了的调用这些方法来实现功能了，具体的使用请看大神@ibireme的使用说明<a href="https://github.com/ibireme/YYModel。" target="_blank" rel="external">https://github.com/ibireme/YYModel。</a></p>
+<p>其中在YYClassIvarInfo、YYCLassMethodInfo、YYClassPropertyInfo中都有一个TypeEncoding的属性，相关的具体内容请查看Type Encoding:官方链接：<a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5" target="_blank" rel="external">https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101-SW5</a></p>
+<p>最后说一下写在 最前面的宏定义，</p>
+<p>#define force_inline <strong>inline</strong> <strong>attribute</strong>((always_inline))<br>从字面意思就可以看出来，是强制内联的意思。<br>inline关键字仅仅是建议编译器做内联展开处理，不是强制的。在gcc编译器中，如果编译优化设置为O0，即使是inline函数也不会被内联展开，除非强制内联。<br>1、inline<br>     inline主要是用来替换C中的表达式形式的宏定义，因为这样的宏定义其实类似于一个函数，但是在宏定义中只是做了简单的符号替换，它不能进行参数有效性的检查，也不能享受编译器严格严查的好处，同时返回值也不能被强制类型转换等等，这样使用宏定义就存在一系列的隐患和局限性。所以出现了inline关键字。<br>     因此，inline函数也是直接使用的替换（像宏一样），没有了调用的开销，效率比较高。<br>     inline在文件内部调用时，会被内联展开，但是gcc还是会为inline函数生成一份独立的汇编码以供外部文件使用。gcc的inline函数是全局的，文件内是内联展开，文件外和普通的extern函数一样。<br>2、static inline<br>     也是和inline一样建议编译器内联展开，gcc一般不会为static inline函数生成一份独立的汇编码，但是当函数本身递归：函数的地址被使用（函数指针），也是会不展开的。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-NSURLSession" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/09/NSURLSession/" class="article-date">
+      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/09/NSURLSession/">NSURLSession</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>NSURLSession</p>
+<p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
+<p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
+<p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-BUG收集之malformed" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/09/BUG收集之malformed/" class="article-date">
+      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/09/BUG收集之malformed/">NSURLSession</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#BUG收集之关于报malformed or corrupted AST file: ‘Unable to load module 的错  </p>
+<p>今天早上 一运行程序 居然报错，我都惊呆了，昨天明明好好的～但是百度是强大的～</p>
+<p>报错内容： malformed or corrupted AST file: ‘Unable to load module “/Users/Chenglijuan/Library/Developer/Xcode/DerivedData/ModuleCache/3SB6LTSGGAIAR/UIKit-14AN6JOCHQYY4.pcm”: module file out of date’</p>
+<p>解决办法：</p>
+<p>只需要清除继承数据文件夹即可。</p>
+<p>具体操作为：进入XCode的Window，选择Projects，然后选择出现问题的 project ，点击delete button删除Derived data.</p>
+<p>重新编译项目，即可。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-简单的图片和视频播放的框架　" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/09/简单的图片和视频播放的框架　/" class="article-date">
+      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/09/简单的图片和视频播放的框架　/">NSURLSession</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#简单的图片和视频播放的框架　<br>　最近在恶补自己不足的基础知识,偶然在一个QQ群里看到作为同行业的大神们在开源自己的代码。并且在炫耀说让我们找Bug,于是出于好奇就看了下，点开了一个关于图片和视频播放的Demo。也就是接下来我要说的这个Demo。</p>
+<p>　　至于为什么要写说一下这个Demo,是因为最近做的项目有涉及这方面的知识。反正不管出于何种原因，多学点知识总没有错的。下面简单介绍下此Demo的功能。</p>
+<p>　　功能:</p>
+<p>支持哪些状态：</p>
+<p>　　1.图片已发布（网络图片浏览、流水布局)</p>
+<p>　　2.图片未发布（本地图片上传\发布\预览）</p>
+<p>　　3.视频播放</p>
+<p>支持哪些布局：</p>
+<p>　　流水布局 、 线性布局</p>
+<p>支持哪些手势：</p>
+<p>　　单击 、双击 、捏合 、旋转、拖拽、侧滑</p>
+<p>什么地方可以用到这个框架：</p>
+<p>　　主要用于社交app,用于呈现一组图片或播放一些标准的MP4文件。</p>
+<p>依赖哪些第三方框架：</p>
+<p>图片浏览依赖框架<br>MBProgressHUD<br>SDWebImage<br>视频播放依赖框架<br>HttpServer<br>PYPhotosView框架的主要类</p>
+<p>PYPhotosView</p>
+<p>@interface PYPhotosView : UIScrollView</p>
+<p>/<em>* 代理 </em>/<br>@property (nonatomic, weak) id<pyphotosviewdelegate> delegate;</pyphotosviewdelegate></p>
+<p>/<strong> 网络图片相册 <em>/<br>@property (nonatomic, strong) NSArray </em>photos;<br>/</strong> 本地相册图片数组(默认最多为九张,当传入图片数组长度超过九张时，取前九张) <em>/<br>@property (nonatomic, strong) NSMutableArray </em>images;<br>/<strong> 视频链接(视频来自网络) </strong>/<br>@property (nonatomic, copy) NSString <em>movieNetworkUrl;<br>/** 本地视频地址(带有文件类型后缀) </em>/<br>@property (nonatomic, copy) NSString *movieLocalUrl;</p>
+<p>/<strong> 所有图片的状态（默认为已发布状态） */<br>@property (nonatomic, assign) PYPhotosViewState photosState;<br>/</strong> 图片布局（默认为流水布局） <em>/<br>@property (nonatomic, assign) PYPhotosViewLayoutType layoutType;<br>/** 图片分页指示类型(默认为pageControll。当图片超过九张，改为label显示) </em>/<br>@property (nonatomic, assign) PYPhotosViewPageType pageType;</p>
+<p>/<strong> 图片间距（默认为5） */<br>@property (nonatomic, assign) CGFloat photoMargin;<br>/</strong> 图片的宽 (默认为70) <em>/<br>@property (nonatomic, assign) CGFloat photoWidth;<br>/** 图片的高 (默认为70) </em>/<br>@property (nonatomic, assign) CGFloat photoHeight;</p>
+<p>/<strong> 每行最多个数（默认为3）, 当图片布局为线性布局时，此设置失效 */<br>@property (nonatomic, assign) NSInteger photosMaxCol;<br>/</strong> 当图片上传前，最多上传的张数，默认为9 */<br>@property (nonatomic, assign) NSInteger imagesMaxCountWhenWillCompose;</p>
+<p>/<em>* 快速创建photosView对象 </em>/</p>
+<ul>
+<li>(instancetype)photosView;<br>/<em>* photos : 保存图片链接的数组 </em>/</li>
+<li>(instancetype)photosViewWithPhotos:(NSArray <em>)photos;<br>/** images : 存储本地图片的数组 </em>/</li>
+<li>(instancetype)photosViewWithImages:(NSMutableArray *)images;</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>photos : 保存图片链接的数组</li>
+<li>type : 布局类型（默认为流水布局）<br>*/<ul>
+<li>(instancetype)photosView:(NSArray *)photos layoutType:(PYPhotosViewLayoutType)type;</li>
+</ul>
+</li>
+</ul>
+<p>/** </p>
+<ul>
+<li>photos : 保存图片链接的数组</li>
+<li>maxCol : 每行最多显示图片的个数<br>*/<ul>
+<li>(instancetype)photosView:(NSArray *)photos photosMaxCol:(NSInteger)maxCol;</li>
+</ul>
+</li>
+</ul>
+<p>/<em>* 根据图片个数和图片状态自动计算出PYPhontosView的size </em>/</p>
+<ul>
+<li>(CGSize)sizeWithPhotoCount:(NSInteger)count photosState:(NSInteger)state;</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>刷新图片(未发布)</li>
+<li>images : 新的图片数组<br>*/<ul>
+<li>(void)reloadDataWithImages:(NSMutableArray *)images;</li>
+</ul>
+</li>
+</ul>
+<p>@end<br>如何使用PYPhotosView</p>
+<p>使用Cocoapods:<br>pod “PYPhotosView”<br>导入主头文件#import <pyphotosview.h><br>手动导入：</pyphotosview.h></p>
+<p>将PYPhotosView文件夹中的所有文件拽入项目中<br>导入主头文件#import “PYPhotosView.h”<br>使用注意:如果项目本来就有依赖的第三方框架：MBProgressHUD（用于图片浏览、发布）、SDWebImage（用于图片浏览、发布）、HttpServer（用于视频播放、缓存），就不必重复导入, 如果没有，选择Dependency文件夹中，项目不存在的框架拽入项目。<br>视频播放使用注意：</p>
+<p>需要在AppDelegate.m导入 HTTPServer.h、DDLog.h、DDTTYLogger.h头文件并实现以下这些方法（具体参考PYPhotosViewExample中的AppDelegate.m）文件</p>
+<ul>
+<li>(void)startServer<br>{<br>// Start the server (and check for problems)<br>NSError *error;<br>if([httpServer start:&amp;error])<br>{<br>  NSLog(@”Started HTTP Server on port %hu”, [httpServer listeningPort]);<br>}<br>else<br>{<br>  NSLog(@”Error starting HTTP Server: %@”, error);<br>}<br>}</li>
+</ul>
+<p>// 程序启动完毕调用</p>
+<ul>
+<li>(BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions {</li>
+</ul>
+<p>[DDLog addLogger:[DDTTYLogger sharedInstance]];</p>
+<p>// 创建本地服务器<br>httpServer = [[HTTPServer alloc] init];<br>// 设置通讯类型为tcp<br>[httpServer setType:@”_http._tcp.”];<br>// 设置端口<br>[httpServer setPort:12345];</p>
+<p>// Serve files from our embedded Web folder<br>NSString <em>webPath = [NSHomeDirectory() stringByAppendingPathComponent:@”Library/Caches/PYPhotosView/Temp”];<br>NSFileManager </em>fileManager=[NSFileManager defaultManager];<br>if(![fileManager fileExistsAtPath:webPath])<br>{<br>    [fileManager createDirectoryAtPath:webPath withIntermediateDirectories:YES attributes:nil error:nil];<br>}<br>[httpServer setDocumentRoot:webPath];</p>
+<p>[self startServer];</p>
+<p>return YES;<br>}</p>
+<p>// 程序进入后台运行时调用</p>
+<ul>
+<li>(void)applicationDidEnterBackground:(UIApplication *)application<br>{<br>[httpServer stop];<br>}</li>
+</ul>
+<p>// 程序回到前台运行时调用</p>
+<ul>
+<li>(void)applicationWillEnterForeground:(UIApplication *)application<br>{<br>[self startServer];<br>}</li>
+</ul>
+<p>具体使用（详情见示例程序PYPhotosViewExample）</p>
+<p>已发布（网络图片浏览）</p>
+<p>示例代码：</p>
+<p>// 1.1 创建图片链接数组<br>NSMutableArray *imageUrls = [NSMutableArray array];</p>
+<p>  for (int i = 0; i &lt; 9; i++) {<br>      // 1.2 图片链接<br>      NSString *imageUrl = [NSString stringWithFormat:@”<a href="https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg" target="_blank" rel="external">https://github.com/iphone5solo/learngit/raw/master/imagesForPhotosView/image%02d.jpg</a>“, i + 1];<br>      // 1.3 添加图片链接<br>      [imageUrls addObject:imageUrl];<br>  }</p>
+<p>  // 2. 创建一个photosView<br>  PYPhotosView *photosView = [PYPhotosView photosViewWithPhotos:imageUrls];</p>
+<p>  // 3. 添加photosView<br>  [self.view addSubview:photosView];<br>未发布（本地图片上传\发布\预览）</p>
+<p>示例代码：</p>
+<pre><code>// 1. 创建本地图片数组
+NSMutableArray *imagesM = [NSMutableArray array];
+for (int i = 0; i &lt; arc4random_uniform(4) + 1; i++) {
+    [imagesM addObject:[UIImage imageNamed:[NSString stringWithFormat:@&quot;%02d&quot;, i + 1]]];
+}
+
+// 2.1 设置本地图片
+PYPhotosView *photosView = [PYPhotosView photosViewWithImages:imagesM];
+
+// 3. 设置代理
+photosView.delegate = self;
+
+// 4. 添加photosView
+[self.view addSubview:photosView];
+</code></pre><p>视频播放</p>
+<p>示例代码</p>
+<pre><code>// 1. 创建视频播放的photosView
+PYPhotosView *moviePhotosView = [PYPhotosView photosView];
+
+// 2. 设置视频的网络链接
+moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4&quot;;
+
+// 3. 添加photosView
+[self.view addSubview:moviePhotosView];
+</code></pre><p>自定义photosView</p>
+<p>通过设置photosView的对象属性值即可修改</p>
+<p>设置布局类型（默认为流水布局）<br>// 设置布局为线性布局<br>photosView.layoutType = PYPhotosViewLayoutTypeLine;<br>设置分页指示类型（默认为pageControll指示器）<br>// 设置指示类型为文本指示<br>photosView.pageType = PYPhotosViewPageTypeLabel;<br>设置图片间距（默认为5）<br>// 设置图片间距为10<br>photosView.photoMargin = 10;<br>设置图片大小（默认70*70）<br>// 设置图片的宽（width）<br>photosView.photoWidth = 100;<br>// 设置图片的高（height）<br>photosView.photoHeight = 60;<br>设置每行图片最多个数（默认为3个）<br>// 设置图片最多列数<br>photosView.photosMaxCol = 6;<br>设置图片上传前，最多上传的张数（默认为9）<br>photosView.imagesMaxCountWhenWillCompose = 15</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-将秒数转化为日期" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/07/将秒数转化为日期/" class="article-date">
+      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/07/将秒数转化为日期/">将秒数转化为日期</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>将秒数转化为日期<br>    //把数字的日期，转换成日期对象 </p>
+<pre><code>NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.addtime.intValue];
+NSCalendar *calendar = [NSCalendar currentCalendar]; 
+//两个日期相减，获取指定的日期部分  
+//获取分钟  
+
+NSDateComponents *compoment = [calendar components:NSCalendarUnitMinute fromDate:date toDate:[NSDate date] options:0];
+if (compoment.minute &lt; 60) {
+    return [NSString stringWithFormat:@”%zd分钟以前”, compoment.minute];
+}
+//获取小时
+compoment = [calendar components:NSCalendarUnitHour fromDate:date toDate:[NSDate date] options:0];
+if (compoment.hour &lt; 24) {
+    return [NSString stringWithFormat:@”%zd小时之前”, compoment.hour];
+}
+//获取日期
+NSDateFormatter *ndf = [[NSDateFormatter alloc] init];
+ndf.dateFormat = @”MM-dd HH:mm”;
+return [ndf stringFromDate:date]
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CocoaPods安装" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/07/CocoaPods安装/" class="article-date">
+      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/07/CocoaPods安装/">CocoaPods安装</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>CocoaPods的下载及安装</p>
+<p>　　mac系统已经默认安装好Ruby环境，如果你不确定自己系统中是否有Ruby的，可以在终端中输入命令行：ruby -v查看当前ruby版本。如图： </p>
+<p>确定以后，接下来就可以下载和安装CocoaPods，只需要一行命令。在Terminator（也就是终端）中输入以下命令：</p>
+<pre><code>sudo gem install cocoapods
+</code></pre><p>但是，在终端中敲入这个命令之后，会发现半天没有任何反应。原因是那堵墙阻挡了cocoapods.org。</p>
+<p>解决办法是，我们可以用阿里云的Ruby镜像来访问cocoapods。按照下面的顺序在终端中敲入依次敲入命令：</p>
+<p>首先，检查你的ruby源：<br>$gem sources -l<br>　　默认情况下，终端应该返回如下信息：</p>
+<p><strong><em> CURRENT SOURCES </em></strong></p>
+<p><a href="https://rubygems.org/" target="_blank" rel="external">https://rubygems.org/</a><br>　　当然这个源在墙内是访问不到的。因此我们需要寻找一个可以在国内访问到的镜像。目前笔者找到的是<a href="http://rubygems-china.oss.aliyuncs.com这个阿里云的镜像，当然随着时间的推移，未来这个镜像也有可能无法访问了，到时候就只能重新寻找了。" target="_blank" rel="external">http://rubygems-china.oss.aliyuncs.com这个阿里云的镜像，当然随着时间的推移，未来这个镜像也有可能无法访问了，到时候就只能重新寻找了。</a></p>
+<p>　　确认镜像可用后，现在就要开始修改ruby源了。首先执行以下命令删除原来的ruby源：</p>
+<pre><code>$gem sources --remove https://rubygems.org/
+</code></pre><p>　　执行命令后可在终端看见以下信息：</p>
+<pre><code>https://rubygems.org/ removed from sources
+</code></pre><p>　　然后下一步添加你找到的可用的镜像源：</p>
+<pre><code>$gem sources -a http://rubygems-china.oss.aliyuncs.com
+</code></pre><p>　　此时如果你再执行gem sources -l命令，就能看到当前镜像源里只有阿里云这一个了。此时你就可以重新执行这一段开头的那句命令了：</p>
+<pre><code>$sudo gem install cocoapods
+</code></pre><p>　　如果一切正常，你应该能看到一段安装进度，以及最后有一条信息：</p>
+<pre><code>3 gems installed
+</code></pre><p>　　确认看见这条信息，后先判断的CocoaPods是否可以使用，可以用CocoaPods的搜索功能验证一下。在终端中输入：</p>
+<pre><code>pod search AFNetworking；
+</code></pre><p>执行后可能会一直停在</p>
+<p>Setting up CocoaPods master repo然后(很久)会出现如下错误：</p>
+<p>解决办法是：</p>
+<p>这说明CocoaPods还不能正常使用，需要更新pod，下载它的一些依赖包；在终端中输入：</p>
+<pre><code>$ pod setup
+</code></pre><p>过一段时间之后，你会在终端中看到跟上面同样的红色的错误信息。</p>
+<p>这说明某些环境原因导致pod更新不了，可能原因有，1）gem版本太低；2）github无法链接；3）.cocoapods目录下的配置信息错误。我们可以一个一个来排除，</p>
+<p>首先更新gem到最新版本，在终端中输入：</p>
+<pre><code>$ sudo gem update --system 
+</code></pre><p>然后检查是否可以ping通github，在终端中输入：</p>
+<p>$ ping github.com<br>然后查看pob repo list：</p>
+<pre><code>$ pod repo list
+</code></pre><p>说明Cocoapods在将它的信息下载到 ~/.cocoapods里；</p>
+<p>cd  到该目录里，用du -sh *命令来查看文件大小，结果显示0 repos，说明没有安装成功；</p>
+<p>在终端输入：</p>
+<pre><code>cd ~/.cocoapods
+
+进入cocoapods文件后在终端输入：du -sh *
+</code></pre><p>重新执行pod setup，过一段时间后提示setup completed,在终端中输入 pod list，展示出安装列表；</p>
+<p>这样总算安装好了。接下来再一次输入：</p>
+<p>pod search AFNetworking</p>
+<p>输入过后它可能会报：</p>
+<p>[!] Unable to find a pod with name, author, summary, or descriptionmatching <code>AFNetworking</code></p>
+<p>解决方案是：</p>
+<p>输入：</p>
+<pre><code>rm ~/Library/Caches/CocoaPods/search_index.json
+</code></pre><p>后在一次输入：pod search AFNetworking</p>
+<p>就可以咯。</p>
+<p>三,cocoapods的使用</p>
+<p>　　首先来到你的项目文件：</p>
+<p>　　cd 项目文件的位置</p>
+<p>　　然后，添加一个Podfile文件： vim Podfile</p>
+<p>然后按i进入插入模式，进行编辑，在文件中输入以下内容：</p>
+<p>注意百度上很多旧版本输入的类容：</p>
+<pre><code>platform :ios, &apos;8.1&apos;
+pod &apos;AFNetworking&apos;, &apos;~&gt; 2.0&apos;
+</code></pre><p>它会报：[!] The dependency <code>AFNetworking (~&gt; 3.0)</code> is not used in any concrete target.<br>现在版本升级官方给的文档是：<br>platform :ios, ‘8.0’</p>
+<pre><code>target &apos;你的项目名称&apos; do
+
+pod &apos;AFNetworking&apos;, &apos;~&gt; 3.0&apos;
+
+end
+</code></pre><p>输入完成后按ESC退出编辑模式，最后输入:wq保存并退出文件。此时可以发现在项目目录下多了一个Podfile的文件，请注意这个文件必须与.xcodeproj在同一目录下。</p>
+<p>最后：</p>
+<p>pod install</p>
+<p>没报错就可以了。</p>
 
       
     </div>
