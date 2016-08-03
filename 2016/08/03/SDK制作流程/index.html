@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="木辰飞" />
+
+
+
+<meta name="description" content="title: SDK制作流程date: 2015-06-09 11:21:18
+tags:SDK制作一个简单的SDK制作是很容易的，复杂的sdk其实就和复杂化的应用一样，都是从简单开始的，这里介绍一下sdk的简单制作
+步骤:
+1.创建sdk,公开文件
+2.编译、获取sdk文件
+3.导入工程，配置文件
+4.解决错误,完成
+1.创建sdk,公开文件然后起个需要的名字  
+创建出这样的sdk,自动生成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="木子blog">
+<meta property="og:url" content="http://yoursite.com/2016/08/03/SDK制作流程/index.html">
+<meta property="og:site_name" content="木子blog">
+<meta property="og:description" content="title: SDK制作流程date: 2015-06-09 11:21:18
+tags:SDK制作一个简单的SDK制作是很容易的，复杂的sdk其实就和复杂化的应用一样，都是从简单开始的，这里介绍一下sdk的简单制作
+步骤:
+1.创建sdk,公开文件
+2.编译、获取sdk文件
+3.导入工程，配置文件
+4.解决错误,完成
+1.创建sdk,公开文件然后起个需要的名字  
+创建出这样的sdk,自动生成">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714135219123-1393837785.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714135700061-1853831370.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714141002826-706931075.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714140920764-1100504872.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714141407607-1000538216.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714142830529-213766920.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152517170-1095490693.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152542248-533919536.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152555482-1994964224.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714154409857-533156572.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714160028451-2033442364.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714155913982-1814916964.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714164810701-1967178863.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714173917889-7684701.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714164913295-1339079621.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714173948529-312070211.png">
+<meta property="og:updated_time" content="2016-08-03T04:11:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="木子blog">
+<meta name="twitter:description" content="title: SDK制作流程date: 2015-06-09 11:21:18
+tags:SDK制作一个简单的SDK制作是很容易的，复杂的sdk其实就和复杂化的应用一样，都是从简单开始的，这里介绍一下sdk的简单制作
+步骤:
+1.创建sdk,公开文件
+2.编译、获取sdk文件
+3.导入工程，配置文件
+4.解决错误,完成
+1.创建sdk,公开文件然后起个需要的名字  
+创建出这样的sdk,自动生成">
+<meta name="twitter:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/891788-20160714135219123-1393837785.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternative" href="/atom.xml" title="木子blog" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>木子blog</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        open_in_new: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/32269.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">木辰飞</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:714481742@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="/zhihu" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="/jianshu" title="简书"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a target="_blank" class="main-nav-link switch-friends-link" href="http://moxfive.xyz/">MOxFIVE</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">Sdsadasdasdsadsadasda</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">木辰飞</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/32269.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">木辰飞</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:714481742@qq.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="#" title="GitHub"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="/zhihu" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="/jianshu" title="简书"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-SDK制作流程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/03/SDK制作流程/" class="article-date">
+      <time datetime="2016-08-03T04:02:07.000Z" itemprop="datePublished">2016-08-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <hr>
+<p>title: SDK制作流程<br>date: 2015-06-09 11:21:18</p>
+<h2 id="tags"><a href="#tags" class="headerlink" title="tags:"></a>tags:</h2><p>SDK制作<br>一个简单的SDK制作是很容易的，复杂的sdk其实就和复杂化的应用一样，都是从简单开始的，这里介绍一下sdk的简单制作</p>
+<p>步骤:</p>
+<p>1.创建sdk,公开文件</p>
+<p>2.编译、获取sdk文件</p>
+<p>3.导入工程，配置文件</p>
+<p>4.解决错误,完成</p>
+<p>1.创建sdk,公开文件<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714135219123-1393837785.png" alt=""><br>然后起个需要的名字<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714135700061-1853831370.png" alt="">  </p>
+<p>创建出这样的sdk,自动生成的文件和普通工程的viewController一样都是可以删的，不喜欢的可以尽管删</p>
+<p>介绍使用sdk里面的类和带xib的控制器</p>
+<p>先说类，用这个自动生成的，在类里面添加一个打印的方法<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714141002826-706931075.png" alt="">  </p>
+<p>.h文件</p>
+<p>复制代码</p>
+<p>#import <foundation foundation.h=""></foundation></p>
+<p>@interface SDK : NSObject</p>
+<p>-(void)sdkLog;</p>
+<p>@end<br>复制代码<br>.m文件</p>
+<p>复制代码</p>
+<p>#import “SDK.h”</p>
+<p>@implementation SDK</p>
+<p>-(void)sdkLog<br>{<br>    NSLog(@”sdkAction”);<br>}</p>
+<p>@end<br>复制代码<br>就是这样普通，然后说下控制器</p>
+<p>先创建一个控制器，名为：</p>
+<p>SDKViewController　　记得勾选添加xib,等下要说明一下暴露文件的<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714140920764-1100504872.png" alt=""><br>然后在xib上随便添加点什么东西,等下跳转</p>
+<p><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714141407607-1000538216.png" alt=""></p>
+<p>自己能确定跳转来的是我们sdk里的这个控制器就行了</p>
+<p>接下来的比较重要，我们做一个sdk静态库就是为了保护和不让人看见里面的实现内容，但如果是需要被人调用的部分，还是需要暴露出来的，那怎么做呢？<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714142830529-213766920.png" alt=""><br>按图操作就能把文件暴露出来，暴露需要被调用的头文件，注意，如果暴露的头文件里包括控制器，而且控制器是有xib文件的，那么xib一定也得暴露出来，否则等下在其他工程里调用的时候，找不到xib的</p>
+<p>到这里sdk制作就告一段落，sdk包分三种：真机sdk包，虚拟机sdk包，两种包的合并，合并的就不说了，有兴趣的百度下，一般真正在使用时是不用合并包的，用微博，qq什么sdk的时候就知道，都是把两种包分开的，因为合并的包比较大这样会导致打包后的ipa包变大，引起用户的不满，浪费用户流量。</p>
+<p>2.编译、获取sdk文件</p>
+<p>接下去－&gt; 编译，选择真机或者Geneic iOS Device编译出来的就是真机sdk，选择虚拟机编译出来的就是虚拟机sdk</p>
+<p>真机sdk：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152517170-1095490693.png" alt=""><br>选择真机或者Geneic iOS Device编译，原本红色的libSDK.a就变成灰色，表示文件存在<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152542248-533919536.png" alt=""><br>选中libSDK.a点击右键选择show in finder就能看到内容了:<br>    <img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714152555482-1994964224.png" alt=""><br>    注意这里文件夹的名字，Debug-iphoneos文件夹是真机sdk文件夹，等下看看虚拟机sdk文件夹的名字</p>
+<p>这里include文件夹里面的文件就是暴露的文件，在把libsdk.a加进工程时也要把里面的文件一起加进去的，真机和虚拟机sdk使用是一样的,先看虚拟机的问题</p>
+<p>虚拟机sdk:</p>
+<p>这里先clear一下，把刚才编程的真机sdk包清理掉才能看到xcode7虚拟机带来的问题，清理完后libSDK.a就是红色的了，不存在</p>
+<p>然后选择虚拟机编译，如果你用的是xcode7，你会发现怎么编译，libSDK.a都是红色的，这个是xcode7的bug，之前有人说xcode7没法编译虚拟机的sdk，这是错的，不用着急，照样可以生成，如果编译提示success其实虚拟机sdk还是成功生成的，只是在xcode上看不到，这时不用clear，把真机sdk包也一起编译了，生成了真机的sdk，这里点击libsdk.a文件show in finder，这里就看到的是上面那种情况</p>
+<p>注意 </p>
+<p>之前提过文件夹的名字，现在看到的文件夹还是真机sdk的文件夹，就是你再点虚拟机的编译多一次进来，也会发现是真机的文件夹，这时候按  command+⬆️，返回上层文件夹:<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714154409857-533156572.png" alt=""></p>
+<p>  现在就看到两个文件夹了，左边的是真机sdk文件夹，右边的是虚拟机sdk文件夹，点击虚拟机文件夹进去就能看到和真机sdk一样的内容，xcode7可以通过这种方式来找虚拟机sdk文件夹的</p>
+<p>3.导入工程，配置文件</p>
+<p>用虚拟机示范下</p>
+<p>创建一个新工程，例如命名test:<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714160028451-2033442364.png" alt=""><br>把include里面的文件夹还有.a文件拉到工程里面如果没勾选要记得勾选add to targets:<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714155913982-1814916964.png" alt=""><br>然后配置一下，选择在配置里搜索search，如果里面的library search paths为空，那么双击空处箭头的地方给它添加一个库的寻找路径，给.a文件路径如 $(PROJECT_DIR)/text/libSDK.a</p>
+<p>或者自己加可以找到.a文件的其他路径也可以</p>
+<p>不然会找不到.a文件<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714164810701-1967178863.png" alt=""><br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714173917889-7684701.png" alt=""><br>再搜索other linker,给other linker flags加上　　-Objc　　和 　　-all_load,-all_load视情况加，可不加下面有说明<br><img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714164913295-1339079621.png" alt=""><br>Other Linker Flags：其他链接标签</p>
+<p>设为”-ObjC”</p>
+<p>当导入的静态库使用了类别，需要设为-ObjC，就算没有使用也给配上，预防以后使用其他的sdk里面有</p>
+<p>补充：Other Linker Flags设置的值介绍</p>
+<p>－ObjC：加了这个参数后，链接器就会把静态库中所有的Objective-C类和分类都加载到最后的可执行文件中</p>
+<p>－all_load：会让链接器把所有找到的目标文件都加载到可执行文件中，但是千万不要随便使用这个参数！假如你使用了不止一个静态库文件，然后又使用了这个参数，那么你很有可能会遇到ld: duplicate symbol错误，因为不同的库文件里面可能会有相同的目标文件，所以建议在遇到-ObjC失效的情况下使用-force_load参数。<br>-force_load：所做的事情跟-all_load其实是一样的，但是-force_load需要指定要进行全部加载的库文件的路径，这样的话，你就只是完全加载了一个库文件，不影响其余库文件的按需加载</p>
+<p>这样就配置完了</p>
+<p>最后是校验是否能使用sdk了</p>
+<p>可以在appdelegate里面这样写</p>
+<p>AppDelegate.m文件里先导入工程使用的控制器</p>
+<p>#import “ViewController.h”</p>
+<p>在下面这个方法里添加导航控制器，因为要跳转到sdk里面的控制器需要</p>
+<p>复制代码</p>
+<ul>
+<li><p>(BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions {<br>  // Override point for customization after application launch.</p>
+<p>  self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];</p>
+<p>  ViewController <em>rootViewController = [[ViewController alloc] init];<br>  UINavigationController </em>nav = [[UINavigationController alloc]initWithRootViewController:rootViewController];<br>  self.window.rootViewController = nav;<br>  [self.window makeKeyAndVisible];<br>  return YES;<br>}<br>复制代码</p>
+</li>
+</ul>
+<p>然后在viewController.m里面</p>
+<p>或者你如果想看得更明显一点自己加button，加跳转事件才去跳转到sdk里，这里我就偷懒一下了</p>
+<p>复制代码<br> 1 #import “ViewController.h”<br> 2 #import “SDK.h”<br> 3 #import “SDKViewController.h”<br> 4<br> 5 @interface ViewController ()<br> 6<br> 7 @end<br> 8<br> 9 @implementation ViewController<br>10<br>11 - (void)viewDidLoad {<br>12     [super viewDidLoad];<br>13<br>14<br>15     SDK <em>sdk = [[SDK alloc]init];<br>16     [sdk sdkLog];<br>17<br>18     SDKViewController </em>sdkCtl = [[SDKViewController alloc]init];<br>19     [self.navigationController pushViewController:sdkCtl animated:YES];<br>20 }<br>21<br>22 @end<br>复制代码<br> 完成编译运行</p>
+<p>4.解决错误,完成</p>
+<p> 写完编译工程，如果出现类似这样的情况:<br> <img src="/Users/lizhenfei/Documents/微博用到的图片/891788-20160714173948529-312070211.png" alt=""><br> 那是因为虚拟机sdk的编译包也有不同的像i386，x86_64，arm，arm64等，这是我们所需要包的Charts.framework不对，这里不细说了，想了解的可以百度i386，x86_64，arm，arm64的区别，这里最简单直接的解决办法是在编译sdk时选择什么虚拟机，那运行时也用什么虚拟机，但如果sdk编译时用5s、6、6 plus、6s、6s plus编译，那么这些的sdk在这些虚拟机上都能通用，这样也不用考虑那么多了。</p>
+<p>framework制作静态库可以和.a是一样的</p>
+<p>想制作全部通用的虚拟机sdk包可以参考<a href="http://blog.csdn.net/lizhongfu2013/article/details/12648633" target="_blank" rel="external">http://blog.csdn.net/lizhongfu2013/article/details/12648633</a></p>
+<p>最后运行打印出了</p>
+<p>sdkAction</p>
+<p>界面上显示了sdk里控制器里的界面，恭喜你完成了。</p>
+<p>看上面似乎很多内容，其实做多几次了解之后就知道是很简单的,frameword制作静态库时也是这样，动态库就不一样了，也不推荐工程里用自己做的动态库，app store会审核不通过的，然后是debug和release模式，制作真正的sdk时应该在product-&gt;scheme-&gt;edit scheme的Build Configuration里面把Debug切换为release然后再编译使用，和工程里面是一样的道理，如果都完成了应该换。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/08/03/SDK制作流程/"></a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">木辰飞</a></p>
+        <p><span>发布时间:</span>2016-08-03, 12:02:07</p>
+        <p><span>最后更新:</span>2016-08-03, 12:11:57</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/08/03/SDK制作流程/" title="">http://yoursite.com/2016/08/03/SDK制作流程/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://yoursite.com/2016/08/03/SDK制作流程/　　作者: 木辰飞" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/08/03/Cocoapods配置/">
+                    
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags"><span class="toc-number">1.</span> <span class="toc-text">tags:</span></a></li></ol>
+</div>
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+<script>
+    yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+</script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/08/03/Cocoapods配置/" title="下一篇: ">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/SDK制作流程/">SDK制作流程</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/Cocoapods配置/">Cocoapods配置</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/03/集成支付宝/">集成支付宝</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/24/GCD/">GCD</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/10/二维码生成/">二维码生成</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/YYModel简单解析/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/简单的图片和视频播放的框架　/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/NSURLSession/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/09/BUG收集之malformed/">NSURLSession</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/将秒数转化为日期/">将秒数转化为日期</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/CocoaPods安装/">CocoaPods安装</a></li><li class="post-list-item"><a class="post-list-link" href="/2015/06/07/非第三方实现下载/">非第三方实现下载</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2015-2016 木辰飞
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.0">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
