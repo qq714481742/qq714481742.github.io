@@ -15,19 +15,34 @@
 
 
 
-<meta name="description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
+<meta name="description" content="将秒数转化为日期    //把数字的日期，转换成日期对象 
+NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.addtime.intValue];
+NSCalendar *calendar = [NSCalendar currentCalendar]; 
+//两个日期相减，获取指定的日期部分  
+//获取分钟  
+
+NSDateCo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NSURLSession">
-<meta property="og:url" content="http://yoursite.com/2015/06/09/NSURLSession/index.html">
+<meta property="og:title" content="木子blog">
+<meta property="og:url" content="http://yoursite.com/2016/08/03/将秒数转化为日期/index.html">
 <meta property="og:site_name" content="木子blog">
-<meta property="og:description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
-<meta property="og:updated_time" content="2016-07-24T01:51:40.000Z">
+<meta property="og:description" content="将秒数转化为日期    //把数字的日期，转换成日期对象 
+NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.addtime.intValue];
+NSCalendar *calendar = [NSCalendar currentCalendar]; 
+//两个日期相减，获取指定的日期部分  
+//获取分钟  
+
+NSDateCo">
+<meta property="og:updated_time" content="2016-08-03T03:14:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NSURLSession">
-<meta name="twitter:description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
+<meta name="twitter:title" content="木子blog">
+<meta name="twitter:description" content="将秒数转化为日期    //把数字的日期，转换成日期对象 
+NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.addtime.intValue];
+NSCalendar *calendar = [NSCalendar currentCalendar]; 
+//两个日期相减，获取指定的日期部分  
+//获取分钟  
+
+NSDateCo">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -59,7 +74,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>NSURLSession | 木子blog</title>
+<title>木子blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -268,11 +283,11 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
     </div>
     <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
-      <div class="body-wrap"><article id="post-NSURLSession" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-将秒数转化为日期" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/09/NSURLSession/" class="article-date">
-      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+      <a href="/2016/08/03/将秒数转化为日期/" class="article-date">
+      <time datetime="2016-08-03T03:14:07.000Z" itemprop="datePublished">2016-08-03</time>
 </a>
     </div>
   
@@ -281,32 +296,29 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      NSURLSession
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>NSURLSession</p>
-<p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
-<p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
-<p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
+        <p>将秒数转化为日期<br>    //把数字的日期，转换成日期对象 </p>
+<pre><code>NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.addtime.intValue];
+NSCalendar *calendar = [NSCalendar currentCalendar]; 
+//两个日期相减，获取指定的日期部分  
+//获取分钟  
 
+NSDateComponents *compoment = [calendar components:NSCalendarUnitMinute fromDate:date toDate:[NSDate date] options:0];
+if (compoment.minute &lt; 60) {
+    return [NSString stringWithFormat:@”%zd分钟以前”, compoment.minute];
+}
+//获取小时
+compoment = [calendar components:NSCalendarUnitHour fromDate:date toDate:[NSDate date] options:0];
+if (compoment.hour &lt; 24) {
+    return [NSString stringWithFormat:@”%zd小时之前”, compoment.hour];
+}
+//获取日期
+NSDateFormatter *ndf = [[NSDateFormatter alloc] init];
+ndf.dateFormat = @”MM-dd HH:mm”;
+return [ndf stringFromDate:date]
+</code></pre>
       
     </div>
     
@@ -314,13 +326,13 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
   
     
     <div class="copyright">
-        <p><span>Title:</span><a href="/2015/06/09/NSURLSession/">NSURLSession</a></p>
+        <p><span>Title:</span><a href="/2016/08/03/将秒数转化为日期/"></a></p>
         <p><span>Author:</span><a href="/" title="Back to Homepage">木辰飞</a></p>
-        <p><span>Created:</span>2015-06-09, 11:21:18</p>
-        <p><span>Updated:</span>2016-07-24, 09:51:40</p>
+        <p><span>Created:</span>2016-08-03, 11:14:07</p>
+        <p><span>Updated:</span>2016-08-03, 11:14:07</p>
         <p>
-            <span>Full URL:</span><a class="post-url" href="/2015/06/09/NSURLSession/" title="NSURLSession">http://yoursite.com/2015/06/09/NSURLSession/</a>
-            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2015/06/09/NSURLSession/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <span>Full URL:</span><a class="post-url" href="/2016/08/03/将秒数转化为日期/" title="">http://yoursite.com/2016/08/03/将秒数转化为日期/</a>
+            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2016/08/03/将秒数转化为日期/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -333,15 +345,15 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2015/06/10/二维码生成/">
-                    二维码生成
+                <a href="/2016/08/03/集成支付宝/">
+                    
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2015/06/07/CocoaPods安装/">
-                    CocoaPods安装
+                <a href="/2016/07/24/GCD/">
+                    
                 </a>
             </div>
         
@@ -383,7 +395,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"NSURLSession　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -403,7 +415,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2015/06/10/二维码生成/" title="Pre: 二维码生成">
+            <a href="/2016/08/03/集成支付宝/" title="Pre: ">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -411,7 +423,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
         <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2015/06/07/CocoaPods安装/" title="Next: CocoaPods安装">
+            <a href="/2016/07/24/GCD/" title="Next: ">
                 <i class="fa fa-angle-right"></i>
             </a>
         

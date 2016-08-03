@@ -15,19 +15,28 @@
 
 
 
-<meta name="description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
+<meta name="description" content="#Cocoapods配置  
+这真是蛋疼的东西，配置了几次，每次都不同，每次都折腾半天。这一段时间应该不会变了，记录下来。
+一 换源看了教程都说官方源https://rubygems.org/不能访问，我特意点了一下，发现能访问。于是就没换。但是在使用的时候还是出了问题，所以以后干脆换源。
+除掉官方源 gem sources –remove https://rubygems.org/
+换上新的源">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NSURLSession">
-<meta property="og:url" content="http://yoursite.com/2015/06/09/NSURLSession/index.html">
+<meta property="og:title" content="木子blog">
+<meta property="og:url" content="http://yoursite.com/2016/08/03/Cocoapods配置/index.html">
 <meta property="og:site_name" content="木子blog">
-<meta property="og:description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
-<meta property="og:updated_time" content="2016-07-24T01:51:40.000Z">
+<meta property="og:description" content="#Cocoapods配置  
+这真是蛋疼的东西，配置了几次，每次都不同，每次都折腾半天。这一段时间应该不会变了，记录下来。
+一 换源看了教程都说官方源https://rubygems.org/不能访问，我特意点了一下，发现能访问。于是就没换。但是在使用的时候还是出了问题，所以以后干脆换源。
+除掉官方源 gem sources –remove https://rubygems.org/
+换上新的源">
+<meta property="og:updated_time" content="2016-08-03T03:37:15.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NSURLSession">
-<meta name="twitter:description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
+<meta name="twitter:title" content="木子blog">
+<meta name="twitter:description" content="#Cocoapods配置  
+这真是蛋疼的东西，配置了几次，每次都不同，每次都折腾半天。这一段时间应该不会变了，记录下来。
+一 换源看了教程都说官方源https://rubygems.org/不能访问，我特意点了一下，发现能访问。于是就没换。但是在使用的时候还是出了问题，所以以后干脆换源。
+除掉官方源 gem sources –remove https://rubygems.org/
+换上新的源">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -59,7 +68,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>NSURLSession | 木子blog</title>
+<title>木子blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -268,11 +277,11 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
     </div>
     <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
-      <div class="body-wrap"><article id="post-NSURLSession" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Cocoapods配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/09/NSURLSession/" class="article-date">
-      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+      <a href="/2016/08/03/Cocoapods配置/" class="article-date">
+      <time datetime="2016-08-03T03:37:15.000Z" itemprop="datePublished">2016-08-03</time>
 </a>
     </div>
   
@@ -281,31 +290,48 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      NSURLSession
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>NSURLSession</p>
-<p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
-<p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
-<p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
+        <p>#Cocoapods配置  </p>
+<p>这真是蛋疼的东西，配置了几次，每次都不同，每次都折腾半天。这一段时间应该不会变了，记录下来。</p>
+<p>一 换源<br>看了教程都说官方源<a href="https://rubygems.org/不能访问，我特意点了一下，发现能访问。于是就没换。但是在使用的时候还是出了问题，所以以后干脆换源。" target="_blank" rel="external">https://rubygems.org/不能访问，我特意点了一下，发现能访问。于是就没换。但是在使用的时候还是出了问题，所以以后干脆换源。</a></p>
+<p>除掉官方源 gem sources –remove <a href="https://rubygems.org/" target="_blank" rel="external">https://rubygems.org/</a></p>
+<p>换上新的源 gem source -a <a href="https://gems.ruby-china.org" target="_blank" rel="external">https://gems.ruby-china.org</a></p>
+<p>等有相应以后，输入命令 gem source 查看源</p>
+<p>如果显示新源，说明换源成功。</p>
+<p>二 安装cocoapods<br>输入命令 sudo gem install -n /usr/local/bin cocoapods</p>
+<p>报错：Ruby版本过低。</p>
+<p>1 更新Ruby<br>但是直接用 sudo gem update –system是不行的。</p>
+<p>查资料（ <a href="http://www.jianshu.com/p/ad98a3364803）知道可以用" target="_blank" rel="external">http://www.jianshu.com/p/ad98a3364803）知道可以用</a> RVM安装来解决。</p>
+<p>安装 RVM<br>输入命令 curl -L get.rvm.io | bash -s stable</p>
+<p>等到出现 In case of problems: <a href="https://rvm.io/helpandhttps://twitter.com/rvm_io" target="_blank" rel="external">https://rvm.io/helpandhttps://twitter.com/rvm_io</a></p>
+<p>说明安装完成</p>
+<p>接着输入 source ~/.bashrc</p>
+<p>接着输入 source ~/.bash_profile</p>
+<p>输入 rvm -v 测试是否安装成功</p>
+<p>提示 rvm 1.27.0 (latest) by Wayne E. Seguin, Michal Papis[<a href="https://rvm.io/" target="_blank" rel="external">https://rvm.io/</a>]</p>
+<p>用RVM更新Ruby<br>查看当前Ruby版本</p>
+<p>ruby -v</p>
+<p>rvm list known</p>
+<p>很多提示。。。</p>
+<p>安装Ruby2.2.2<br>rvm install 2.2.2</p>
+<p>完成后，再次输入 ruby -v 查看版本</p>
+<p>打印 ruby 2.2.2p95 (2015-04-13 revision 50295) [x86_64-darwin14]</p>
+<p>2 继续安装cocoapods<br>sudo gem install -n /usr/local/bin cocoapods</p>
+<p>pod setup</p>
+<p>接下来会等待一段时间，屏幕一直没动静，不知道是否在安装</p>
+<p>输入 cd ~/.cocoapods 到该目录下</p>
+<p>用 du -sh * 查看文件大小</p>
+<p>过一会查看一次，过一会查看一次。</p>
+<p>会发现文件体积一直在增大，感觉人生充满希望！</p>
+<p>直至最后安装完成。其他的不说了，在命令行里用，或者在Xcode里添加路径 /usr/local/bin</p>
+<p>编写Podfile文件</p>
+<p>platform :ios, “9.0”</p>
+<p>target ‘ggggg’ do</p>
+<p>pod ‘AFNetworking’</p>
+<p>pod ‘pop’</p>
+<p>end</p>
 
       
     </div>
@@ -314,13 +340,13 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
   
     
     <div class="copyright">
-        <p><span>Title:</span><a href="/2015/06/09/NSURLSession/">NSURLSession</a></p>
+        <p><span>Title:</span><a href="/2016/08/03/Cocoapods配置/"></a></p>
         <p><span>Author:</span><a href="/" title="Back to Homepage">木辰飞</a></p>
-        <p><span>Created:</span>2015-06-09, 11:21:18</p>
-        <p><span>Updated:</span>2016-07-24, 09:51:40</p>
+        <p><span>Created:</span>2016-08-03, 11:37:15</p>
+        <p><span>Updated:</span>2016-08-03, 11:37:15</p>
         <p>
-            <span>Full URL:</span><a class="post-url" href="/2015/06/09/NSURLSession/" title="NSURLSession">http://yoursite.com/2015/06/09/NSURLSession/</a>
-            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2015/06/09/NSURLSession/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <span>Full URL:</span><a class="post-url" href="/2016/08/03/Cocoapods配置/" title="">http://yoursite.com/2016/08/03/Cocoapods配置/</a>
+            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2016/08/03/Cocoapods配置/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -333,15 +359,15 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2015/06/10/二维码生成/">
-                    二维码生成
+                <a href="/2016/08/03/简单的图片和视频播放的框架　/">
+                    
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2015/06/07/CocoaPods安装/">
-                    CocoaPods安装
+                <a href="/2016/08/03/支付宝集成中的公钥和私钥/">
+                    
                 </a>
             </div>
         
@@ -383,7 +409,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"NSURLSession　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -403,7 +429,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2015/06/10/二维码生成/" title="Pre: 二维码生成">
+            <a href="/2016/08/03/简单的图片和视频播放的框架　/" title="Pre: ">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -411,7 +437,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
         <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2015/06/07/CocoaPods安装/" title="Next: CocoaPods安装">
+            <a href="/2016/08/03/支付宝集成中的公钥和私钥/" title="Next: ">
                 <i class="fa fa-angle-right"></i>
             </a>
         

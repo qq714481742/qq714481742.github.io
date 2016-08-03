@@ -15,19 +15,23 @@
 
 
 
-<meta name="description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
+<meta name="description" content="#支付宝集成中获取私钥与公钥  
+项目需要在客户端中集成支付宝接口，就研究了一下。需要到支付宝官网注册账号并申请商户服务登录成功后，商户在《我的商家服务—&amp;gt;在页面的下方找到—&amp;gt;签约管理—&amp;gt;找到移动支付—&amp;gt;点击下载集成文档—&amp;gt;跳到新的页面，在页面下方—&amp;gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件这时候要打开《支付宝钱包支付接口开发包2.0标准">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NSURLSession">
-<meta property="og:url" content="http://yoursite.com/2015/06/09/NSURLSession/index.html">
+<meta property="og:title" content="木子blog">
+<meta property="og:url" content="http://yoursite.com/2016/08/03/支付宝集成中的公钥和私钥/index.html">
 <meta property="og:site_name" content="木子blog">
-<meta property="og:description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
-<meta property="og:updated_time" content="2016-07-24T01:51:40.000Z">
+<meta property="og:description" content="#支付宝集成中获取私钥与公钥  
+项目需要在客户端中集成支付宝接口，就研究了一下。需要到支付宝官网注册账号并申请商户服务登录成功后，商户在《我的商家服务—&amp;gt;在页面的下方找到—&amp;gt;签约管理—&amp;gt;找到移动支付—&amp;gt;点击下载集成文档—&amp;gt;跳到新的页面，在页面下方—&amp;gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件这时候要打开《支付宝钱包支付接口开发包2.0标准">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/DB2DA2CA-FE1D-46F9-A44D-B95F963FD7BF.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29AC-4C2B-A34A-0911AD77FD30.png">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29A1111C-4C2B-A34A-0911AD77FD30.png">
+<meta property="og:updated_time" content="2016-08-03T03:34:56.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NSURLSession">
-<meta name="twitter:description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
+<meta name="twitter:title" content="木子blog">
+<meta name="twitter:description" content="#支付宝集成中获取私钥与公钥  
+项目需要在客户端中集成支付宝接口，就研究了一下。需要到支付宝官网注册账号并申请商户服务登录成功后，商户在《我的商家服务—&amp;gt;在页面的下方找到—&amp;gt;签约管理—&amp;gt;找到移动支付—&amp;gt;点击下载集成文档—&amp;gt;跳到新的页面，在页面下方—&amp;gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件这时候要打开《支付宝钱包支付接口开发包2.0标准">
+<meta name="twitter:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/DB2DA2CA-FE1D-46F9-A44D-B95F963FD7BF.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -59,7 +63,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>NSURLSession | 木子blog</title>
+<title>木子blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -268,11 +272,11 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
     </div>
     <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
-      <div class="body-wrap"><article id="post-NSURLSession" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-支付宝集成中的公钥和私钥" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/09/NSURLSession/" class="article-date">
-      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+      <a href="/2016/08/03/支付宝集成中的公钥和私钥/" class="article-date">
+      <time datetime="2016-08-03T03:34:56.000Z" itemprop="datePublished">2016-08-03</time>
 </a>
     </div>
   
@@ -281,31 +285,19 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      NSURLSession
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>NSURLSession</p>
-<p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
-<p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
-<p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
+        <p>#支付宝集成中获取私钥与公钥  </p>
+<p>项目需要在客户端中集成支付宝接口，就研究了一下。<br>需要到支付宝官网注册账号并申请商户服务<br>登录成功后，商户在《我的商家服务—&gt;在页面的下方找到—&gt;签约管理—&gt;找到移动支付—&gt;点击下载集成文档—&gt;跳到新的页面，在页面下方—&gt;找到下载开发包，下载移动支付即可》，然后解压出来的会得到三个文件<br>这时候要打开《支付宝钱包支付接口开发包2.0标准版》，打开之后有一个Demo文件，里面有三个文件夹：openssl、服务端Demo，客户端Demo，这个时候，我们需要关心得是openssl文件与客户端Demo的文件<br>第三个Demo文件中有iOS版与Android版的Demo。但是你要部署运行的时候，发现不能运行成功，因为项目主文件中需要填写 partner、seller、rsa_private、rsa_public四个参数<br>因为这些都是需要根据商户注册的信息来填写的，所以就算是下载了Demo也没有用，下面就讲一下如何获取公钥与私钥<br>首先找到openssl文件，点击终端打开<br>打开命令框后:输入第一行命令 ，生成私钥，如下：</p>
+<pre><code>genrsa -out rsa_private_key.pem 1024
+</code></pre><p>按回车键，接着输入第二行命令，生成公钥：</p>
+<pre><code>rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+</code></pre><p>按回车键，接着输入第三行命令，将RSA私钥转换成PKCS8格式</p>
+<pre><code>pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
+</code></pre><p>执行完这三个命令后，就生成了两个以.pem结尾的文件，这就是我们生成为公钥与私钥。<br>复制到桌面上用文本编辑打开即可，因为我们需要的只是里面的字符串。记住当我们引用这两个长的字符串的时候，需要注意的是：不能包括、换行、空格以及误加其他字符，所以复制的时候要小心<br>当然私钥就是我们需要的私钥了，如何获得支付宝公钥呢：  </p>
+<p>回到支付宝首先，首先登录,<br> 点击“查看PID|KEY”，在新打开的页面（<a href="https://b.alipay.com/rder/pidAndKey.htm" target="_blank" rel="external">https://b.alipay.com/rder/pidAndKey.htm</a> ），可查看到签约支付宝账号、合作者身份        ID（PID.<br>：输入支付密码，查询key、支付宝公钥。<br>三：上传RSA公钥，在“合作伙伴密钥管理”下，点击“RSA加密”后的“添加密钥”，把自己的公钥复制进去。注意不能有空格，换行之类的。<br>如图：<br><img src="/Users/lizhenfei/Documents/微博用到的图片/DB2DA2CA-FE1D-46F9-A44D-B95F963FD7BF.png" alt=""><br><img src="/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29AC-4C2B-A34A-0911AD77FD30.png" alt=""><br>四：点击确认上传，若是提示上传成功。则就是成功。<br>这个时候就可查看支付宝公钥了。如图：</p>
+<p><img src="/Users/lizhenfei/Documents/微博用到的图片/D1ECD445-29A1111C-4C2B-A34A-0911AD77FD30.png" alt=""></p>
 
       
     </div>
@@ -314,13 +306,13 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
   
     
     <div class="copyright">
-        <p><span>Title:</span><a href="/2015/06/09/NSURLSession/">NSURLSession</a></p>
+        <p><span>Title:</span><a href="/2016/08/03/支付宝集成中的公钥和私钥/"></a></p>
         <p><span>Author:</span><a href="/" title="Back to Homepage">木辰飞</a></p>
-        <p><span>Created:</span>2015-06-09, 11:21:18</p>
-        <p><span>Updated:</span>2016-07-24, 09:51:40</p>
+        <p><span>Created:</span>2016-08-03, 11:34:56</p>
+        <p><span>Updated:</span>2016-08-03, 11:34:56</p>
         <p>
-            <span>Full URL:</span><a class="post-url" href="/2015/06/09/NSURLSession/" title="NSURLSession">http://yoursite.com/2015/06/09/NSURLSession/</a>
-            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2015/06/09/NSURLSession/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <span>Full URL:</span><a class="post-url" href="/2016/08/03/支付宝集成中的公钥和私钥/" title="">http://yoursite.com/2016/08/03/支付宝集成中的公钥和私钥/</a>
+            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2016/08/03/支付宝集成中的公钥和私钥/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -333,15 +325,15 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2015/06/10/二维码生成/">
-                    二维码生成
+                <a href="/2016/08/03/Cocoapods配置/">
+                    
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2015/06/07/CocoaPods安装/">
-                    CocoaPods安装
+                <a href="/2016/08/03/集成支付宝/">
+                    
                 </a>
             </div>
         
@@ -383,7 +375,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"NSURLSession　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -403,7 +395,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2015/06/10/二维码生成/" title="Pre: 二维码生成">
+            <a href="/2016/08/03/Cocoapods配置/" title="Pre: ">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -411,7 +403,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
         <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2015/06/07/CocoaPods安装/" title="Next: CocoaPods安装">
+            <a href="/2016/08/03/集成支付宝/" title="Next: ">
                 <i class="fa fa-angle-right"></i>
             </a>
         

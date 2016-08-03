@@ -15,19 +15,21 @@
 
 
 
-<meta name="description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
+<meta name="description" content="#利用KVC对UITabBar上的UITabBarButton的修改一、前言一次比较懒的想法，不想自定义UITabBar，也不想用第三方框架，于是想尝试修改苹果私有类来达到部分效果
+效果如下点击tabBar 上的按钮，图片有变大再变小的动画tabBar 上某个按钮（购物车按钮），点击弹出控制器是modal出来的，并不属于UITabBarController管理的上述购物车按钮，是后面加到tabBa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NSURLSession">
-<meta property="og:url" content="http://yoursite.com/2015/06/09/NSURLSession/index.html">
+<meta property="og:title" content="木子blog">
+<meta property="og:url" content="http://yoursite.com/2016/08/03/利用KVC对UITabBar上的UITabBarButton的修改/index.html">
 <meta property="og:site_name" content="木子blog">
-<meta property="og:description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
-<meta property="og:updated_time" content="2016-07-24T01:51:40.000Z">
+<meta property="og:description" content="#利用KVC对UITabBar上的UITabBarButton的修改一、前言一次比较懒的想法，不想自定义UITabBar，也不想用第三方框架，于是想尝试修改苹果私有类来达到部分效果
+效果如下点击tabBar 上的按钮，图片有变大再变小的动画tabBar 上某个按钮（购物车按钮），点击弹出控制器是modal出来的，并不属于UITabBarController管理的上述购物车按钮，是后面加到tabBa">
+<meta property="og:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/922647-20160726175818294-211214355.gif">
+<meta property="og:updated_time" content="2016-08-03T03:45:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NSURLSession">
-<meta name="twitter:description" content="NSURLSession
-NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 7.0后苹果推荐使用sessionNSURLConnection :是面向内存的 ，运行在当前线程消息循环中的NSURLSession :面向内存dataTask 面向磁盘Download Uploadcon 只有自定义操作才能设置（最大并发数，一来，暂停等）而">
+<meta name="twitter:title" content="木子blog">
+<meta name="twitter:description" content="#利用KVC对UITabBar上的UITabBarButton的修改一、前言一次比较懒的想法，不想自定义UITabBar，也不想用第三方框架，于是想尝试修改苹果私有类来达到部分效果
+效果如下点击tabBar 上的按钮，图片有变大再变小的动画tabBar 上某个按钮（购物车按钮），点击弹出控制器是modal出来的，并不属于UITabBarController管理的上述购物车按钮，是后面加到tabBa">
+<meta name="twitter:image" content="http://yoursite.com/Users/lizhenfei/Documents/微博用到的图片/922647-20160726175818294-211214355.gif">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -59,7 +61,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>NSURLSession | 木子blog</title>
+<title>木子blog</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -268,11 +270,11 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
     </div>
     <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
 </nav>
-      <div class="body-wrap"><article id="post-NSURLSession" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-利用KVC对UITabBar上的UITabBarButton的修改" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/06/09/NSURLSession/" class="article-date">
-      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+      <a href="/2016/08/03/利用KVC对UITabBar上的UITabBarButton的修改/" class="article-date">
+      <time datetime="2016-08-03T03:45:40.000Z" itemprop="datePublished">2016-08-03</time>
 </a>
     </div>
   
@@ -281,31 +283,116 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      NSURLSession
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>NSURLSession</p>
-<p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
-<p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
-<p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
+        <p>#利用KVC对UITabBar上的UITabBarButton的修改<br>一、前言<br>一次比较懒的想法，不想自定义UITabBar，也不想用第三方框架，于是想尝试修改苹果私有类来达到部分效果</p>
+<p>效果如下<br>点击tabBar 上的按钮，图片有变大再变小的动画<br>tabBar 上某个按钮（购物车按钮），点击弹出控制器是modal出来的，并不属于UITabBarController管理的<br>上述购物车按钮，是后面加到tabBar 上的自定义的按钮UIButton，本身没有右上角的badge的提示，懒得话，就用<br>系统UITabBarButton 的badge<br>点击商品的加号按钮，实现tabBar上购物车按钮 显示的badge的数字的改变，并实现变大变小的动画<br><img src="/Users/lizhenfei/Documents/微博用到的图片/922647-20160726175818294-211214355.gif" alt=""></p>
+<p>二、相关说明<br>在swift3及xcode8 beta2 环境下</p>
+<p>运行时遍历出成员变量</p>
+<p>  var count:UInt32 = 0<br>        let ivarlist = class_copyIvarList(NSClassFromString(“UITabBarButton”)!, &amp;count)</p>
+<pre><code>for index in 0..&lt;numericCast(count) {
+    let ivar = ivarlist![index]
+    let ivarStr = String.init(utf8String: ivar_getName(ivar!))
+    print(&quot;\(ivarStr)&quot;)
+}
+</code></pre><p>1、UITabBarButton</p>
+<p>Optional(“_hitRect”)<br>Optional(“_info”)<br>Optional(“_vibrancyEffectView”)<br>Optional(“_label”)<br>Optional(“_badge”)<br>Optional(“_selectedIndicator”)<br>Optional(“_selected”)<br>Optional(“_infoInsets”)<br>Optional(“_selectedInfoOffset”)<br>Optional(“_infoOffset”)<br>Optional(“_customSelectedIndicatorImage”)<br>Optional(“_labelOffset”)<br>Optional(“_buttonTintColorsForState”)<br>Optional(“_contentTintColorsForState”)<br>Optional(“_badgeColor”)<br>Optional(“_badgeTextAttributesForState”)<br>Optional(“_showsHighlightedState”)<br>Optional(“_centerAllContents”)<br>Optional(“_appearanceGuideClass”)<br>Optional(“_tabBar”)<br>其中 “_info” ,”_label” ,”_badge” 这三个是我们需要的</p>
+<p>“_info”是 UIImageView 就是显示的图片，”_label”是UILabel 显示的文字</p>
+<p>2、”_badge”是什么呢？它真实类型是什么,子控件及属性名是什么</p>
+<p>let tab = window?.rootViewController as! TabBarViewController<br>        for view in tab.tabBar.subviews {<br>            if view.isKind(of: NSClassFromString(“UITabBarButton”)! ) {<br>                let badgeView = view.value(forKeyPath: “_badge”)<br>                    print(“1(badgeView!.self)”)<br>                let badge = badgeView as! UIView<br>                    print(“2(badge.subviews)”)<br>                }<br>            }<br>        }</p>
+<p>1 <_uibadgeview: 18="" 0x7fd671c336c0;="" frame="(33" 2;="" 18);="" text="1" ;="" userinteractionenabled="NO;" layer="<CALayer:" 0x608000031240="">&gt;<br>2 [<uiimageview: 1="" 18="" 0x7fd671c09570;="" frame="(0" 0;="" 18);="" opaque="NO;" userinteractionenabled="NO;" tintcolor="UIExtendedSRGBColorSpace" 0.231373="" 0.188235="" 1;="" layer="<CALayer:" 0x60800002e9a0="">&gt;, <uilabel: 6="" 0x7fd671c33ba0;="" frame="(6" 1;="" 16);="" text="1" ;="" opaque="NO;" userinteractionenabled="NO;" layer="<_UILabelLayer:" 0x60800009c890="">&gt;]</uilabel:></uiimageview:></_uibadgeview:></p>
+<p>var count:UInt32 = 0<br>let ivarlist = class_copyIvarList(NSClassFromString(“_UIBadgeView”)!, &amp;count)<br>for index in 0..&lt;numericCast(count) {<br>   let ivar = ivarlist![index]<br>   let ivarStr = String.init(utf8String: ivar_getName(ivar!))<br>   print(“badge= (ivarStr)”)<br>}</p>
+<p>badge= Optional(“_label”)<br>badge= Optional(“_background”)<br>badge= Optional(“_mergedTextAttributes”)<br>badge= Optional(“_text”)<br>badge= Optional(“_textAttributes”)<br>badge= Optional(“_backgroundColor”)<br>三、做法及代码<br>自定义TabBarController里，添加4个子控制器，其中第三个添加一个空的UIViewController，图片为UIImage(), 空的TabBarItem，只是让这个系统生成的UITabBarButton占好位置</p>
+<p>自定义UIButton，添加到TabBar上，盖住上述 空的UITabBarButton上</p>
+<p>appDelegate成为TabBarController的代理，监控tabBar的点击</p>
+<p>extension AppDelegate: UITabBarControllerDelegate {</p>
+<pre><code>func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    for view  in tabBarController.tabBar.subviews {
+        if view.isKind(of: NSClassFromString(&quot;UITabBarButton&quot;)! ) {
+            // UITabBarButton是继承UIControl的， 通过 按钮的状态 才判别是否是现在点击的按钮
+            let state = view.value(forKeyPath: &quot;highlighted&quot;)
+            let stateValue = state as! Int
+            if stateValue == 1 {
+                // 拿到当前点击的 按钮的imageView
+                let imageView = view.value(forKeyPath: &quot;_info&quot;)
+                guard let temp  = imageView else {
+                    return
+                }
+
+                let tabButtonImgView = temp as! UIImageView
+                // 添加动画
+                UIView.animate(withDuration: 0.2, animations: {
+                    tabButtonImgView.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                    }, completion: { (Bool) in
+                        tabButtonImgView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                })
+            }
+        }
+    }
+
+}
+</code></pre><p>}</p>
+<p>由于UITabBarButton的子控件都是懒加载的，需要用控制器的tabBarItem 模型对UITabBarButton进行设置</p>
+<p>点击商品加号按钮，拿到 控制器tabBarItem，设置badgeValue ，然而购物车按钮（自己添加的） 盖住了部分 系统生成的badgeView，需要调整badgeView的位置</p>
+<p>for button in tabBar.subviews {</p>
+<pre><code>    if button.isKind(of: NSClassFromString(&quot;UITabBarButton&quot;)! ) {
+        let label = button.value(forKeyPath: &quot;_label&quot;) as! UILabel
+        //  print(&quot;\(label.text)&quot;)
+        if label.text == &quot;&quot; { // 通过label.text 确定是购物车按钮 那位置的 UITabBarButton
+
+            let badgeButton = button.value(forKeyPath: &quot;_badge&quot;)
+            //   print(&quot;\(badgeButton!.self)&quot;)
+            guard let badgeView = badgeButton else {
+                return
+            }
+
+            let badge = badgeView as! UIView
+            //  print(&quot;\(badge.subviews)&quot;)
+            badge.frame.origin.x = 52  // 可根据需要计算
+        }
+    }
+}
+</code></pre><p>点击商品加号按钮实现系统 badgeView的动画</p>
+<p>let tab = window?.rootViewController as! TabBarViewController</p>
+<pre><code>for button in tab.tabBar.subviews {
+
+    if button.isKind(of: NSClassFromString(&quot;UITabBarButton&quot;)! ) {
+        let label = button.value(forKeyPath: &quot;_label&quot;) as! UILabel
+        // 外界通过 lable.text 区别出是我们需要的 第三个UITabBarButton
+        if label.text == &quot;&quot; {
+            let badgeButton = button.value(forKeyPath: &quot;_badge&quot;)
+            guard let badgeView = badgeButton else {
+                return
+            }
+            // 拿到 badge 控件
+            let badge = badgeView as! UIView
+            //  num变量为 点击加号按钮， 商品个数 计量
+            let str:NSString = NSString.init(format: &quot;%d&quot;, num)
+
+            // kvc 设置属性
+            badgeView.setValue(UIFont.systemFont(ofSize: 9), forKeyPath: &quot;_label.font&quot;)
+            badgeView.setValue(str, forKeyPath: &quot;_label.text&quot;)
+
+            let tabLabal = badgeView.value(forKeyPath: &quot;_label&quot;)
+            let label = tabLabal as! UILabel
+            // 拿到lebel 计算label 的大小、尺寸
+            let size = str.size(attributes: [NSFontAttributeName : UIFont.systemFont(ofSize: 9)])
+            label.frame = CGRect(x: (badge.frame.size.width - size.width) * 0.5, y: (badge.frame.size.height - size.height) * 0.5, width: size.width, height: size.height)
+            // 添加核心动画
+            let scaleAni =  CABasicAnimation()
+            scaleAni.keyPath = &quot;transform.scale&quot;
+            scaleAni.fromValue = 1.0
+            scaleAni.toValue = 1.2
+            scaleAni.autoreverses = true
+            scaleAni.duration = 0.25
+            badge.layer.add(scaleAni, forKey: nil)
+
+        }
+    }
+}
+</code></pre><p>四、 问题<br>刚学习swift 3.0， 各种不熟，各种不顺，加上xcode8 beta版各种不稳定及bug，这次仅仅是尝试swift3的改变而练习的</p>
+<p>系统UITabBarButton 里面的子控件都是懒加载的，没有先设置tabBarItem模型 ，用kvc 是赋不上值得，这点得注意</p>
 
       
     </div>
@@ -314,13 +401,13 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
   
     
     <div class="copyright">
-        <p><span>Title:</span><a href="/2015/06/09/NSURLSession/">NSURLSession</a></p>
+        <p><span>Title:</span><a href="/2016/08/03/利用KVC对UITabBar上的UITabBarButton的修改/"></a></p>
         <p><span>Author:</span><a href="/" title="Back to Homepage">木辰飞</a></p>
-        <p><span>Created:</span>2015-06-09, 11:21:18</p>
-        <p><span>Updated:</span>2016-07-24, 09:51:40</p>
+        <p><span>Created:</span>2016-08-03, 11:45:40</p>
+        <p><span>Updated:</span>2016-08-03, 11:45:40</p>
         <p>
-            <span>Full URL:</span><a class="post-url" href="/2015/06/09/NSURLSession/" title="NSURLSession">http://yoursite.com/2015/06/09/NSURLSession/</a>
-            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2015/06/09/NSURLSession/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <span>Full URL:</span><a class="post-url" href="/2016/08/03/利用KVC对UITabBar上的UITabBarButton的修改/" title="">http://yoursite.com/2016/08/03/利用KVC对UITabBar上的UITabBarButton的修改/</a>
+            <span class="copy-path" data-clipboard-text="From http://yoursite.com/2016/08/03/利用KVC对UITabBar上的UITabBarButton的修改/　　By 木辰飞" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -333,15 +420,15 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
     <nav id="article-nav">
         
             <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2015/06/10/二维码生成/">
-                    二维码生成
+                <a href="/2016/08/03/YYModel简单解析/">
+                    
                 </a>
             </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2015/06/07/CocoaPods安装/">
-                    CocoaPods安装
+                <a href="/2016/08/03/简单的图片和视频播放的框架　/">
+                    
                 </a>
             </div>
         
@@ -383,7 +470,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"NSURLSession　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"　| 木子blog　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -403,7 +490,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2015/06/10/二维码生成/" title="Pre: 二维码生成">
+            <a href="/2016/08/03/YYModel简单解析/" title="Pre: ">
                 <i class="fa fa-angle-left"></i>
             </a>
         
@@ -411,7 +498,7 @@ NSURLConnection和NSURLSession 区别 ：connection 相对于接触底层，iOS 
         <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2015/06/07/CocoaPods安装/" title="Next: CocoaPods安装">
+            <a href="/2016/08/03/简单的图片和视频播放的框架　/" title="Next: ">
                 <i class="fa fa-angle-right"></i>
             </a>
         
