@@ -141,13 +141,13 @@
                 <div class="tips-box hide">
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
-                        <li>Menu</li>
-                        <li>Tags</li>
+                        <li>菜单</li>
+                        <li>标签</li>
                         
-                        <li>Friends</li>
+                        <li>友情链接</li>
                         
                         
-                        <li>About Me</li>
+                        <li>关于我</li>
                         
                     </ul>
                 </div>
@@ -267,7 +267,7 @@
             </nav>
         </header>                
     </div>
-    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
       <div class="body-wrap">
   
@@ -360,7 +360,7 @@ return gUser;
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>一、环境需求<br>1.1 、安装HomeBrew<br>安装方式<br> ruby -e “$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install" target="_blank" rel="external">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)”</p>
+        <p>#一、环境需求<br>1.1 、安装HomeBrew<br>安装方式<br> ruby -e “$(curl -fsSL <a href="https://raw.githubusercontent.com/Homebrew/install/master/install" target="_blank" rel="external">https://raw.githubusercontent.com/Homebrew/install/master/install</a>)”</p>
 <p>1.2、安装npm和Node.js :<br> Node.js安装地址：<br><a href="https://nodejs.org/en/download/" target="_blank" rel="external">https://nodejs.org/en/download/</a></p>
 <p>安装位置：<br>    Node.js was installed at</p>
 <pre><code>   /usr/local/bin/node
@@ -687,6 +687,63 @@ Make sure that /usr/local/bin is in your $PATH.
 
 
   
+    <article id="post-NSURLSession" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/17/NSURLSession/" class="article-date">
+      <time datetime="2015-12-17T03:21:18.000Z" itemprop="datePublished">2015-12-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/17/NSURLSession/">NSURLSession</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>NSURLSession</p>
+<p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
+<p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
+<p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-二维码生成" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -946,123 +1003,6 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
 
 
   
-    <article id="post-NSURLSession" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/06/09/NSURLSession/" class="article-date">
-      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/09/NSURLSession/">NSURLSession</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>NSURLSession</p>
-<p>NSURLConnection和NSURLSession 区别 ：<br>connection 相对于接触底层，iOS 7.0后苹果推荐使用session<br>NSURLConnection :是面向内存的 ，运行在当前线程消息循环中的<br>NSURLSession :面向内存dataTask 面向磁盘Download Upload<br>con 只有自定义操作才能设置（最大并发数，一来，暂停等）<br>而session 本身不需要自定义就自带<br>session:自带后台下载和上传功能,可以用另一个进程下载的.<br>NSURLSession<br>DataTask(session 会话)<br>[NSURlSession sharedSession] dataTask(通过shared ,是单例，单独的进程，所有的APP可用,用sharedSession不能配合使用代理，因为一个代理是一对一的)<br>dataTask默认是挂起的，没有开启需要resume<br>下载DownloadTask<br>默认是下载到temp文件夹的，下载完成会自动删除，下载是在子线程上的<br>//需要赋值到其他位置<br>[[NSFileManager defaultManager]copyItemAtPath: toPath Error]<br>跟踪下载进度（从代理方法)<br>创建session时候，不能用sharedsession，要通过自己创建session,来设置代理,如果设置了代理，就不能用回调的方法，否则代理方法就不会执行。<br>断点续传<br>暂停：通过调用cancleByProducingResumeData 方法，方便下次续传时候，使用数据.<br>bug:当多次点击暂停，再点击继续下载会崩溃。<br>reason:保存的resumeData 第二次点击后为空，所以在继续时候会错误。<br>解决方案：sesson置为nil，多次点击就不会讲resumedata</p>
-<p>继续下载：通过downloadTaskwithResumedata：,从保存的位置开始继续下载。<br>bug: 1.resumedata为空报错 2.多次点击 都从暂停位置开始下载多次操作<br>解决方案：1.设置为空判断 2.点击一次继续下载之后就将session置为Nil<br> 当停电时候时候，断点续传思路：resumeDate实质是plist，这时候里面存放的文件大小是错误的，但是存放的临时文件是对的，将文件的大小改为临时文件的大小就好了<br>上传任务<br>put请求是直接将文件保存到服务器磁盘。（只有webDav能接受PUT方法的请求,只有配置了wabDav的路径，才能接受PUT方法的请求,put请求上传任务相对于post，不用大量拼接请求内容，）</p>
-<p>downloadTask（面向磁盘） 下载完成会删除磁盘的内容，如果要保存的话，在Location位置copy到某个文件将爱<br>dataTask面向内存,默认是有缓存的，cache目录中<br>session使用的注意事项<br>session默认是强引用的，在session调用代理时候，会循环引用，使用完后，要让session对象无效，而session调用 invalidate之后， session无法再次使用,置为nil。<br>configuration 模式 ephemeralSession 一般用于无痕模式</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-BUG收集之malformed" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/06/09/BUG收集之malformed/" class="article-date">
-      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/09/BUG收集之malformed/">收集</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>#BUG收集之关于报malformed or corrupted AST file: ‘Unable to load module 的错  </p>
-<p>今天早上 一运行程序 居然报错，我都惊呆了，昨天明明好好的～但是百度是强大的～</p>
-<p>报错内容： malformed or corrupted AST file: ‘Unable to load module “/Users/Chenglijuan/Library/Developer/Xcode/DerivedData/ModuleCache/3SB6LTSGGAIAR/UIKit-14AN6JOCHQYY4.pcm”: module file out of date’</p>
-<p>解决办法：</p>
-<p>只需要清除继承数据文件夹即可。</p>
-<p>具体操作为：进入XCode的Window，选择Projects，然后选择出现问题的 project ，点击delete button删除Derived data.</p>
-<p>重新编译项目，即可。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-利用KVC对UITabBar上的UITabBarButton的修改" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1223,6 +1163,66 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
 
 
   
+    <article id="post-BUG收集之malformed" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/09/BUG收集之malformed/" class="article-date">
+      <time datetime="2015-06-09T03:21:18.000Z" itemprop="datePublished">2015-06-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/09/BUG收集之malformed/">收集</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>#BUG收集之关于报malformed or corrupted AST file: ‘Unable to load module 的错  </p>
+<p>今天早上 一运行程序 居然报错，我都惊呆了，昨天明明好好的～但是百度是强大的～</p>
+<p>报错内容： malformed or corrupted AST file: ‘Unable to load module “/Users/Chenglijuan/Library/Developer/Xcode/DerivedData/ModuleCache/3SB6LTSGGAIAR/UIKit-14AN6JOCHQYY4.pcm”: module file out of date’</p>
+<p>解决办法：</p>
+<p>只需要清除继承数据文件夹即可。</p>
+<p>具体操作为：进入XCode的Window，选择Projects，然后选择出现问题的 project ，点击delete button删除Derived data.</p>
+<p>重新编译项目，即可。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1237,7 +1237,7 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
                 2015-2016 木辰飞
             </div>
             <div class="footer-right">
-                <a href="http://hexo.io/" target="_blank" title="A fast, simple &amp; powerful blog framework">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="Another simple and elegant theme for Hexo  v3.0">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+                <a href="http://hexo.io/" target="_blank" title="快速、简洁且高效的博客框架">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="简而不减 Hexo 双栏博客主题  v3.0">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
             </div>
         </div>
         
@@ -1267,9 +1267,9 @@ moviePhotosView.movieNetworkUrl = @&quot;http://static.tripbe.com/videofiles/201
 
 
 <div class="scroll" id="scroll">
-    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" title="Comments"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
 </div>
 <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
 </script>
