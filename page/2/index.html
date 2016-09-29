@@ -271,6 +271,78 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-将秒数转化为日期" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/06/07/将秒数转化为日期/" class="article-date">
+      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/07/将秒数转化为日期/">将秒数转化为日期</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>将秒数转化为日期<br>    //把数字的日期，转换成日期对象 </p>
+<pre><code>NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.addtime.intValue];
+NSCalendar *calendar = [NSCalendar currentCalendar]; 
+//两个日期相减，获取指定的日期部分  
+//获取分钟  
+
+NSDateComponents *compoment = [calendar components:NSCalendarUnitMinute fromDate:date toDate:[NSDate date] options:0];
+if (compoment.minute &lt; 60) {
+    return [NSString stringWithFormat:@”%zd分钟以前”, compoment.minute];
+}
+//获取小时
+compoment = [calendar components:NSCalendarUnitHour fromDate:date toDate:[NSDate date] options:0];
+if (compoment.hour &lt; 24) {
+    return [NSString stringWithFormat:@”%zd小时之前”, compoment.hour];
+}
+//获取日期
+NSDateFormatter *ndf = [[NSDateFormatter alloc] init];
+ndf.dateFormat = @”MM-dd HH:mm”;
+return [ndf stringFromDate:date]
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+
+      
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-GCD" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -602,78 +674,6 @@ dispatch_async(dispatch_get_main_queue(), ^{
 </li>
 </ul>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-
-      
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-将秒数转化为日期" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/06/07/将秒数转化为日期/" class="article-date">
-      <time datetime="2015-06-07T09:31:18.000Z" itemprop="datePublished">2015-06-07</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/07/将秒数转化为日期/">将秒数转化为日期</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-        <p>将秒数转化为日期<br>    //把数字的日期，转换成日期对象 </p>
-<pre><code>NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.addtime.intValue];
-NSCalendar *calendar = [NSCalendar currentCalendar]; 
-//两个日期相减，获取指定的日期部分  
-//获取分钟  
-
-NSDateComponents *compoment = [calendar components:NSCalendarUnitMinute fromDate:date toDate:[NSDate date] options:0];
-if (compoment.minute &lt; 60) {
-    return [NSString stringWithFormat:@”%zd分钟以前”, compoment.minute];
-}
-//获取小时
-compoment = [calendar components:NSCalendarUnitHour fromDate:date toDate:[NSDate date] options:0];
-if (compoment.hour &lt; 24) {
-    return [NSString stringWithFormat:@”%zd小时之前”, compoment.hour];
-}
-//获取日期
-NSDateFormatter *ndf = [[NSDateFormatter alloc] init];
-ndf.dateFormat = @”MM-dd HH:mm”;
-return [ndf stringFromDate:date]
-</code></pre>
       
     </div>
     
